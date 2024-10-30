@@ -1,19 +1,22 @@
 import { plants } from "@/assets/plants";
 import Image from "next/image";
-
+import styled from "styled-components";
+import PlantCard from "./PlantCard";
 export default function PlantList() {
   return (
     <div>
       <h1>My Plant Collection</h1>
-      <ul>
+      <StyledList>
         {plants.map((plant) => (
           <li key={plant.id}>
-            <h2>{plant.name}</h2>
-            <p> BotanicalName :{plant.botanicalName}</p>
-            <Image alt="Image" width={200} height={200} src={plant.imageUrl} />
+            <PlantCard plant={plant} />
           </li>
         ))}
-      </ul>
+      </StyledList>
     </div>
   );
 }
+
+const StyledList = styled.ul`
+  list-style: none;
+`;
