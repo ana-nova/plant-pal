@@ -1,7 +1,12 @@
+/* Was macht diese Seite?
+- gibt eine Liste von allen Elementen in assets/plants.js wieder
+- map + rendered alles in einer PlantCard wieder 
+*/
+
 import { plants } from "@/assets/plants";
-import Image from "next/image";
 import styled from "styled-components";
 import PlantCard from "./PlantCard";
+
 export default function PlantList() {
   return (
     <div>

@@ -1,17 +1,13 @@
-// Was macht diese Seite ?
+/* Was macht diese Seite ?
+Die component visualisiert eine card:
+- PlantName: Aloe Vera
+- PlantBotanicalname: Aloe barbadensis miller
+- Image mit imageUrl
+- Button für "see more"
+ */
 
-import Image from "next/image";
 import styled from "styled-components";
-import { plants } from "@/assets/plants";
-// Die component visualisiert eine card:
-
-// PlantName: Aloe Vera#
-
-// PlantBotanicalname: Aloe barbadensis miller
-
-// Image:
-
-// button:
+import Link from "next/link";
 
 export default function PlantCard({ plant }) {
   return (
@@ -24,6 +20,9 @@ export default function PlantCard({ plant }) {
         width={200}
         height={200}
       ></RoundImage>
+      <Link href={"/plant/[id]"}>
+        <button type="button">see more</button>
+      </Link>
     </Container>
   );
 }
