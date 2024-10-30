@@ -10,7 +10,7 @@ import PlantCard from "./PlantCard";
 export default function PlantList() {
   return (
     <div>
-      <h1>My Plant Collection</h1>
+      <StyledHeader>My Plant Collection</StyledHeader>
       <StyledList>
         {plants.map((plant) => (
           <li key={plant.id}>
@@ -24,4 +24,9 @@ export default function PlantList() {
 
 const StyledList = styled.ul`
   list-style: none;
+`;
+
+const StyledHeader = styled.h1`
+  display: flex;
+  justify-content: center;
 `;
