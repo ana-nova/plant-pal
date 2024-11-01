@@ -10,12 +10,19 @@ export default function PlantCard({ plant }) {
         alt={`Image of ${plant.name}`}
         src={plant.imageUrl}
       ></RoundImage>
-      <Link href={`/plant/${plant.id}`}>
-        <button type="button">see more</button>
-      </Link>
+      <StyledLink href={`/plant/${plant.id}`}>see more</StyledLink>
     </Container>
   );
 }
+
+const StyledLink = styled.a`
+  border: 1px solid black;
+  border-radius: 8px;
+  background-color: lightgray;
+  color: black;
+  text-decoration: none;
+  padding: 5px;
+`;
 
 const RoundImage = styled.img`
   border-radius: 100px;
