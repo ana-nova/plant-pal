@@ -1,16 +1,17 @@
 import styled from "styled-components";
-import Link from "next/link";
 
 export default function PlantCard({ plant }) {
   return (
     <Container>
       <h2>{plant.name}</h2>
       <StyledParagraph>{plant.botanicalName}</StyledParagraph>
+
       <RoundImage
         alt={`Image of ${plant.name}`}
         src={plant.imageUrl}
       ></RoundImage>
-      <StyledLink href={`/plant/${plant.id}`}>see more</StyledLink>
+
+      <StyledLink href={`/${plant.id}`}>see more</StyledLink>
     </Container>
   );
 }
