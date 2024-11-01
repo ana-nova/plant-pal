@@ -1,8 +1,13 @@
 import styled from "styled-components";
+import PlantFavIcon from "@/public/Icons/plant-line.svg";
+import PlantFavIconFill from "@/public/Icons/plant-fill.svg";
 
-export default function PlantCard({ plant }) {
+export default function PlantCard({ plant, onToggleFavourite }) {
   return (
     <Container>
+      <button onClick={() => onToggleFavourite(plant.id)}>
+        {plant.isFavourite ? <PlantFavIcon /> : <PlantFavIconFill />}
+      </button>
       <h2>{plant.name}</h2>
       <StyledParagraph>{plant.botanicalName}</StyledParagraph>
 
