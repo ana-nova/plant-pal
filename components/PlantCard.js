@@ -15,7 +15,7 @@ export default function PlantCard({ plant }) {
       <h2>{plant.name}</h2>
       <StyledParagraph>{plant.botanicalName}</StyledParagraph>
       <RoundImage alt="image" src={plant.imageUrl}></RoundImage>
-      <Link href={`/plant/${plant.id}`}>
+      <Link href={`/${plant.id}`}>
         <button type="button">see more</button>
       </Link>
     </Container>
