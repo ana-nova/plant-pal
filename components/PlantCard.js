@@ -14,13 +14,8 @@ export default function PlantCard({ plant }) {
     <Container>
       <h2>{plant.name}</h2>
       <StyledParagraph>{plant.botanicalName}</StyledParagraph>
-      <RoundImage
-        alt="image"
-        src={plant.imageUrl}
-        width={200}
-        height={200}
-      ></RoundImage>
-      <Link href={"/plant/[id]"}>
+      <RoundImage alt="image" src={plant.imageUrl}></RoundImage>
+      <Link href={`/plant/${plant.id}`}>
         <button type="button">see more</button>
       </Link>
     </Container>
@@ -29,21 +24,21 @@ export default function PlantCard({ plant }) {
 
 const RoundImage = styled.img`
   border-radius: 100px;
+  width: 200px;
+  height: 200px;
 `;
 
 const Container = styled.div`
   border: 2px solid black;
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 10px;
+  padding: 10px 10px 30px; // Zusammengefasstes Padding
   margin-bottom: 23px;
   margin-right: 38px;
-  align-items: center;
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  gap: 15px; // Fügt gleichmäßigen Abstand zwischen den Elementen hinzu
-  padding-bottom: 30px;
+  align-items: center;
+  gap: 15px;
 `;
 
 const StyledParagraph = styled.p`
