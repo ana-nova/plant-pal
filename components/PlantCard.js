@@ -6,7 +6,7 @@ export default function PlantCard({ plant }) {
       <h2>{plant.name}</h2>
       <StyledParagraph>{plant.botanicalName}</StyledParagraph>
       <RoundImage alt="image" src={plant.imageUrl}></RoundImage>
-      <StyledLink href={`/plant/${plant.id}`}>see more</StyledLink>
+      <StyledLink href={`/${plant.id}`}>see more</StyledLink>
     </Container>
   );
 }

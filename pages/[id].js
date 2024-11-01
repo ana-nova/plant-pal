@@ -4,6 +4,26 @@ import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
 
+const lightNeedIcon = {
+  "Full Sun": "☀️☀️☀️☀️",
+  "Partial Shade": "☀️☀️☀️",
+  Shade: "☀️☀️",
+  "Full Shade": "☀️",
+};
+
+const waterNeedIcon = {
+  Low: "💧",
+  Medium: "💧💧",
+  High: "💧💧💧",
+};
+
+const seasonIcons = {
+  Spring: "🌱",
+  Summer: "🐝",
+  Fall: "🍂",
+  Winter: "❄️",
+};
+
 export default function PlantDetails() {
   const router = useRouter();
   const { id } = router.query;
@@ -14,31 +34,9 @@ export default function PlantDetails() {
 
   if (!plant) return <p>Plant not found</p>;
 
-  const lightNeedIcon = {
-    "Full Sun": "☀️☀️☀️☀️",
-    "Partial Shade": "☀️☀️☀️",
-    Shade: "☀️☀️",
-    "Full Shade": "☀️",
-  };
-
-  const waterNeedIcon = {
-    Low: "💧",
-    Medium: "💧💧",
-    High: "💧💧💧",
-  };
-
-  const seasonIcons = {
-    Spring: "🌱",
-    Summer: "🐝",
-    Fall: "🍂",
-    Winter: "❄️",
-  };
-
   return (
     <>
-      <Link href="/">
-        <button type="button">Back</button>
-      </Link>
+      <Link href="/">Back</Link>
 
       <Container>
         <h1>Details Page</h1>
@@ -47,7 +45,7 @@ export default function PlantDetails() {
           src={plant.imageUrl}
           width={200}
           height={200}
-        ></Image>
+        />
         <h2>{plant.name}</h2>
         <p>{plant.botanicalName}</p>
         <p>{plant.description}</p>
@@ -74,11 +72,8 @@ const Container = styled.div`
   border: 2px solid black;
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 10px 10px 30px; // Zusammengefasstes Padding
-  margin-bottom: 23px;
-  margin-right: 38px;
-  margin-left: 35px;
-  margin-top: 20px;
+  padding: 10px 10px 30px;
+  margin: 20px 38px 23px 35px;
   display: flex;
   flex-direction: column;
   align-items: center;
