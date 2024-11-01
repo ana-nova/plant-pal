@@ -1,16 +1,23 @@
 import PlantList from "@/components/PlantList";
 import { useState } from "react";
 import { plants } from "@/assets/plants";
+const initialPlants = plants;
 
 export default function Homepage() {
-  const [isFavourite, setIsFavourite] = useState(false);
+  const [plants, setPlants] = useState(initialPlants);
 
   function toggleFavourite(id) {
-    setIsFavourite((prevFavourite) =>
-      prevFavourite.map((plant) =>
+    setPlants((prevPlants) =>
+      prevPlants.map((plant) =>
         plant.id === id ? { ...plant, isFavourite: !plant.isFavourite } : plant
       )
     );
-    return <PlantList plants={plants} toggleFavourite={toggleFavourite} />;
   }
+
+  return (
+    <div>
+      <h1>Homepage</h1>
+      <PlantList plants={plants} toggleFavourite={toggleFavourite} />
+    </div>
+  );
 }

@@ -2,19 +2,16 @@ import styled from "styled-components";
 import PlantFavIcon from "@/public/Icons/plant-line.svg";
 import PlantFavIconFill from "@/public/Icons/plant-fill.svg";
 
-export default function PlantCard({ plant, onToggleFavourite }) {
+export default function PlantCard({ plant, toggleFavourite }) {
   return (
     <Container>
-      <button onClick={() => onToggleFavourite(plant.id)}>
-        {plant.isFavourite ? <PlantFavIcon /> : <PlantFavIconFill />}
+      <button onClick={() => toggleFavourite(plant.id)}>
+        {plant.isFavourite ? <PlantFavIconFill /> : <PlantFavIcon />}
       </button>
       <h2>{plant.name}</h2>
       <StyledParagraph>{plant.botanicalName}</StyledParagraph>
 
-      <RoundImage
-        alt={`Image of ${plant.name}`}
-        src={plant.imageUrl}
-      ></RoundImage>
+      <RoundImage alt={`Image of ${plant.name}`} src={plant.imageUrl} />
 
       <StyledLink href={`/${plant.id}`}>see more</StyledLink>
     </Container>
