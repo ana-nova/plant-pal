@@ -4,6 +4,7 @@ import PlantCard from "./PlantCard";
 
 export default function PlantList() {
   if (!plants || plants.length === 0) return <p>No plants found</p>;
+
   return (
     <div>
       <StyledHeader>My Plant Collection</StyledHeader>
