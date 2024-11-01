@@ -5,7 +5,14 @@ export default function PlantCard({ plant }) {
     <Container>
       <h2>{plant.name}</h2>
       <StyledParagraph>{plant.botanicalName}</StyledParagraph>
-      <RoundImage alt="image" src={plant.imageUrl}></RoundImage>
+
+
+
+      <RoundImage
+        alt={`Image of ${plant.name}`}
+        src={plant.imageUrl}
+      ></RoundImage>
+
       <StyledLink href={`/plant/${plant.id}`}>see more</StyledLink>
     </Container>
   );
@@ -26,11 +33,11 @@ const RoundImage = styled.img`
   height: 200px;
 `;
 
-const Container = styled.div`
+const Container = styled.article`
   border: 2px solid black;
   border-radius: 8px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 10px 10px 30px; // Zusammengefasstes Padding
+  padding: 10px 10px 30px;
   margin-bottom: 23px;
   margin-right: 38px;
   display: flex;
