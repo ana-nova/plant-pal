@@ -1,13 +1,4 @@
-/* Was macht diese Seite ?
-Die component visualisiert eine card:
-- PlantName: Aloe Vera
-- PlantBotanicalname: Aloe barbadensis miller
-- Image mit imageUrl
-- Button für "see more"
- */
-
 import styled from "styled-components";
-import Link from "next/link";
 
 export default function PlantCard({ plant }) {
   return (
@@ -15,12 +6,19 @@ export default function PlantCard({ plant }) {
       <h2>{plant.name}</h2>
       <StyledParagraph>{plant.botanicalName}</StyledParagraph>
       <RoundImage alt="image" src={plant.imageUrl}></RoundImage>
-      <Link href={`/${plant.id}`}>
-        <button type="button">see more</button>
-      </Link>
+      <StyledLink href={`/plant/${plant.id}`}>see more</StyledLink>
     </Container>
   );
 }
+
+const StyledLink = styled.a`
+  border: 1px solid black;
+  border-radius: 8px;
+  background-color: lightgray;
+  color: black;
+  text-decoration: none;
+  padding: 5px;
+`;
 
 const RoundImage = styled.img`
   border-radius: 100px;
