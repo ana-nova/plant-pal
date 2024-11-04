@@ -1,21 +1,45 @@
+import Footer from "@/components/Footer";
 import PlantList from "@/components/PlantList";
+import styled from "styled-components";
+import useLocalStorageState from "use-local-storage-state";
 
-export default function MyPlantsPage({ plants, toggleFavourite }) {
+export default function MyPlantsPage() {
+  const [plants, setPlants] = useLocalStorageState("favourites");
+
   const favouritePlants = plants
     ? plants.filter((plant) => plant.isFavourite)
     : [];
-  console.log("favourtie", favouritePlants);
 
-  console.log("plants", plants);
+  function toggleFavourite(id) {
+    setPlants((prevPlants) =>
+      prevPlants.map((plant) =>
+        plant.id === id ? { ...plant, isFavourite: !plant.isFavourite } : plant
+      )
+    );
+  }
 
   return (
     <div>
-      <h1>My Favourite Plants</h1>
       {favouritePlants.length > 0 ? (
         <PlantList plants={favouritePlants} toggleFavourite={toggleFavourite} />
       ) : (
-        <p>No favourite plants found</p>
+        <>
+          <StyledHeader>My Plants Collection</StyledHeader>
+          <StyledParagraph>
+            No favourite plants found. Please select some favourite plants.
+          </StyledParagraph>
+        </>
       )}
+      <Footer />
     </div>
   );
 }
+
+const StyledHeader = styled.h1`
+  display: flex;
+  justify-content: center;
+`;
+
+const StyledParagraph = styled.p`
+  padding: 15px;
+`;

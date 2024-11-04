@@ -6,7 +6,7 @@ export default function PlantList({ plants, toggleFavourite }) {
 
   return (
     <div>
-      <StyledHeader>My Plant Collection</StyledHeader>
+      <StyledHeader>My Plants Collection</StyledHeader>
       <StyledList>
         {plants.map((plant) => (
           <li key={plant.id}>
