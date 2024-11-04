@@ -1,26 +1,17 @@
 import PlantList from "@/components/PlantList";
-import { plants } from "@/assets/plants";
 import Footer from "@/components/Footer";
-import useLocalStorageState from "use-local-storage-state";
-const initialPlants = plants;
+import styled from "styled-components";
 
-export default function Homepage() {
-  const [plants, setPlants] = useLocalStorageState("favourites", {
-    defaultValue: initialPlants,
-  });
-
-  function toggleFavourite(id) {
-    setPlants((prevPlants) =>
-      prevPlants.map((plant) =>
-        plant.id === id ? { ...plant, isFavourite: !plant.isFavourite } : plant
-      )
-    );
-  }
-
+export default function Homepage({ plants, toggleFavourite }) {
   return (
-    <div>
+    <main>
+      <StyledHeader>My Plants Collection</StyledHeader>
       <PlantList plants={plants} toggleFavourite={toggleFavourite} />
-      <Footer />
-    </div>
+    </main>
   );
 }
+
+const StyledHeader = styled.h1`
+  display: flex;
+  justify-content: center;
+`;

@@ -5,8 +5,7 @@ export default function PlantList({ plants, toggleFavourite }) {
   if (!plants || plants.length === 0) return <p>No plants found</p>;
 
   return (
-    <div>
-      <StyledHeader>My Plants Collection</StyledHeader>
+    <main>
       <StyledList>
         {plants.map((plant) => (
           <li key={plant.id}>
@@ -14,15 +13,10 @@ export default function PlantList({ plants, toggleFavourite }) {
           </li>
         ))}
       </StyledList>
-    </div>
+    </main>
   );
 }
 
 const StyledList = styled.ul`
   list-style: none;
-`;
-
-const StyledHeader = styled.h1`
-  display: flex;
-  justify-content: center;
 `;

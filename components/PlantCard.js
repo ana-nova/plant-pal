@@ -1,11 +1,17 @@
 import styled from "styled-components";
 import PlantFavIcon from "@/public/Icons/plant-line.svg";
 import PlantFavIconFill from "@/public/Icons/plant-fill.svg";
+import Link from "next/link";
 
 export default function PlantCard({ plant, toggleFavourite }) {
   return (
     <Container>
-      <button onClick={() => toggleFavourite(plant.id)}>
+      <button
+        aria-label={
+          plant.isFavourite ? "Remove from favorites" : "Add to favorites"
+        }
+        onClick={() => toggleFavourite(plant.id)}
+      >
         {plant.isFavourite ? <PlantFavIconFill /> : <PlantFavIcon />}
       </button>
       <h2>{plant.name}</h2>
@@ -18,7 +24,7 @@ export default function PlantCard({ plant, toggleFavourite }) {
   );
 }
 
-const StyledLink = styled.a`
+const StyledLink = styled(Link)`
   border: 1px solid black;
   border-radius: 8px;
   background-color: lightgray;

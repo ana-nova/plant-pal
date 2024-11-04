@@ -1,14 +1,15 @@
 import HouseLine from "@/public/Icons/home-4-line.svg";
 import styled from "styled-components";
 import PlantFavIcon from "@/public/Icons/plant-line.svg";
+import Link from "next/link";
 
 export default function Footer() {
   return (
     <StyledFooter>
-      <StyledLink href={"/"}>
+      <StyledLink href={"/"} aria-label="Go to homepage">
         <HouseLine />
       </StyledLink>
-      <StyledLink href={"/myPlants"}>
+      <StyledLink href={"/myPlants"} aria-label="Go to favourite plants">
         <PlantFavIcon />
       </StyledLink>
     </StyledFooter>
@@ -25,7 +26,7 @@ const StyledFooter = styled.div`
   justify-content: space-around;
 `;
 
-const StyledLink = styled.a`
+const StyledLink = styled(Link)`
   text-decoration: none;
   color: black;
   flex-direction: column;
