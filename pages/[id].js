@@ -1,8 +1,8 @@
-import { plants } from "@/assets/plants";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
+import useLocalStorageState from "use-local-storage-state";
 
 const lightNeedIcon = {
   "Full Sun": "☀️☀️☀️☀️",
@@ -28,6 +28,10 @@ export default function PlantDetails() {
   const router = useRouter();
   const { id } = router.query;
 
+  const [plants] = useLocalStorageState("favourites", {
+    defaultValue: [],
+  });
+
   if (!router.isReady) return null;
 
   const plant = plants.find((plant) => plant.id === id);
@@ -50,10 +54,11 @@ export default function PlantDetails() {
         <p>{plant.botanicalName}</p>
         <p>{plant.description}</p>
         <p>
-          Light: {lightNeedIcon[plant.lightNeed] || "🌞"} {plant.lightNeed}
+          Light: {lightNeedIcon[plant.lightNeeds] || "🌞"} {plant.lightNeeds}
         </p>
         <p>
-          Water need: {waterNeedIcon[plant.waterNeed] || "🌱"} {plant.waterNeed}
+          Water need: {waterNeedIcon[plant.waterNeeds] || "🌱"}{" "}
+          {plant.waterNeeds}
         </p>
         <p>
           Fertiliser season:
