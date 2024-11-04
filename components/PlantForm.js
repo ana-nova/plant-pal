@@ -1,63 +1,6 @@
-// import { useState } from "react";
-
-// export default function PlantForm() {
-//   const [newPlant, setNewPlant] = useState("");
-
-//   function handleSubmit(event) {
-//     event.preventDefault();
-//     const formData = new FormData(event.target);
-//     const data = Object.fromEntries(formData);
-
-//     event.target.reset();
-//   }
-
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <h2>Create Your Plant</h2>
-//       <label htmlFor="plantName">
-//         Plant Name
-//         <input
-//           type="text"
-//           name="plantName"
-//           id="plantName"
-//           //   defaultValue={data.plantName}
-//           required
-//         />
-//       </label>
-
-//       <label htmlFor="botanicalName">
-//         Plant Name
-//         <input
-//           type="text"
-//           name="botanicalName"
-//           id="botanicalName"
-//           //   defaultValue={data.botanicalName}
-//           required
-//         />
-//       </label>
-
-//       <label htmlFor="description">
-//         Plant Name
-//         <textarea
-//           name="description"
-//           id="description"
-//           //   defaultValue={data.description}
-//         />
-//       </label>
-
-//       <fieldset>
-//         <legend>Light Needs</legend>
-//         <label>
-//           <input type="radio" name="lightNeeds" id="lightNeeds" />
-//         </label>
-//       </fieldset>
-//     </form>
-//   );
-// }
-
 import React from "react";
-
-export default function AddPlantForm({
+import styled from "styled-components";
+export default function PlantForm({
   onSubmitPlant,
   initialData = {
     name: "",
@@ -84,7 +27,7 @@ export default function AddPlantForm({
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <FormContainer onSubmit={handleSubmit}>
       <h2>Add a New Plant</h2>
 
       <label htmlFor="name">
@@ -113,8 +56,7 @@ export default function AddPlantForm({
 
       <label htmlFor="description">
         Description
-        <input
-          type="text"
+        <textarea
           id="description"
           name="description"
           defaultValue={initialData.description}
@@ -170,6 +112,17 @@ export default function AddPlantForm({
       </fieldset>
 
       <button type="submit">Add Plant</button>
-    </form>
+    </FormContainer>
   );
 }
+const FormContainer = styled.form`
+  border: 2px solid black;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 10px 10px 30px;
+  margin: 20px 38px 23px 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+`;

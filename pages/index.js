@@ -26,8 +26,11 @@ export default function Homepage() {
 
   return (
     <div>
-      <PlantForm onSubmitPlant={addPlant} />
-      <PlantList plants={plants} toggleFavourite={toggleFavourite} />
+      <PlantList
+        plants={plants}
+        toggleFavourite={toggleFavourite}
+        onSubmitPlant={addPlant}
+      />
       <Footer />
     </div>
   );
