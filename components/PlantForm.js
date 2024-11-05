@@ -115,7 +115,6 @@ export default function PlantForm({
                   name="fertiliserSeason"
                   value={season}
                   defaultChecked={initialData.fertiliserSeason.includes(season)}
-                  required
                 />
                 {season}
               </CheckboxLabel>
