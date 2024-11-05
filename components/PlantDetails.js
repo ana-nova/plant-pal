@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import useLocalStorageState from "use-local-storage-state";
 
 const lightNeedIcon = {
   "Full Sun": "☀️☀️☀️☀️",
@@ -24,19 +23,7 @@ const seasonIcons = {
   Winter: "❄️",
 };
 
-export default function PlantDetails() {
-  const router = useRouter();
-  const { id } = router.query;
-
-  const [favourites] = useLocalStorageState("favourites", {
-    defaultValue: [],
-  });
-
-  if (!router.isReady) return null;
-
-  const plant = favourites.find((plant) => plant.id === id);
-
-  if (!plant) return <p>Plant not found</p>;
+export default function PlantDetails({ plant }) {
   return (
     <>
       <Link href="/">Back</Link>

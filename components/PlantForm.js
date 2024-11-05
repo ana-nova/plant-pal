@@ -19,8 +19,6 @@ export default function PlantForm({
 
     data.fertiliserSeason = formData.getAll("fertiliserSeason");
 
-    console.log("form data: ", data);
-
     onSubmitPlant(data);
     event.target.reset();
   }
