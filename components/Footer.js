@@ -16,7 +16,7 @@ export default function Footer() {
   );
 }
 
-const StyledFooter = styled.div`
+const StyledFooter = styled.footer`
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -27,7 +27,5 @@ const StyledFooter = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  text-decoration: none;
   color: black;
-  flex-direction: column;
 `;

@@ -1,4 +1,3 @@
-import Footer from "@/components/Footer";
 import PlantList from "@/components/PlantList";
 import styled from "styled-components";
 
@@ -8,19 +7,16 @@ export default function MyPlantsPage({ plants, toggleFavourite }) {
     : [];
 
   return (
-    <main>
+    <>
       <StyledHeader>My Plants</StyledHeader>
       {favouritePlants.length > 0 ? (
         <PlantList plants={favouritePlants} toggleFavourite={toggleFavourite} />
       ) : (
-        <>
-          <StyledParagraph>
-            No favourite plants found. Please select some favourite plants.
-          </StyledParagraph>
-        </>
+        <StyledParagraph>
+          No favourite plants found. Please select some favourite plants.
+        </StyledParagraph>
       )}
-      <Footer />
-    </main>
+    </>
   );
 }
 

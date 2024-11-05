@@ -2,6 +2,7 @@ import styled from "styled-components";
 import PlantFavIcon from "@/public/Icons/plant-line.svg";
 import PlantFavIconFill from "@/public/Icons/plant-fill.svg";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function PlantCard({ plant, toggleFavourite }) {
   return (
@@ -17,7 +18,12 @@ export default function PlantCard({ plant, toggleFavourite }) {
       <h2>{plant.name}</h2>
       <StyledParagraph>{plant.botanicalName}</StyledParagraph>
 
-      <RoundImage alt={`Image of ${plant.name}`} src={plant.imageUrl} />
+      <RoundImage
+        alt={`Image of ${plant.name}`}
+        width={200}
+        height={200}
+        src={plant.imageUrl}
+      />
 
       <StyledLink href={`/${plant.id}`}>see more</StyledLink>
     </Container>
@@ -33,10 +39,8 @@ const StyledLink = styled(Link)`
   padding: 5px;
 `;
 
-const RoundImage = styled.img`
+const RoundImage = styled(Image)`
   border-radius: 100px;
-  width: 200px;
-  height: 200px;
 `;
 
 const Container = styled.article`
