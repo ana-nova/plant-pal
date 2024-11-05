@@ -1,11 +1,18 @@
 import styled from "styled-components";
 import PlantFavIcon from "@/public/Icons/plant-line.svg";
 import PlantFavIconFill from "@/public/Icons/plant-fill.svg";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function PlantCard({ plant, toggleFavourite }) {
   return (
     <Container>
-      <button onClick={() => toggleFavourite(plant.id)}>
+      <button
+        aria-label={
+          plant.isFavourite ? "Remove from favorites" : "Add to favorites"
+        }
+        onClick={() => toggleFavourite(plant.id)}
+      >
         {plant.isFavourite ? <PlantFavIconFill /> : <PlantFavIcon />}
       </button>
       <h2>{plant.name}</h2>
@@ -13,6 +20,8 @@ export default function PlantCard({ plant, toggleFavourite }) {
 
       <RoundImage
         alt={`Image of ${plant.name}`}
+        width={200}
+        height={200}
         src={plant.imageUrl || "/assets/empty.avif"}
       />
 
@@ -21,7 +30,7 @@ export default function PlantCard({ plant, toggleFavourite }) {
   );
 }
 
-const StyledLink = styled.a`
+const StyledLink = styled(Link)`
   border: 1px solid black;
   border-radius: 8px;
   background-color: lightgray;
@@ -30,10 +39,8 @@ const StyledLink = styled.a`
   padding: 5px;
 `;
 
-const RoundImage = styled.img`
+const RoundImage = styled(Image)`
   border-radius: 100px;
-  width: 200px;
-  height: 200px;
 `;
 
 const Container = styled.article`

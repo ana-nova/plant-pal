@@ -7,8 +7,8 @@ export default function PlantForm({
     name: "",
     botanicalName: "",
     description: "",
-    lightNeeds: "",
-    waterNeeds: "",
+    lightNeed: "",
+    waterNeed: "",
     fertiliserSeason: [],
   },
 }) {
@@ -17,8 +17,9 @@ export default function PlantForm({
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
 
-    // Checkbox values for fertiliserSeason as an array
     data.fertiliserSeason = formData.getAll("fertiliserSeason");
+
+    console.log("form data: ", data);
 
     onSubmitPlant(data);
     event.target.reset();
@@ -53,12 +54,12 @@ export default function PlantForm({
       </FormLabel>
 
       <FormLabel htmlFor="description">
-        Description (optional)
+        Description
         <TextArea
           id="description"
           name="description"
           defaultValue={initialData.description}
-          placeholder="Enter description"
+          placeholder="Enter description (optional)"
         />
       </FormLabel>
 
@@ -74,9 +75,9 @@ export default function PlantForm({
             <RadioLabel key={option}>
               <input
                 type="radio"
-                name="lightNeeds"
+                name="lightNeed"
                 value={option}
-                defaultChecked={initialData.lightNeeds === option}
+                defaultChecked={initialData.lightNeed === option}
                 required
               />
               {option}
@@ -92,9 +93,9 @@ export default function PlantForm({
             <RadioLabel key={option}>
               <input
                 type="radio"
-                name="waterNeeds"
+                name="waterNeed"
                 value={option}
-                defaultChecked={initialData.waterNeeds === option}
+                defaultChecked={initialData.waterNeed === option}
                 required
               />
               {option}
@@ -104,7 +105,7 @@ export default function PlantForm({
       </Fieldset>
 
       <Fieldset>
-        <Legend>Fertiliser Season (optional)</Legend>
+        <Legend>Fertiliser Season</Legend>
         <OptionsContainer>
           {["Spring 🌱", "Summer 🐝", "Autumn 🍂", "Winter ❄️"].map(
             (season) => (
@@ -114,6 +115,7 @@ export default function PlantForm({
                   name="fertiliserSeason"
                   value={season}
                   defaultChecked={initialData.fertiliserSeason.includes(season)}
+                  required
                 />
                 {season}
               </CheckboxLabel>
