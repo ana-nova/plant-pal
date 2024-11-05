@@ -1,3 +1,4 @@
+import PlantForm from "@/components/PlantForm";
 import PlantList from "@/components/PlantList";
 import { useState } from "react";
 import styled from "styled-components";
@@ -12,11 +13,11 @@ export default function Homepage({ plants, toggleFavourite, onSubmitPlant }) {
           {showForm ? "Hide form" : "Add new plant"}
         </button>
       </ButtonContainer>
+      {showForm && <PlantForm onSubmitPlant={onSubmitPlant} />}
       <PlantList
         plants={plants}
         toggleFavourite={toggleFavourite}
         onSubmitPlant={onSubmitPlant}
-        showForm={showForm}
       />
     </>
   );
