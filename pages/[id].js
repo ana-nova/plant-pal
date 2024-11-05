@@ -46,7 +46,7 @@ export default function PlantDetails() {
         <h1>Details Page</h1>
         <Image
           alt={`image of ${plant.name}`}
-          src={plant.imageUrl}
+          src={plant.imageUrl || "/assets/empty.avif"}
           width={200}
           height={200}
         />

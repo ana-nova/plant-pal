@@ -11,7 +11,10 @@ export default function PlantCard({ plant, toggleFavourite }) {
       <h2>{plant.name}</h2>
       <StyledParagraph>{plant.botanicalName}</StyledParagraph>
 
-      <RoundImage alt={`Image of ${plant.name}`} src={plant.imageUrl} />
+      <RoundImage
+        alt={`Image of ${plant.name}`}
+        src={plant.imageUrl || "/assets/empty.avif"}
+      />
 
       <StyledLink href={`/${plant.id}`}>see more</StyledLink>
     </Container>

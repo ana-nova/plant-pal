@@ -53,7 +53,7 @@ export default function PlantForm({
       </FormLabel>
 
       <FormLabel htmlFor="description">
-        Description
+        Description (optional)
         <TextArea
           id="description"
           name="description"
@@ -65,7 +65,12 @@ export default function PlantForm({
       <Fieldset>
         <Legend>Light Needs</Legend>
         <OptionsContainer>
-          {["Full Sun", "Partial Shade", "Full Shade"].map((option) => (
+          {[
+            "Full Sun ☀️☀️☀️☀️",
+            "Partial Shade ☀️☀️☀️",
+            "Shade ☀️☀️",
+            "Full Shade ☀️",
+          ].map((option) => (
             <RadioLabel key={option}>
               <input
                 type="radio"
@@ -83,7 +88,7 @@ export default function PlantForm({
       <Fieldset>
         <Legend>Water Needs</Legend>
         <OptionsContainer>
-          {["Low", "Medium", "High"].map((option) => (
+          {["Low 💧", "Medium 💧💧", "High 💧💧💧"].map((option) => (
             <RadioLabel key={option}>
               <input
                 type="radio"
@@ -99,19 +104,21 @@ export default function PlantForm({
       </Fieldset>
 
       <Fieldset>
-        <Legend>Fertiliser Season</Legend>
+        <Legend>Fertiliser Season (optional)</Legend>
         <OptionsContainer>
-          {["Spring", "Summer", "Autumn", "Winter"].map((season) => (
-            <CheckboxLabel key={season}>
-              <input
-                type="checkbox"
-                name="fertiliserSeason"
-                value={season}
-                defaultChecked={initialData.fertiliserSeason.includes(season)}
-              />
-              {season}
-            </CheckboxLabel>
-          ))}
+          {["Spring 🌱", "Summer 🐝", "Autumn 🍂", "Winter ❄️"].map(
+            (season) => (
+              <CheckboxLabel key={season}>
+                <input
+                  type="checkbox"
+                  name="fertiliserSeason"
+                  value={season}
+                  defaultChecked={initialData.fertiliserSeason.includes(season)}
+                />
+                {season}
+              </CheckboxLabel>
+            )
+          )}
         </OptionsContainer>
       </Fieldset>
       <StyledButton>
