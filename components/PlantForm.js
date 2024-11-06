@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-export default function PlantForm({ onAddPlant }) {
+export default function PlantForm({ onAddPlant, onToggleForm }) {
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -10,7 +10,7 @@ export default function PlantForm({ onAddPlant }) {
     data.fertiliserSeason = formData.getAll("fertiliserSeason");
 
     onAddPlant(data);
-    event.target.reset();
+    onToggleForm();
   }
 
   return (

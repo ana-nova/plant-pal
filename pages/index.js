@@ -5,15 +5,21 @@ import styled from "styled-components";
 
 export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
   const [showForm, setShowForm] = useState(false);
+
+  function handleToggleForm() {
+    setShowForm((prev) => !prev);
+  }
   return (
     <>
       <StyledHeader>My Plants Collection</StyledHeader>
       <ButtonContainer>
-        <button onClick={() => setShowForm((prev) => !prev)}>
+        <button onClick={handleToggleForm}>
           {showForm ? "Hide form" : "Add new plant"}
         </button>
       </ButtonContainer>
-      {showForm && <PlantForm onAddPlant={onAddPlant} />}
+      {showForm && (
+        <PlantForm onAddPlant={onAddPlant} onToggleForm={handleToggleForm} />
+      )}
       <PlantList plants={plants} toggleFavourite={toggleFavourite} />
     </>
   );
