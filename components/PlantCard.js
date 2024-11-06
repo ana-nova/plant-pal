@@ -22,7 +22,7 @@ export default function PlantCard({ plant, toggleFavourite }) {
         alt={`Image of ${plant.name}`}
         width={200}
         height={200}
-        src={plant.imageUrl}
+        src={plant.imageUrl || "/assets/empty.avif"}
       />
 
       <StyledLink href={`/${plant.id}`}>see more</StyledLink>
