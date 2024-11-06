@@ -1,8 +1,8 @@
-
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import styled from "styled-components";
+import { useState } from "react";
 
 const lightNeedIcon = {
   "Full Sun": "☀️☀️☀️☀️",
@@ -24,7 +24,19 @@ const seasonIcons = {
   Winter: "❄️",
 };
 
-export default function PlantDetailsPage({ plants }) {
+export default function PlantDetails({ plants, onDeletePlant }) {
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  function handleDelete() {
+    setShowConfirmation(true);
+  }
+  function handleCancelDelete() {
+    setShowConfirmation(false);
+  }
+  function handleConfirmDelete() {
+    onDeletePlant(plant.id);
+    setShowConfirmation(false);
+  }
+
   const router = useRouter();
   const { id } = router.query;
 
@@ -63,6 +75,18 @@ export default function PlantDetailsPage({ plants }) {
             </span>
           ))}
         </p>
+
+        <section>
+          {!showConfirmation ? (
+            <button onClick={handleDelete}>Delete</button>
+          ) : (
+            <>
+              <p>Are you sure?</p>
+              <button onClick={handleCancelDelete}>Cancel</button>
+              <button onClick={handleConfirmDelete}>Delete</button>
+            </>
+          )}
+        </section>
       </Container>
     </>
   );
@@ -83,5 +107,3 @@ const Container = styled.article`
 const RoundImage = styled(Image)`
   border-radius: 100%;
 `;
-
-
