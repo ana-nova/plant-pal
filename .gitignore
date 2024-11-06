@@ -35,4 +35,4 @@ yarn-error.log*
 next-env.d.ts
 
 # grouprules#
-group-rules
+group-rules/
