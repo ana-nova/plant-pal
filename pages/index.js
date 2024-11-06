@@ -3,7 +3,7 @@ import PlantList from "@/components/PlantList";
 import { useState } from "react";
 import styled from "styled-components";
 
-export default function Homepage({ plants, toggleFavourite, onSubmitPlant }) {
+export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
   const [showForm, setShowForm] = useState(false);
   return (
     <>
@@ -13,12 +13,8 @@ export default function Homepage({ plants, toggleFavourite, onSubmitPlant }) {
           {showForm ? "Hide form" : "Add new plant"}
         </button>
       </ButtonContainer>
-      {showForm && <PlantForm onSubmitPlant={onSubmitPlant} />}
-      <PlantList
-        plants={plants}
-        toggleFavourite={toggleFavourite}
-        onSubmitPlant={onSubmitPlant}
-      />
+      {showForm && <PlantForm onAddPlant={onAddPlant} />}
+      <PlantList plants={plants} toggleFavourite={toggleFavourite} />
     </>
   );
 }

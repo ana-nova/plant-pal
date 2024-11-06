@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }) {
     defaultValue: initialPlants,
   });
 
-  function addPlant(plantData) {
+  function handleAddPlant(plantData) {
     const newPlant = { id: uid(), ...plantData, isFavourite: false };
     setPlants((prevPlants) => [newPlant, ...prevPlants]);
   }
@@ -31,7 +31,7 @@ export default function App({ Component, pageProps }) {
           {...pageProps}
           plants={plants}
           toggleFavourite={toggleFavourite}
-          onSubmitPlant={addPlant}
+          onAddPlant={handleAddPlant}
         />
       </Layout>
     </>

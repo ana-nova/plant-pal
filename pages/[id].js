@@ -1,6 +1,5 @@
 import PlantDetails from "@/components/PlantDetails";
 import { useRouter } from "next/router";
-import useLocalStorageState from "use-local-storage-state";
 
 export default function PlantDetailsPage({ plants }) {
   const router = useRouter();

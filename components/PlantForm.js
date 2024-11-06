@@ -1,17 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-export default function PlantForm({
-  onSubmitPlant,
-  initialData = {
-    name: "",
-    botanicalName: "",
-    description: "",
-    lightNeed: "",
-    waterNeed: "",
-    fertiliserSeason: [],
-  },
-}) {
+export default function PlantForm({ onAddPlant }) {
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -19,7 +9,7 @@ export default function PlantForm({
 
     data.fertiliserSeason = formData.getAll("fertiliserSeason");
 
-    onSubmitPlant(data);
+    onAddPlant(data);
     event.target.reset();
   }
 
@@ -33,7 +23,6 @@ export default function PlantForm({
           type="text"
           id="name"
           name="name"
-          defaultValue={initialData.name}
           placeholder="Enter plant name"
           required
         />
@@ -45,7 +34,6 @@ export default function PlantForm({
           type="text"
           id="botanicalName"
           name="botanicalName"
-          defaultValue={initialData.botanicalName}
           placeholder="Enter botanical name"
           required
         />
@@ -56,7 +44,6 @@ export default function PlantForm({
         <TextArea
           id="description"
           name="description"
-          defaultValue={initialData.description}
           placeholder="Enter description (optional)"
         />
       </FormLabel>
@@ -71,13 +58,7 @@ export default function PlantForm({
             "Full Shade ☀️",
           ].map((option) => (
             <RadioLabel key={option}>
-              <input
-                type="radio"
-                name="lightNeed"
-                value={option}
-                defaultChecked={initialData.lightNeed === option}
-                required
-              />
+              <input type="radio" name="lightNeed" value={option} required />
               {option}
             </RadioLabel>
           ))}
@@ -89,13 +70,7 @@ export default function PlantForm({
         <OptionsContainer>
           {["Low 💧", "Medium 💧💧", "High 💧💧💧"].map((option) => (
             <RadioLabel key={option}>
-              <input
-                type="radio"
-                name="waterNeed"
-                value={option}
-                defaultChecked={initialData.waterNeed === option}
-                required
-              />
+              <input type="radio" name="waterNeed" value={option} required />
               {option}
             </RadioLabel>
           ))}
@@ -108,12 +83,7 @@ export default function PlantForm({
           {["Spring 🌱", "Summer 🐝", "Autumn 🍂", "Winter ❄️"].map(
             (season) => (
               <CheckboxLabel key={season}>
-                <input
-                  type="checkbox"
-                  name="fertiliserSeason"
-                  value={season}
-                  defaultChecked={initialData.fertiliserSeason.includes(season)}
-                />
+                <input type="checkbox" name="fertiliserSeason" value={season} />
                 {season}
               </CheckboxLabel>
             )
