@@ -1,5 +1,6 @@
 import PlantForm from "@/components/PlantForm";
 import PlantList from "@/components/PlantList";
+
 import { useState } from "react";
 import styled from "styled-components";
 
@@ -20,6 +21,7 @@ export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
       {showForm && (
         <PlantForm onAddPlant={onAddPlant} onToggleForm={handleToggleForm} />
       )}
+
       <PlantList plants={plants} toggleFavourite={toggleFavourite} />
     </>
   );
@@ -29,7 +31,9 @@ const StyledHeader = styled.h1`
   display: flex;
   justify-content: center;
 `;
+
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
+

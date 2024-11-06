@@ -1,8 +1,8 @@
-
-import { useRouter } from "next/router";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import styled from "styled-components";
+import { plants } from "@/assets/plants";
+import { useRouter } from "next/router";
 
 const lightNeedIcon = {
   "Full Sun": "☀️☀️☀️☀️",
@@ -24,7 +24,7 @@ const seasonIcons = {
   Winter: "❄️",
 };
 
-export default function PlantDetailsPage({ plants }) {
+export default function PlantDetails() {
   const router = useRouter();
   const { id } = router.query;
 
@@ -33,16 +33,15 @@ export default function PlantDetailsPage({ plants }) {
   const plant = plants.find((plant) => plant.id === id);
 
   if (!plant) return <p>Plant not found</p>;
-
   return (
     <>
       <Link href="/">Back</Link>
 
       <Container>
         <h1>Details Page</h1>
-        <RoundImage
+        <Image
           alt={`image of ${plant.name}`}
-          src={plant.imageUrl || "/assets/empty.avif"}
+          src={plant.imageUrl}
           width={200}
           height={200}
         />
@@ -50,16 +49,16 @@ export default function PlantDetailsPage({ plants }) {
         <p>{plant.botanicalName}</p>
         <p>{plant.description}</p>
         <p>
-          Light: {lightNeedIcon[plant.lightNeed]} {plant.lightNeed}
+          Light: {lightNeedIcon[plant.lightNeed] || "🌞"} {plant.lightNeed}
         </p>
         <p>
-          Water need: {waterNeedIcon[plant.waterNeed]} {plant.waterNeed}
+          Water need: {waterNeedIcon[plant.waterNeed] || "🌱"} {plant.waterNeed}
         </p>
         <p>
           Fertiliser season:
           {plant.fertiliserSeason.map((season) => (
             <span key={season}>
-              {seasonIcons[season]} {season}{" "}
+              {seasonIcons[season] || "🌱"} {season}{" "}
             </span>
           ))}
         </p>
@@ -79,9 +78,3 @@ const Container = styled.article`
   align-items: center;
   gap: 15px;
 `;
-
-const RoundImage = styled(Image)`
-  border-radius: 100%;
-`;
-
-
