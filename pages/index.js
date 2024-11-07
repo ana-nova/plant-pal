@@ -12,7 +12,7 @@ export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
   }
   return (
     <>
-      <StyledHeader>My Plants Collection</StyledHeader>
+      <StyledHeader>Guardians of the Garden</StyledHeader>
       <ButtonContainer>
         <button onClick={handleToggleForm}>
           {showForm ? "Hide form" : "Add new plant"}
@@ -36,4 +36,3 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
-
