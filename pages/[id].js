@@ -24,8 +24,10 @@ const seasonIcons = {
   Winter: "❄️",
 };
 
-export default function PlantDetails({ plants, onDeletePlant }) {
+export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+
   function handleDelete() {
     setShowConfirmation(true);
   }
@@ -36,7 +38,13 @@ export default function PlantDetails({ plants, onDeletePlant }) {
     onDeletePlant(plant.id);
     setShowConfirmation(false);
   }
-
+  function handleEdit() {
+    onEditPlant(updatePlant);
+    setShowEdit(false);
+  }
+  function handleEditClick() {
+    setShowEdit(true);
+  }
   const router = useRouter();
   const { id } = router.query;
 
@@ -49,45 +57,53 @@ export default function PlantDetails({ plants, onDeletePlant }) {
   return (
     <>
       <Link href="/">Back</Link>
-
-      <Container>
-        <h1>Details Page</h1>
-        <RoundImage
-          alt={`image of ${plant.name}`}
-          src={plant.imageUrl || "/assets/empty.avif"}
-          width={200}
-          height={200}
+      {!isEditing ? (
+        <Container>
+          <h1>Details Page</h1>
+          <RoundImage
+            alt={image of ${plant.name}}
+            src={plant.imageUrl || "/assets/empty.avif"}
+            width={200}
+            height={200}
+          />
+          <h2>{plant.name}</h2>
+          <p>{plant.botanicalName}</p>
+          <p>{plant.description}</p>
+          <p>
+            Light: {lightNeedIcon[plant.lightNeed]} {plant.lightNeed}
+          </p>
+          <p>
+            Water need: {waterNeedIcon[plant.waterNeed]} {plant.waterNeed}
+          </p>
+          <p>
+            Fertiliser season:
+            {plant.fertiliserSeason.map((season) => (
+              <span key={season}>
+                {seasonIcons[season]} {season}{" "}
+              </span>
+            ))}
+          </p>
+<section>
+            <button onClick={handleEditClick}>Edit</button>
+            {!showConfirmation ? (
+              <button onClick={handleDelete}>Delete</button>
+            ) : (
+              <>
+                <p>Are you sure?</p>
+                <button onClick={handleCancelDelete}>Cancel</button>
+                <button onClick={handleConfirmDelete}>Delete</button>
+              </>
+            )}
+          </section>
+        </Container>
+      ) : (
+        // Render the form for editing with pre-filled data
+        <PlantForm
+          initialData={plant}
+          onSubmitPlant={handleEditPlant} // Callback to save edited plant
+          onToggleForm={() => setIsEditing(false)} // Close form on cancel
         />
-        <h2>{plant.name}</h2>
-        <p>{plant.botanicalName}</p>
-        <p>{plant.description}</p>
-        <p>
-          Light: {lightNeedIcon[plant.lightNeed]} {plant.lightNeed}
-        </p>
-        <p>
-          Water need: {waterNeedIcon[plant.waterNeed]} {plant.waterNeed}
-        </p>
-        <p>
-          Fertiliser season:
-          {plant.fertiliserSeason.map((season) => (
-            <span key={season}>
-              {seasonIcons[season]} {season}{" "}
-            </span>
-          ))}
-        </p>
-
-        <section>
-          {!showConfirmation ? (
-            <button onClick={handleDelete}>Delete</button>
-          ) : (
-            <>
-              <p>Are you sure?</p>
-              <button onClick={handleCancelDelete}>Cancel</button>
-              <button onClick={handleConfirmDelete}>Delete</button>
-            </>
-          )}
-        </section>
-      </Container>
+      )}
     </>
   );
 }

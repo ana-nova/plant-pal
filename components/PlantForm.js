@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-export default function PlantForm({ onAddPlant, onToggleForm }) {
+export default function PlantForm({ onAddPlant, onToggleForm, on }) {
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -25,6 +25,7 @@ export default function PlantForm({ onAddPlant, onToggleForm }) {
           name="name"
           placeholder="Enter plant name"
           required
+          defaultValue={plant.name}
         />
       </FormLabel>
 
@@ -36,6 +37,7 @@ export default function PlantForm({ onAddPlant, onToggleForm }) {
           name="botanicalName"
           placeholder="Enter botanical name"
           required
+          defaultValue={plant.botanicalName}
         />
       </FormLabel>
 
@@ -45,6 +47,7 @@ export default function PlantForm({ onAddPlant, onToggleForm }) {
           id="description"
           name="description"
           placeholder="Enter description (optional)"
+          defaultValue={plant.description}
         />
       </FormLabel>
 
@@ -58,7 +61,13 @@ export default function PlantForm({ onAddPlant, onToggleForm }) {
             "Full Shade ☀️",
           ].map((option) => (
             <RadioLabel key={option}>
-              <input type="radio" name="lightNeed" value={option} required />
+              <input
+                type="radio"
+                name="lightNeed"
+                value={option}
+                required
+                defaultValue={plant.lightNeed}
+              />
               {option}
             </RadioLabel>
           ))}
@@ -70,7 +79,13 @@ export default function PlantForm({ onAddPlant, onToggleForm }) {
         <OptionsContainer>
           {["Low 💧", "Medium 💧💧", "High 💧💧💧"].map((option) => (
             <RadioLabel key={option}>
-              <input type="radio" name="waterNeed" value={option} required />
+              <input
+                type="radio"
+                name="waterNeed"
+                value={option}
+                required
+                defaultValue={plant.waterNeed}
+              />
               {option}
             </RadioLabel>
           ))}
@@ -83,7 +98,12 @@ export default function PlantForm({ onAddPlant, onToggleForm }) {
           {["Spring 🌱", "Summer 🐝", "Autumn 🍂", "Winter ❄️"].map(
             (season) => (
               <CheckboxLabel key={season}>
-                <input type="checkbox" name="fertiliserSeason" value={season} />
+                <input
+                  type="checkbox"
+                  name="fertiliserSeason"
+                  value={season}
+                  defaultValue={plant.fertiliserSeason}
+                />
                 {season}
               </CheckboxLabel>
             )
