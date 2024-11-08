@@ -103,6 +103,7 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
           initialData={plant}
           onSubmitPlant={handleEdit}
           onToggleForm={() => setShowEdit(false)}
+          isEditMode={true}
         />
       )}
     </>

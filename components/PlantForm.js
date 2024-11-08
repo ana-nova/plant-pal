@@ -4,6 +4,7 @@ import styled from "styled-components";
 export default function PlantForm({
   onSubmitPlant,
   onToggleForm,
+  isEditMode = false,
   initialData = {
     name: "",
     botanicalName: "",
@@ -131,10 +132,18 @@ export default function PlantForm({
         </OptionsContainer>
       </Fieldset>
 
-      <StyledButton>
+      {/* <StyledButton>
         <SubmitButton type="submit">
           {initialData.name ? "Save Changes" : "Add Plant"}
         </SubmitButton>
+      </StyledButton> */}
+      <StyledButton>
+        <button type="submit">
+          {isEditMode ? "Save Changes" : "Add Plant"}
+        </button>
+        <button type="button" onClick={onToggleForm}>
+          Cancel
+        </button>
       </StyledButton>
     </FormContainer>
   );
