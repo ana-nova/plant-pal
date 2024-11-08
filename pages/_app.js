@@ -17,27 +17,13 @@ export default function App({ Component, pageProps }) {
     setPlants((prevPlants) => [newPlant, ...prevPlants]);
   }
 
-  function handleEditPlant(updatedPlant) {
+  function handleEditPlant(plantId, updatedPlant) {
     setPlants((prevPlants) =>
       prevPlants.map((plant) =>
-        plant.id === updatedPlant.id ? updatedPlant : plant
+        plant.id === plantId ? { ...plant, ...updatedPlant } : plant
       )
     );
   }
-
-  // function handleEditPlant(updatePlant) {
-  //   if (plants.find((plant) => plant.id === updatePlant.id)) {
-  //     setPlants(
-  //       plants.map((plant) => {
-  //         if (plant.id === updatePlant.id) {
-  //           return updatePlant;
-  //         }
-  //         return plant;
-  //       })
-  //     );
-  //     return;
-  //   }
-  // }
 
   function handleDeletePlant(id) {
     setPlants((prevPlants) => prevPlants.filter((plant) => plant.id !== id));

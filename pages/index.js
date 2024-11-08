@@ -19,7 +19,7 @@ export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
         </button>
       </ButtonContainer>
       {showForm && (
-        <PlantForm onAddPlant={onAddPlant} onToggleForm={handleToggleForm} />
+        <PlantForm onSubmitPlant={onAddPlant} onToggleForm={handleToggleForm} />
       )}
 
       <PlantList plants={plants} toggleFavourite={toggleFavourite} />

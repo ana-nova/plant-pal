@@ -3,11 +3,11 @@ import Link from "next/link";
 import Image from "next/image";
 import styled from "styled-components";
 import { useState } from "react";
+import PlantForm from "@/components/PlantForm";
 
 const lightNeedIcon = {
-  "Full Sun": "☀️☀️☀️☀️",
-  "Partial Shade": "☀️☀️☀️",
-  Shade: "☀️☀️",
+  "Full Sun": "☀️☀️☀️",
+  "Partial Shade": "☀️☀️",
   "Full Shade": "☀️",
 };
 
@@ -38,13 +38,14 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
     onDeletePlant(plant.id);
     setShowConfirmation(false);
   }
-  function handleEdit() {
-    onEditPlant(updatePlant);
-    setShowEdit(false);
-  }
   function handleEditClick() {
     setShowEdit(true);
   }
+  function handleEdit(updatedPlant) {
+    onEditPlant(plant.id, updatedPlant);
+    setShowEdit(false);
+  }
+
   const router = useRouter();
   const { id } = router.query;
 
@@ -57,11 +58,11 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
   return (
     <>
       <Link href="/">Back</Link>
-      {!isEditing ? (
+      {!showEdit ? (
         <Container>
           <h1>Details Page</h1>
           <RoundImage
-            alt={image of ${plant.name}}
+            alt={`image of ${plant.name}`}
             src={plant.imageUrl || "/assets/empty.avif"}
             width={200}
             height={200}
@@ -83,7 +84,8 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
               </span>
             ))}
           </p>
-<section>
+
+          <section>
             <button onClick={handleEditClick}>Edit</button>
             {!showConfirmation ? (
               <button onClick={handleDelete}>Delete</button>
@@ -97,11 +99,10 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
           </section>
         </Container>
       ) : (
-        // Render the form for editing with pre-filled data
         <PlantForm
           initialData={plant}
-          onSubmitPlant={handleEditPlant} // Callback to save edited plant
-          onToggleForm={() => setIsEditing(false)} // Close form on cancel
+          onSubmitPlant={handleEdit}
+          onToggleForm={() => setShowEdit(false)}
         />
       )}
     </>

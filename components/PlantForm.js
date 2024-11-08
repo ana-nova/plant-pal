@@ -1,7 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 
-export default function PlantForm({ onAddPlant, onToggleForm, on }) {
+export default function PlantForm({
+  onSubmitPlant,
+  onToggleForm,
+  initialData = {
+    name: "",
+    botanicalName: "",
+    description: "",
+    lightNeed: "",
+    waterNeed: "",
+    fertiliserSeason: [],
+  },
+}) {
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -9,13 +20,14 @@ export default function PlantForm({ onAddPlant, onToggleForm, on }) {
 
     data.fertiliserSeason = formData.getAll("fertiliserSeason");
 
-    onAddPlant(data);
+    onSubmitPlant({ ...initialData, ...data });
     onToggleForm();
   }
 
   return (
     <FormContainer onSubmit={handleSubmit}>
-      <Title>Add a New Plant</Title>
+      {/* <Title>Add a New Plant</Title> */}
+      <Title>{initialData.name ? "Edit Plant" : "Add a New Plant"}</Title>
 
       <FormLabel htmlFor="name">
         Plant Name
@@ -25,7 +37,7 @@ export default function PlantForm({ onAddPlant, onToggleForm, on }) {
           name="name"
           placeholder="Enter plant name"
           required
-          defaultValue={plant.name}
+          defaultValue={initialData.name || ""}
         />
       </FormLabel>
 
@@ -37,7 +49,7 @@ export default function PlantForm({ onAddPlant, onToggleForm, on }) {
           name="botanicalName"
           placeholder="Enter botanical name"
           required
-          defaultValue={plant.botanicalName}
+          defaultValue={initialData.botanicalName || ""}
         />
       </FormLabel>
 
@@ -47,30 +59,27 @@ export default function PlantForm({ onAddPlant, onToggleForm, on }) {
           id="description"
           name="description"
           placeholder="Enter description (optional)"
-          defaultValue={plant.description}
+          defaultValue={initialData.description || ""}
         />
       </FormLabel>
 
       <Fieldset>
         <Legend>Light Needs</Legend>
         <OptionsContainer>
-          {[
-            "Full Sun ☀️☀️☀️☀️",
-            "Partial Shade ☀️☀️☀️",
-            "Shade ☀️☀️",
-            "Full Shade ☀️",
-          ].map((option) => (
-            <RadioLabel key={option}>
-              <input
-                type="radio"
-                name="lightNeed"
-                value={option}
-                required
-                defaultValue={plant.lightNeed}
-              />
-              {option}
-            </RadioLabel>
-          ))}
+          {["Full Sun ☀️☀️☀️", "Partial Shade ☀️☀️", "Full Shade ☀️"].map(
+            (option) => (
+              <RadioLabel key={option}>
+                <input
+                  type="radio"
+                  name="lightNeed"
+                  value={option}
+                  required
+                  defaultChecked={initialData.lightNeed === option}
+                />
+                {option}
+              </RadioLabel>
+            )
+          )}
         </OptionsContainer>
       </Fieldset>
 
@@ -84,7 +93,7 @@ export default function PlantForm({ onAddPlant, onToggleForm, on }) {
                 name="waterNeed"
                 value={option}
                 required
-                defaultValue={plant.waterNeed}
+                defaultChecked={initialData.waterNeed === option}
               />
               {option}
             </RadioLabel>
@@ -102,7 +111,7 @@ export default function PlantForm({ onAddPlant, onToggleForm, on }) {
                   type="checkbox"
                   name="fertiliserSeason"
                   value={season}
-                  defaultValue={plant.fertiliserSeason}
+                  defaultChecked={initialData.fertiliserSeason.includes(season)}
                 />
                 {season}
               </CheckboxLabel>
@@ -111,7 +120,9 @@ export default function PlantForm({ onAddPlant, onToggleForm, on }) {
         </OptionsContainer>
       </Fieldset>
       <StyledButton>
-        <SubmitButton type="submit">Add Plant</SubmitButton>
+        <SubmitButton type="submit">
+          {initialData.name ? "Save Changes" : "Add Plant"}
+        </SubmitButton>
       </StyledButton>
     </FormContainer>
   );
