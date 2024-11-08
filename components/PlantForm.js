@@ -66,36 +66,42 @@ export default function PlantForm({
       <Fieldset>
         <Legend>Light Needs</Legend>
         <OptionsContainer>
-          {["Full Sun ☀️☀️☀️", "Partial Shade ☀️☀️", "Full Shade ☀️"].map(
-            (option) => (
-              <RadioLabel key={option}>
-                <input
-                  type="radio"
-                  name="lightNeed"
-                  value={option}
-                  required
-                  defaultChecked={initialData.lightNeed === option}
-                />
-                {option}
-              </RadioLabel>
-            )
-          )}
+          {[
+            { label: "Full Sun ☀️☀️☀️", value: "Full Sun" },
+            { label: "Partial Shade ☀️☀️", value: "Partial Shade" },
+            { label: "Full Shade ☀️", value: "Full Shade" },
+          ].map((option) => (
+            <RadioLabel key={option.value}>
+              <input
+                type="radio"
+                name="lightNeed"
+                value={option.value}
+                required
+                defaultChecked={initialData.lightNeed === option.value}
+              />
+              {option.label}
+            </RadioLabel>
+          ))}
         </OptionsContainer>
       </Fieldset>
 
       <Fieldset>
         <Legend>Water Needs</Legend>
         <OptionsContainer>
-          {["Low 💧", "Medium 💧💧", "High 💧💧💧"].map((option) => (
-            <RadioLabel key={option}>
+          {[
+            { label: "Low 💧", value: "Low" },
+            { label: "Medium 💧💧", value: "Medium" },
+            { label: "High 💧💧💧", value: "High" },
+          ].map((option) => (
+            <RadioLabel key={option.value}>
               <input
                 type="radio"
                 name="waterNeed"
-                value={option}
+                value={option.value}
                 required
-                defaultChecked={initialData.waterNeed === option}
+                defaultChecked={initialData.waterNeed === option.value}
               />
-              {option}
+              {option.label}
             </RadioLabel>
           ))}
         </OptionsContainer>
@@ -104,21 +110,27 @@ export default function PlantForm({
       <Fieldset>
         <Legend>Fertiliser Season</Legend>
         <OptionsContainer>
-          {["Spring 🌱", "Summer 🐝", "Autumn 🍂", "Winter ❄️"].map(
-            (season) => (
-              <CheckboxLabel key={season}>
-                <input
-                  type="checkbox"
-                  name="fertiliserSeason"
-                  value={season}
-                  defaultChecked={initialData.fertiliserSeason.includes(season)}
-                />
-                {season}
-              </CheckboxLabel>
-            )
-          )}
+          {[
+            { label: "Spring 🌱", value: "Spring" },
+            { label: "Summer 🐝", value: "Summer" },
+            { label: "Fall 🍂", value: "Fall" },
+            { label: "Winter ❄️", value: "Winter" },
+          ].map((season) => (
+            <CheckboxLabel key={season.value}>
+              <input
+                type="checkbox"
+                name="fertiliserSeason"
+                value={season.value}
+                defaultChecked={initialData.fertiliserSeason.includes(
+                  season.value
+                )}
+              />
+              {season.label}
+            </CheckboxLabel>
+          ))}
         </OptionsContainer>
       </Fieldset>
+
       <StyledButton>
         <SubmitButton type="submit">
           {initialData.name ? "Save Changes" : "Add Plant"}
