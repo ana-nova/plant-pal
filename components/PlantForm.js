@@ -27,7 +27,6 @@ export default function PlantForm({
 
   return (
     <FormContainer onSubmit={handleSubmit}>
-      {/* <Title>Add a New Plant</Title> */}
       <Title>{initialData.name ? "Edit Plant" : "Add a New Plant"}</Title>
 
       <FormLabel htmlFor="name">
@@ -132,11 +131,6 @@ export default function PlantForm({
         </OptionsContainer>
       </Fieldset>
 
-      {/* <StyledButton>
-        <SubmitButton type="submit">
-          {initialData.name ? "Save Changes" : "Add Plant"}
-        </SubmitButton>
-      </StyledButton> */}
       <StyledButton>
         <button type="submit">
           {isEditMode ? "Save Changes" : "Add Plant"}
@@ -235,20 +229,6 @@ const CheckboxLabel = styled.label`
   gap: 5px;
   font-size: 0.95rem;
   color: #555;
-`;
-
-const SubmitButton = styled.button`
-  padding: 10px 15px;
-  font-size: 1rem;
-  color: white;
-  background-color: green;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: darkgreen;
-  }
 `;
 
 const StyledButton = styled.p`
