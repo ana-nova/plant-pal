@@ -3,11 +3,11 @@ import Link from "next/link";
 import Image from "next/image";
 import styled from "styled-components";
 import { useState } from "react";
+import PlantForm from "@/components/PlantForm";
 
 const lightNeedIcon = {
-  "Full Sun": "☀️☀️☀️☀️",
-  "Partial Shade": "☀️☀️☀️",
-  Shade: "☀️☀️",
+  "Full Sun": "☀️☀️☀️",
+  "Partial Shade": "☀️☀️",
   "Full Shade": "☀️",
 };
 
@@ -24,8 +24,10 @@ const seasonIcons = {
   Winter: "❄️",
 };
 
-export default function PlantDetails({ plants, onDeletePlant }) {
+export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+
   function handleDelete() {
     setShowConfirmation(true);
   }
@@ -35,6 +37,13 @@ export default function PlantDetails({ plants, onDeletePlant }) {
   function handleConfirmDelete() {
     onDeletePlant(plant.id);
     setShowConfirmation(false);
+  }
+  function handleEditClick() {
+    setShowEdit(true);
+  }
+  function handleEdit(updatedPlant) {
+    onEditPlant(plant.id, updatedPlant);
+    setShowEdit(false);
   }
 
   const router = useRouter();
@@ -49,45 +58,54 @@ export default function PlantDetails({ plants, onDeletePlant }) {
   return (
     <>
       <Link href="/">Back</Link>
+      {!showEdit ? (
+        <Container>
+          <h1>Details Page</h1>
+          <RoundImage
+            alt={`image of ${plant.name}`}
+            src={plant.imageUrl || "/assets/empty.avif"}
+            width={200}
+            height={200}
+          />
+          <h2>{plant.name}</h2>
+          <p>{plant.botanicalName}</p>
+          <p>{plant.description}</p>
+          <p>
+            Light: {lightNeedIcon[plant.lightNeed]} {plant.lightNeed}
+          </p>
+          <p>
+            Water need: {waterNeedIcon[plant.waterNeed]} {plant.waterNeed}
+          </p>
+          <p>
+            Fertiliser season:
+            {plant.fertiliserSeason.map((season) => (
+              <span key={season}>
+                {seasonIcons[season]} {season}{" "}
+              </span>
+            ))}
+          </p>
 
-      <Container>
-        <h1>Details Page</h1>
-        <RoundImage
-          alt={`image of ${plant.name}`}
-          src={plant.imageUrl || "/assets/empty.avif"}
-          width={200}
-          height={200}
+          <section>
+            <button onClick={handleEditClick}>Edit</button>
+            {!showConfirmation ? (
+              <button onClick={handleDelete}>Delete</button>
+            ) : (
+              <>
+                <p>Are you sure?</p>
+                <button onClick={handleCancelDelete}>Cancel</button>
+                <button onClick={handleConfirmDelete}>Delete</button>
+              </>
+            )}
+          </section>
+        </Container>
+      ) : (
+        <PlantForm
+          initialData={plant}
+          onSubmitPlant={handleEdit}
+          onToggleForm={() => setShowEdit(false)}
+          isEditMode={true}
         />
-        <h2>{plant.name}</h2>
-        <p>{plant.botanicalName}</p>
-        <p>{plant.description}</p>
-        <p>
-          Light: {lightNeedIcon[plant.lightNeed]} {plant.lightNeed}
-        </p>
-        <p>
-          Water need: {waterNeedIcon[plant.waterNeed]} {plant.waterNeed}
-        </p>
-        <p>
-          Fertiliser season:
-          {plant.fertiliserSeason.map((season) => (
-            <span key={season}>
-              {seasonIcons[season]} {season}{" "}
-            </span>
-          ))}
-        </p>
-
-        <section>
-          {!showConfirmation ? (
-            <button onClick={handleDelete}>Delete</button>
-          ) : (
-            <>
-              <p>Are you sure?</p>
-              <button onClick={handleCancelDelete}>Cancel</button>
-              <button onClick={handleConfirmDelete}>Delete</button>
-            </>
-          )}
-        </section>
-      </Container>
+      )}
     </>
   );
 }

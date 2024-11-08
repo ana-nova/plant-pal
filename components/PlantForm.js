@@ -1,7 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 
-export default function PlantForm({ onAddPlant, onToggleForm }) {
+export default function PlantForm({
+  onSubmitPlant,
+  onToggleForm,
+  isEditMode = false,
+  initialData = {
+    name: "",
+    botanicalName: "",
+    description: "",
+    lightNeed: "",
+    waterNeed: "",
+    fertiliserSeason: [],
+  },
+}) {
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -9,13 +21,13 @@ export default function PlantForm({ onAddPlant, onToggleForm }) {
 
     data.fertiliserSeason = formData.getAll("fertiliserSeason");
 
-    onAddPlant(data);
+    onSubmitPlant({ ...initialData, ...data });
     onToggleForm();
   }
 
   return (
     <FormContainer onSubmit={handleSubmit}>
-      <Title>Add a New Plant</Title>
+      <Title>{initialData.name ? "Edit Plant" : "Add a New Plant"}</Title>
 
       <FormLabel htmlFor="name">
         Plant Name
@@ -25,6 +37,7 @@ export default function PlantForm({ onAddPlant, onToggleForm }) {
           name="name"
           placeholder="Enter plant name"
           required
+          defaultValue={initialData.name || ""}
         />
       </FormLabel>
 
@@ -36,6 +49,7 @@ export default function PlantForm({ onAddPlant, onToggleForm }) {
           name="botanicalName"
           placeholder="Enter botanical name"
           required
+          defaultValue={initialData.botanicalName || ""}
         />
       </FormLabel>
 
@@ -45,6 +59,7 @@ export default function PlantForm({ onAddPlant, onToggleForm }) {
           id="description"
           name="description"
           placeholder="Enter description (optional)"
+          defaultValue={initialData.description || ""}
         />
       </FormLabel>
 
@@ -52,14 +67,19 @@ export default function PlantForm({ onAddPlant, onToggleForm }) {
         <Legend>Light Needs</Legend>
         <OptionsContainer>
           {[
-            "Full Sun ☀️☀️☀️☀️",
-            "Partial Shade ☀️☀️☀️",
-            "Shade ☀️☀️",
-            "Full Shade ☀️",
+            { label: "Full Sun ☀️☀️☀️", value: "Full Sun" },
+            { label: "Partial Shade ☀️☀️", value: "Partial Shade" },
+            { label: "Full Shade ☀️", value: "Full Shade" },
           ].map((option) => (
-            <RadioLabel key={option}>
-              <input type="radio" name="lightNeed" value={option} required />
-              {option}
+            <RadioLabel key={option.value}>
+              <input
+                type="radio"
+                name="lightNeed"
+                value={option.value}
+                required
+                defaultChecked={initialData.lightNeed === option.value}
+              />
+              {option.label}
             </RadioLabel>
           ))}
         </OptionsContainer>
@@ -68,10 +88,20 @@ export default function PlantForm({ onAddPlant, onToggleForm }) {
       <Fieldset>
         <Legend>Water Needs</Legend>
         <OptionsContainer>
-          {["Low 💧", "Medium 💧💧", "High 💧💧💧"].map((option) => (
-            <RadioLabel key={option}>
-              <input type="radio" name="waterNeed" value={option} required />
-              {option}
+          {[
+            { label: "Low 💧", value: "Low" },
+            { label: "Medium 💧💧", value: "Medium" },
+            { label: "High 💧💧💧", value: "High" },
+          ].map((option) => (
+            <RadioLabel key={option.value}>
+              <input
+                type="radio"
+                name="waterNeed"
+                value={option.value}
+                required
+                defaultChecked={initialData.waterNeed === option.value}
+              />
+              {option.label}
             </RadioLabel>
           ))}
         </OptionsContainer>
@@ -80,18 +110,34 @@ export default function PlantForm({ onAddPlant, onToggleForm }) {
       <Fieldset>
         <Legend>Fertiliser Season</Legend>
         <OptionsContainer>
-          {["Spring 🌱", "Summer 🐝", "Autumn 🍂", "Winter ❄️"].map(
-            (season) => (
-              <CheckboxLabel key={season}>
-                <input type="checkbox" name="fertiliserSeason" value={season} />
-                {season}
-              </CheckboxLabel>
-            )
-          )}
+          {[
+            { label: "Spring 🌱", value: "Spring" },
+            { label: "Summer 🐝", value: "Summer" },
+            { label: "Fall 🍂", value: "Fall" },
+            { label: "Winter ❄️", value: "Winter" },
+          ].map((season) => (
+            <CheckboxLabel key={season.value}>
+              <input
+                type="checkbox"
+                name="fertiliserSeason"
+                value={season.value}
+                defaultChecked={initialData.fertiliserSeason.includes(
+                  season.value
+                )}
+              />
+              {season.label}
+            </CheckboxLabel>
+          ))}
         </OptionsContainer>
       </Fieldset>
+
       <StyledButton>
-        <SubmitButton type="submit">Add Plant</SubmitButton>
+        <button type="submit">
+          {isEditMode ? "Save Changes" : "Add Plant"}
+        </button>
+        <button type="button" onClick={onToggleForm}>
+          Cancel
+        </button>
       </StyledButton>
     </FormContainer>
   );
@@ -183,20 +229,6 @@ const CheckboxLabel = styled.label`
   gap: 5px;
   font-size: 0.95rem;
   color: #555;
-`;
-
-const SubmitButton = styled.button`
-  padding: 10px 15px;
-  font-size: 1rem;
-  color: white;
-  background-color: green;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: darkgreen;
-  }
 `;
 
 const StyledButton = styled.p`

@@ -17,6 +17,14 @@ export default function App({ Component, pageProps }) {
     setPlants((prevPlants) => [newPlant, ...prevPlants]);
   }
 
+  function handleEditPlant(plantId, updatedPlant) {
+    setPlants((prevPlants) =>
+      prevPlants.map((plant) =>
+        plant.id === plantId ? { ...plant, ...updatedPlant } : plant
+      )
+    );
+  }
+
   function handleDeletePlant(id) {
     setPlants((prevPlants) => prevPlants.filter((plant) => plant.id !== id));
     router.push("/");
@@ -40,6 +48,7 @@ export default function App({ Component, pageProps }) {
           toggleFavourite={toggleFavourite}
           onAddPlant={handleAddPlant}
           onDeletePlant={handleDeletePlant}
+          onEditPlant={handleEditPlant}
         />
       </Layout>
     </>
