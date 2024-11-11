@@ -10,11 +10,11 @@ export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
   const [showDropdown, setShowDropdown] = useState(false);
 
   function handleToggleForm() {
-    setShowForm((prev) => !prev);
+    setShowForm(!showForm);
   }
 
   function handleToggleDropdown() {
-    setShowDropdown((prev) => !prev);
+    setShowDropdown(!showDropdown);
   }
 
   function handleLightFilter(filter) {
@@ -35,7 +35,7 @@ export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
     <>
       <StyledHeader>My Plants Collection</StyledHeader>
       <ButtonContainer>
-        <button className="button-add" onClick={handleToggleForm}>
+        <button onClick={handleToggleForm}>
           {showForm ? "Hide form" : "Add new plant"}
         </button>
       </ButtonContainer>
