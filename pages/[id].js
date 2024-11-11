@@ -27,6 +27,7 @@ const seasonIcons = {
 export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState(""); // State for uploaded image URL
 
   function handleDelete() {
     setShowConfirmation(true);
@@ -55,34 +56,61 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
 
   if (!plant) return <p>Plant not found</p>;
 
+  // FORM //
   async function handleSubmit(event) {
     event.preventDefault();
-
     const formData = new FormData(event.target);
 
-    const response = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUploadedImageUrl(data.secure_url); // Update state with the uploaded image URL
+      } else {
+        console.error("Failed to upload image.");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
   }
+  // END FORM //
 
   return (
     <>
-      <form action="/upload" method="post" enctype="multipart/form-data">
-        <label for="file-upload">Choose a file:</label>
-        <input type="file" id="file-upload" name="file-upload" required />
-        <button type="submit">Upload</button>
-      </form>
       <Link href="/">Back</Link>
       {!showEdit ? (
         <Container>
           <h1>Details Page</h1>
-          <RoundImage
-            alt={`image of ${plant.name}`}
-            src={plant.imageUrl || "/assets/empty.avif"}
-            width={200}
-            height={200}
-          />
+          <form onSubmit={handleSubmit} encType="multipart/form-data">
+            <label htmlFor="file-upload">Choose a file:</label>
+            <input type="file" id="file-upload" name="image" required />
+            <button type="submit">Upload</button>
+          </form>
+
+          {/* Display uploaded image if available */}
+          {uploadedImageUrl && (
+            <RoundImage
+              alt={`Uploaded image for ${plant.name}`}
+              src={uploadedImageUrl}
+              width={200}
+              height={200}
+            />
+          )}
+
+          {/* Display placeholder or plant image */}
+          {!uploadedImageUrl && (
+            <RoundImage
+              alt={`image of ${plant.name}`}
+              src={plant.imageUrl || "/assets/empty.avif"}
+              width={200}
+              height={200}
+            />
+          )}
+
           <h2>{plant.name}</h2>
           <p>{plant.botanicalName}</p>
           <p>{plant.description}</p>
