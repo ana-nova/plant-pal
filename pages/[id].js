@@ -55,8 +55,24 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
 
   if (!plant) return <p>Plant not found</p>;
 
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+
+    const response = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+  }
+
   return (
     <>
+      <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="file-upload">Choose a file:</label>
+        <input type="file" id="file-upload" name="file-upload" required />
+        <button type="submit">Upload</button>
+      </form>
       <Link href="/">Back</Link>
       {!showEdit ? (
         <Container>
