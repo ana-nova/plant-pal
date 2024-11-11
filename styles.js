@@ -119,10 +119,6 @@ export default createGlobalStyle`
     border-radius: 50%;
   }
 
-  p {
-    margin: 5px;
-  }
-
   hr {
   border: none;
   height: 1px;
@@ -150,7 +146,6 @@ export default createGlobalStyle`
 
   h2 {
     font-size: 1.3rem;
-    margin-bottom: 10px;
     color: var(--color-text-primary);
     display: flex;
     justify-content: center;

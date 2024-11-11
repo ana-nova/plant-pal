@@ -67,9 +67,9 @@ export default function PlantForm({
         <legend>Light Needs</legend>
         <OptionsContainer>
           {[
-            { label: "Full Sun ☀️☀️☀️", value: "Full Sun" },
-            { label: "Partial Shade ☀️☀️", value: "Partial Shade" },
-            { label: "Full Shade ☀️", value: "Full Shade" },
+            { label: "Full Sun", value: "Full Sun" },
+            { label: "Partial Shade", value: "Partial Shade" },
+            { label: "Full Shade", value: "Full Shade" },
           ].map((option) => (
             <label key={option.value}>
               <input
@@ -89,9 +89,9 @@ export default function PlantForm({
         <legend>Water Needs</legend>
         <OptionsContainer>
           {[
-            { label: "Low 💧", value: "Low" },
-            { label: "Medium 💧💧", value: "Medium" },
-            { label: "High 💧💧💧", value: "High" },
+            { label: "Low", value: "Low" },
+            { label: "Medium", value: "Medium" },
+            { label: "High", value: "High" },
           ].map((option) => (
             <label key={option.value}>
               <input
@@ -111,10 +111,10 @@ export default function PlantForm({
         <legend>Fertiliser Season</legend>
         <OptionsContainer>
           {[
-            { label: "Spring 🌱", value: "Spring" },
-            { label: "Summer 🐝", value: "Summer" },
-            { label: "Fall 🍂", value: "Fall" },
-            { label: "Winter ❄️", value: "Winter" },
+            { label: "Spring", value: "Spring" },
+            { label: "Summer", value: "Summer" },
+            { label: "Fall", value: "Fall" },
+            { label: "Winter", value: "Winter" },
           ].map((season) => (
             <label key={season.value}>
               <input

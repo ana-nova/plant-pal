@@ -6,23 +6,26 @@ import PlantForm from "@/components/PlantForm";
 import EditIcon from "@/public/Icons/pencil-fill.svg";
 import TrashIcon from "@/public/Icons/delete-bin-5-fill.svg";
 
+import LowWaterdropIcon from "@/public/Icons/drop-line.svg";
+import MediumWaterdropIcon from "@/public/Icons/contrast-drop-2-line.svg";
+import HighWaterdropIcon from "@/public/Icons/drop-fill.svg";
+
+import FullSunIcon from "@/public/Icons/sun-fill.svg";
+import PartialShadeIcon from "@/public/Icons/sun-foggy-fill.svg";
+import FullShadeIcon from "@/public/Icons/sun-cloudy-fill.svg";
+
+import FertiliserIcon from "@/public/Icons/leaf-fill.svg";
+
 const lightNeedIcon = {
-  "Full Sun": "☀️☀️☀️",
-  "Partial Shade": "☀️☀️",
-  "Full Shade": "☀️",
+  "Full Sun": <FullSunIcon />,
+  "Partial Shade": <PartialShadeIcon />,
+  "Full Shade": <FullShadeIcon />,
 };
 
 const waterNeedIcon = {
-  Low: "💧",
-  Medium: "💧💧",
-  High: "💧💧💧",
-};
-
-const seasonIcons = {
-  Spring: "🌱",
-  Summer: "🐝",
-  Fall: "🍂",
-  Winter: "❄️",
+  Low: <LowWaterdropIcon />,
+  Medium: <MediumWaterdropIcon />,
+  High: <HighWaterdropIcon />,
 };
 
 export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
@@ -69,21 +72,35 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
           />
           <h2>{plant.name}</h2>
           <h3>{plant.botanicalName}</h3>
-          <p>{plant.description}</p>
-          <p>
-            Light: {lightNeedIcon[plant.lightNeed]} {plant.lightNeed}
-          </p>
-          <p>
-            Water need: {waterNeedIcon[plant.waterNeed]} {plant.waterNeed}
-          </p>
-          <p>
-            Fertiliser season:
-            {plant.fertiliserSeason.map((season) => (
-              <span key={season}>
-                {seasonIcons[season]} {season}{" "}
-              </span>
-            ))}
-          </p>
+
+          {plant.description && <p>{plant.description}</p>}
+
+          <AllIconsContainer>
+            <p>
+              <IconContainer>
+                {lightNeedIcon[plant.lightNeed]}
+                <span>{plant.lightNeed}</span>
+              </IconContainer>
+            </p>
+
+            <p>
+              <IconContainer>
+                {waterNeedIcon[plant.waterNeed]}
+                <span>{plant.waterNeed} Water Need</span>
+              </IconContainer>
+            </p>
+
+            {plant.fertiliserSeason && plant.fertiliserSeason.length > 0 && (
+              <p>
+                <IconContainer>
+                  <FertiliserIcon />
+                  {plant.fertiliserSeason.map((season) => (
+                    <span key={season}>{season}</span>
+                  ))}
+                </IconContainer>
+              </p>
+            )}
+          </AllIconsContainer>
 
           <section>
             <ButtonEdit onClick={handleEditClick}>
@@ -151,4 +168,23 @@ const ButtonCancel = styled.button`
   &:hover {
     background-color: var(--color-button-cancel-hover);
   }
+`;
+
+const IconContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+
+  span {
+    font-size: 0.9rem;
+    color: var(--color-text-primary);
+    text-align: center;
+  }
+`;
+
+const AllIconsContainer = styled.div`
+  display: flex;
+  gap: 20px;
+  justify-content: center;
 `;
