@@ -17,17 +17,14 @@ export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
     setShowDropdown((prev) => !prev);
   }
 
-  function handleToggleForm() {
-    setShowForm((prev) => !prev);
-  }
-
-  function handleLightFilter(event) {
-    setLightFilter(event.target.value);
+  function handleLightFilter(filter) {
+    setLightFilter(filter);
     setShowDropdown(false);
   }
 
   function clearFilter() {
     setLightFilter("");
+    setShowDropdown(false);
   }
 
   const filteredPlants = lightFilter
@@ -47,22 +44,21 @@ export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
       )}
 
       <FilterContainer>
-        <FilterIcon onClick={handleToggleDropdown}>
-          <FilterIcon />
-        </FilterIcon>
+        <FilterButton onClick={handleToggleDropdown}>
+          <FilterIcon width="24" height="24" />
+        </FilterButton>
         {showDropdown && (
           <Dropdown>
-            <select
-              id="lightFilter"
-              value={lightFilter}
-              onChange={handleLightFilter}
-            >
-              <option value="">All</option>
-              <option value="Full Sun">Full Sun</option>
-              <option value="Partial Shade">Partial Shade</option>
-              <option value="Full Shade">Full Shade</option>
-            </select>
             {lightFilter && <button onClick={clearFilter}>Clear Filter</button>}
+            <button onClick={() => handleLightFilter("Full Sun")}>
+              Full Sun
+            </button>
+            <button onClick={() => handleLightFilter("Partial Shade")}>
+              Partial Shade
+            </button>
+            <button onClick={() => handleLightFilter("Full Shade")}>
+              Full Shade
+            </button>
           </Dropdown>
         )}
       </FilterContainer>
@@ -82,21 +78,16 @@ const ButtonContainer = styled.div`
 `;
 
 const FilterContainer = styled.div`
+  position: relative;
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  justify-content: flex-end;
   margin: 10px 0;
-  align-items: center;
+`;
 
-  select {
-    padding: 5px;
-    border-radius: 5px;
-  }
-
-  button {
-    margin-left: 10px;
-    padding: 5px 10px;
-  }
+const FilterButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
 `;
 
 const StyledHeader = styled.h1`
@@ -105,16 +96,28 @@ const StyledHeader = styled.h1`
 `;
 
 const Dropdown = styled.div`
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  padding: 10px;
   gap: 5px;
-
-  select {
-    padding: 5px;
-    border-radius: 5px;
-  }
+  z-index: 100;
 
   button {
-    padding: 5px 10px;
+    background: none;
+    border: none;
+    padding: 8px 12px;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    &:hover {
+      background-color: #f0f0f0;
+    }
   }
 `;
