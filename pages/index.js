@@ -45,20 +45,33 @@ export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
 
       <FilterContainer>
         <FilterButton onClick={handleToggleDropdown}>
-          <FilterIcon width="24" height="24" />
+          <FilterIcon />
         </FilterButton>
+        {lightFilter && (
+          <FilterTag onClick={clearFilter}>
+            {lightFilter} <span>&times;</span>
+          </FilterTag>
+        )}
         {showDropdown && (
           <Dropdown>
-            {lightFilter && <button onClick={clearFilter}>Clear Filter</button>}
-            <button onClick={() => handleLightFilter("Full Sun")}>
+            <FilterOption
+              onClick={() => handleLightFilter("Full Sun")}
+              isActive={lightFilter === "Full Sun"}
+            >
               Full Sun
-            </button>
-            <button onClick={() => handleLightFilter("Partial Shade")}>
+            </FilterOption>
+            <FilterOption
+              onClick={() => handleLightFilter("Partial Shade")}
+              isActive={lightFilter === "Partial Shade"}
+            >
               Partial Shade
-            </button>
-            <button onClick={() => handleLightFilter("Full Shade")}>
+            </FilterOption>
+            <FilterOption
+              onClick={() => handleLightFilter("Full Shade")}
+              isActive={lightFilter === "Full Shade"}
+            >
               Full Shade
-            </button>
+            </FilterOption>
           </Dropdown>
         )}
       </FilterContainer>
@@ -81,7 +94,9 @@ const FilterContainer = styled.div`
   position: relative;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   margin: 10px 0;
+  gap: 10px;
 `;
 
 const FilterButton = styled.button`
@@ -108,16 +123,38 @@ const Dropdown = styled.div`
   padding: 10px;
   gap: 5px;
   z-index: 100;
+`;
 
-  button {
-    background: none;
-    border: none;
-    padding: 8px 12px;
-    text-align: left;
-    width: 100%;
-    cursor: pointer;
-    &:hover {
-      background-color: #f0f0f0;
-    }
+const FilterOption = styled.button`
+  background: ${({ isActive }) => (isActive ? "#e0e0e0" : "transparent")};
+  border: none;
+  padding: 8px 12px;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
+`;
+
+const FilterTag = styled.div`
+  display: inline-flex;
+  align-items: center;
+  background-color: #e0e0e0;
+  border-radius: 12px;
+  padding: 5px 10px;
+  font-size: 0.9em;
+  color: #333;
+  cursor: pointer;
+
+  span {
+    margin-left: 8px;
+    font-weight: bold;
+    color: #888;
+  }
+
+  &:hover {
+    background-color: #d0d0d0;
   }
 `;
