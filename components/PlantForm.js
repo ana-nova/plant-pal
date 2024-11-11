@@ -26,12 +26,12 @@ export default function PlantForm({
   }
 
   return (
-    <FormContainer onSubmit={handleSubmit}>
-      <Title>{initialData.name ? "Edit Plant" : "Add a New Plant"}</Title>
+    <form onSubmit={handleSubmit}>
+      <h2>{initialData.name ? "Edit Plant" : "Add a New Plant"}</h2>
 
       <FormLabel htmlFor="name">
         Plant Name
-        <TextInput
+        <input
           type="text"
           id="name"
           name="name"
@@ -43,7 +43,7 @@ export default function PlantForm({
 
       <FormLabel htmlFor="botanicalName">
         Botanical Name
-        <TextInput
+        <input
           type="text"
           id="botanicalName"
           name="botanicalName"
@@ -55,7 +55,7 @@ export default function PlantForm({
 
       <FormLabel htmlFor="description">
         Description
-        <TextArea
+        <textarea
           id="description"
           name="description"
           placeholder="Enter description (optional)"
@@ -63,15 +63,15 @@ export default function PlantForm({
         />
       </FormLabel>
 
-      <Fieldset>
-        <Legend>Light Needs</Legend>
+      <fieldset>
+        <legend>Light Needs</legend>
         <OptionsContainer>
           {[
             { label: "Full Sun ☀️☀️☀️", value: "Full Sun" },
             { label: "Partial Shade ☀️☀️", value: "Partial Shade" },
             { label: "Full Shade ☀️", value: "Full Shade" },
           ].map((option) => (
-            <RadioLabel key={option.value}>
+            <label key={option.value}>
               <input
                 type="radio"
                 name="lightNeed"
@@ -80,20 +80,20 @@ export default function PlantForm({
                 defaultChecked={initialData.lightNeed === option.value}
               />
               {option.label}
-            </RadioLabel>
+            </label>
           ))}
         </OptionsContainer>
-      </Fieldset>
+      </fieldset>
 
-      <Fieldset>
-        <Legend>Water Needs</Legend>
+      <fieldset>
+        <legend>Water Needs</legend>
         <OptionsContainer>
           {[
             { label: "Low 💧", value: "Low" },
             { label: "Medium 💧💧", value: "Medium" },
             { label: "High 💧💧💧", value: "High" },
           ].map((option) => (
-            <RadioLabel key={option.value}>
+            <label key={option.value}>
               <input
                 type="radio"
                 name="waterNeed"
@@ -102,13 +102,13 @@ export default function PlantForm({
                 defaultChecked={initialData.waterNeed === option.value}
               />
               {option.label}
-            </RadioLabel>
+            </label>
           ))}
         </OptionsContainer>
-      </Fieldset>
+      </fieldset>
 
-      <Fieldset>
-        <Legend>Fertiliser Season</Legend>
+      <fieldset>
+        <legend>Fertiliser Season</legend>
         <OptionsContainer>
           {[
             { label: "Spring 🌱", value: "Spring" },
@@ -116,7 +116,7 @@ export default function PlantForm({
             { label: "Fall 🍂", value: "Fall" },
             { label: "Winter ❄️", value: "Winter" },
           ].map((season) => (
-            <CheckboxLabel key={season.value}>
+            <label key={season.value}>
               <input
                 type="checkbox"
                 name="fertiliserSeason"
@@ -126,87 +126,41 @@ export default function PlantForm({
                 )}
               />
               {season.label}
-            </CheckboxLabel>
+            </label>
           ))}
         </OptionsContainer>
-      </Fieldset>
+      </fieldset>
 
       <StyledButton>
-        <button type="submit">
+        <ButtonSave type="submit">
           {isEditMode ? "Save Changes" : "Add Plant"}
-        </button>
-        <button type="button" onClick={onToggleForm}>
+        </ButtonSave>
+        <ButtonCancel type="button" onClick={onToggleForm}>
           Cancel
-        </button>
+        </ButtonCancel>
       </StyledButton>
-    </FormContainer>
+    </form>
   );
 }
 
-const FormContainer = styled.form`
-  border: 2px solid black;
-  border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+const ButtonCancel = styled.button`
+  background-color: var(--color-button-cancel);
+
+  &:hover {
+    background-color: var(--color-button-cancel-hover);
+  }
 `;
 
-const Title = styled.h2`
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-  color: #333;
-  display: flex;
-  justify-content: center;
+const ButtonSave = styled.button`
+  background-color: var(--color-button-save);
+
+  &:hover {
+    background-color: var(--color-button-save-hover);
+  }
 `;
 
 const FormLabel = styled.label`
-  display: flex;
   flex-direction: column;
-  gap: 5px;
-  font-size: 1rem;
-  color: #555;
-`;
-
-const TextInput = styled.input`
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
-
-  &:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-`;
-
-const TextArea = styled.textarea`
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
-  resize: none;
-
-  &:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-`;
-
-const Fieldset = styled.fieldset`
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  padding: 10px;
-`;
-
-const Legend = styled.legend`
-  font-size: 1rem;
-  color: #666;
-  padding: 0 5px;
 `;
 
 const OptionsContainer = styled.div`
@@ -215,23 +169,8 @@ const OptionsContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const RadioLabel = styled.label`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.95rem;
-  color: #555;
-`;
-
-const CheckboxLabel = styled.label`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.95rem;
-  color: #555;
-`;
-
-const StyledButton = styled.p`
+const StyledButton = styled.div`
   display: flex;
   justify-content: center;
+  gap: 5px;
 `;

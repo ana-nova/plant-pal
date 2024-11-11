@@ -1,9 +1,10 @@
 import { useRouter } from "next/router";
-import Link from "next/link";
 import Image from "next/image";
 import styled from "styled-components";
 import { useState } from "react";
 import PlantForm from "@/components/PlantForm";
+import EditIcon from "@/public/Icons/pencil-fill.svg";
+import TrashIcon from "@/public/Icons/delete-bin-5-fill.svg";
 
 const lightNeedIcon = {
   "Full Sun": "☀️☀️☀️",
@@ -57,18 +58,17 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
 
   return (
     <>
-      <Link href="/">Back</Link>
+      <h1>Details Page</h1>
       {!showEdit ? (
-        <Container>
-          <h1>Details Page</h1>
-          <RoundImage
+        <CardDetails>
+          <Image
             alt={`image of ${plant.name}`}
             src={plant.imageUrl || "/assets/empty.avif"}
             width={200}
             height={200}
           />
           <h2>{plant.name}</h2>
-          <p>{plant.botanicalName}</p>
+          <h3>{plant.botanicalName}</h3>
           <p>{plant.description}</p>
           <p>
             Light: {lightNeedIcon[plant.lightNeed]} {plant.lightNeed}
@@ -86,18 +86,25 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
           </p>
 
           <section>
-            <button onClick={handleEditClick}>Edit</button>
+            <ButtonEdit onClick={handleEditClick}>
+              <EditIcon />
+            </ButtonEdit>
+
             {!showConfirmation ? (
-              <button onClick={handleDelete}>Delete</button>
+              <ButtonDelete onClick={handleDelete}>
+                <TrashIcon />
+              </ButtonDelete>
             ) : (
               <>
                 <p>Are you sure?</p>
-                <button onClick={handleCancelDelete}>Cancel</button>
-                <button onClick={handleConfirmDelete}>Delete</button>
+                <ButtonCancel onClick={handleCancelDelete}>Cancel</ButtonCancel>
+                <ButtonDelete onClick={handleConfirmDelete}>
+                  Delete
+                </ButtonDelete>
               </>
             )}
           </section>
-        </Container>
+        </CardDetails>
       ) : (
         <PlantForm
           initialData={plant}
@@ -110,18 +117,38 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
   );
 }
 
-const Container = styled.article`
-  border: 2px solid black;
-  border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+const CardDetails = styled.article`
   padding: 10px 10px 30px;
   margin: 20px 38px 23px 35px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
+
+  @media (min-width: 720px) {
+    width: 50%;
+    margin: 20px auto 0 auto;
+  }
 `;
 
-const RoundImage = styled(Image)`
-  border-radius: 100%;
+const ButtonEdit = styled.button`
+  background-color: var(--color-button-edit);
+  margin: 5px;
+
+  &:hover {
+    background-color: var(--color-button-edit-hover);
+  }
+`;
+
+const ButtonDelete = styled.button`
+  background-color: var(--color-button-delete);
+
+  &:hover {
+    background-color: var(--color-button-delete-hover);
+  }
+`;
+
+const ButtonCancel = styled.button`
+  background-color: var(--color-button-cancel);
+  margin: 5px;
+
+  &:hover {
+    background-color: var(--color-button-cancel-hover);
+  }
 `;
