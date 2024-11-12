@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import useLocalStorageState from "use-local-storage-state";
 import Link from "next/link";
 import Image from "next/image";
 import styled from "styled-components";
@@ -27,7 +28,17 @@ const seasonIcons = {
 export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState(""); // State for uploaded image URL
+  // POPUP state
+  const [UploadOpen, setUploadOpen] = useState(false);
+
+  const router = useRouter();
+  const { id } = router.query;
+  // IMAGE UPLOAD State for uploaded image URL
+  const [uploadedImageUrl, setUploadedImageUrl] = useLocalStorageState(
+    id ? `uploadedImageUrl-${id}` : null
+  );
+
+  if (!router.isReady) return null;
 
   function handleDelete() {
     setShowConfirmation(true);
@@ -46,11 +57,6 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
     onEditPlant(plant.id, updatedPlant);
     setShowEdit(false);
   }
-
-  const router = useRouter();
-  const { id } = router.query;
-
-  if (!router.isReady) return null;
 
   const plant = plants.find((plant) => plant.id === id);
 
@@ -79,36 +85,31 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
   }
   // END FORM //
 
+  function toggleUploadImage() {
+    setUploadOpen(!UploadOpen);
+  }
+
   return (
     <>
       <Link href="/">Back</Link>
       {!showEdit ? (
         <Container>
           <h1>Details Page</h1>
-          <form onSubmit={handleSubmit} encType="multipart/form-data">
-            <label htmlFor="file-upload">Choose a file:</label>
-            <input type="file" id="file-upload" name="image" required />
-            <button type="submit">Upload</button>
-          </form>
 
-          {/* Display uploaded image if available */}
-          {uploadedImageUrl && (
-            <RoundImage
-              alt={`Uploaded image for ${plant.name}`}
-              src={uploadedImageUrl}
-              width={200}
-              height={200}
-            />
-          )}
+          <RoundImage
+            alt={`image of ${plant.name}`}
+            src={uploadedImageUrl || plant.imageUrl || "/assets/empty.avif"}
+            width={200}
+            height={200}
+          />
 
-          {/* Display placeholder or plant image */}
-          {!uploadedImageUrl && (
-            <RoundImage
-              alt={`image of ${plant.name}`}
-              src={plant.imageUrl || "/assets/empty.avif"}
-              width={200}
-              height={200}
-            />
+          <button onClick={toggleUploadImage}>Upload Image</button>
+          {UploadOpen && (
+            <UploadForm onSubmit={handleSubmit} encType="multipart/form-data">
+              <label htmlFor="file-upload"></label>
+              <input type="file" id="file-upload" name="image" required />
+              <button type="submit">Upload</button>
+            </UploadForm>
           )}
 
           <h2>{plant.name}</h2>
@@ -168,4 +169,8 @@ const Container = styled.article`
 
 const RoundImage = styled(Image)`
   border-radius: 100%;
+`;
+
+const UploadForm = styled.form`
+  background-color: lightgrey;
 `;

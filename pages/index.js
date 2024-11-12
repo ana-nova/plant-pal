@@ -4,7 +4,12 @@ import FilterIcon from "@/public/Icons/filter-line.svg";
 import { useState } from "react";
 import styled from "styled-components";
 
-export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
+export default function Homepage({
+  plants,
+  toggleFavourite,
+  onAddPlant,
+  uploadedImageUrl,
+}) {
   const [showForm, setShowForm] = useState(false);
   const [lightFilter, setLightFilter] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
