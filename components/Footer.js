@@ -13,29 +13,28 @@ export default function Footer({ reminders }) {
   const router = useRouter();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  // Toggle popup visibility
   function handleTogglePopup() {
     setIsPopupOpen((prev) => !prev);
   }
 
   return (
     <footer>
-      <StyledFooter href={"/"} aria-label="Go to homepage">
+      <StyledLink href={"/"} aria-label="Go to homepage">
         {router.pathname === "/" ? <HouseFill /> : <HouseLine />}
-      </StyledFooter>
+      </StyledLink>
 
-      <StyledFooter
+      <StyledLink
         as="button"
         onClick={handleTogglePopup}
         aria-label="View reminders"
       >
         <ReminderIcon />
         {reminders.some((reminder) => !reminder.isDone) && <RedDot />}
-      </StyledFooter>
+      </StyledLink>
 
-      <StyledFooter href={"/favourites"} aria-label="Go to favourite plants">
+      <StyledLink href={"/favourites"} aria-label="Go to favourite plants">
         {router.pathname === "/favourites" ? <PlantFill /> : <PlantLine />}
-      </StyledFooter>
+      </StyledLink>
 
       {isPopupOpen && (
         <PopupContainer>
@@ -68,8 +67,7 @@ export default function Footer({ reminders }) {
   );
 }
 
-// Styled components
-const StyledFooter = styled(Link)`
+const StyledLink = styled(Link)`
   color: var(--color-button-text);
   position: relative;
 `;
