@@ -80,12 +80,7 @@ export default createGlobalStyle`
     cursor: pointer;             
     transition: background-color 0.3s ease; 
     font-family: "Junge", sans-serif;
-
-    &:hover {
-      background-color: var(--color-button-hover-background); 
-    }
   }
-
 
   article {
     background-color: var(--color-background-cards); 

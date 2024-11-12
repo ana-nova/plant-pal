@@ -14,32 +14,34 @@ export default function Footer({ reminders }) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   function handleTogglePopup() {
-    setIsPopupOpen((prev) => !prev);
+    setIsPopupOpen(!isPopupOpen);
   }
 
   return (
     <footer>
-      <StyledLink href={"/"} aria-label="Go to homepage">
-        {router.pathname === "/" ? <HouseFill /> : <HouseLine />}
-      </StyledLink>
+      <IconsContainer>
+        <StyledLink href={"/"} aria-label="Go to homepage">
+          {router.pathname === "/" ? <HouseFill /> : <HouseLine />}
+        </StyledLink>
 
-      <StyledLink
-        as="button"
-        onClick={handleTogglePopup}
-        aria-label="View reminders"
-      >
-        <ReminderIcon />
-        {reminders.some((reminder) => !reminder.isDone) && <RedDot />}
-      </StyledLink>
+        <ReminderButton
+          as="button"
+          onClick={handleTogglePopup}
+          aria-label="View reminders"
+        >
+          <ReminderIcon />
+          {reminders.some((reminder) => !reminder.isDone) && <RedDot />}
+        </ReminderButton>
 
-      <StyledLink href={"/favourites"} aria-label="Go to favourite plants">
-        {router.pathname === "/favourites" ? <PlantFill /> : <PlantLine />}
-      </StyledLink>
+        <StyledLink href={"/favourites"} aria-label="Go to favourite plants">
+          {router.pathname === "/favourites" ? <PlantFill /> : <PlantLine />}
+        </StyledLink>
+      </IconsContainer>
 
       {isPopupOpen && (
         <PopupContainer>
           <PopupContent>
-            <h2>Reminders</h2>
+            <h2>Your Notifications</h2>
             {reminders.filter((reminder) => !reminder.isDone).length > 0 ? (
               reminders
                 .filter((reminder) => !reminder.isDone)
@@ -67,9 +69,18 @@ export default function Footer({ reminders }) {
   );
 }
 
+const IconsContainer = styled.div`
+  position: relative;
+  align-items: center;
+  justify-content: space-around;
+`;
+
 const StyledLink = styled(Link)`
   color: var(--color-button-text);
-  position: relative;
+`;
+
+const ReminderButton = styled.div`
+  color: var(--color-button-text);
 `;
 
 const RedDot = styled.span`
