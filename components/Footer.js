@@ -9,12 +9,21 @@ import PlantLine from "@/public/Icons/plant-line.svg";
 import PlantFill from "@/public/Icons/plant-fill.svg";
 import ReminderIcon from "@/public/Icons/hourglass-2-fill.svg";
 
-export default function Footer({ reminders }) {
+export default function Footer({ reminders, onEditReminder }) {
   const router = useRouter();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   function handleTogglePopup() {
     setIsPopupOpen(!isPopupOpen);
+  }
+
+  function handleMarkAsDone(reminderId) {
+    const reminderEntry = reminders.find(
+      (reminder) => reminder.id === reminderId
+    );
+    if (reminderEntry) {
+      onEditReminder(reminderId, { isDone: !reminderEntry.isDone });
+    }
   }
 
   return (
@@ -53,9 +62,11 @@ export default function Footer({ reminders }) {
                       <strong>{reminder.plantName}</strong> due on{" "}
                       {new Date(reminder.dueDate).toLocaleDateString()}
                     </p>
-                    <button onClick={() => handleMarkAsDone(reminder.id)}>
+                    <MarkDoneButton
+                      onClick={() => handleMarkAsDone(reminder.id)}
+                    >
                       Mark as Done
-                    </button>
+                    </MarkDoneButton>
                   </ReminderItem>
                 ))
             ) : (
@@ -69,10 +80,15 @@ export default function Footer({ reminders }) {
   );
 }
 
+const MarkDoneButton = styled.button`
+  color: var(--color-button-cancel);
+`;
+
 const IconsContainer = styled.div`
-  position: relative;
+  display: flex;
   align-items: center;
   justify-content: space-around;
+  width: 100%;
 `;
 
 const StyledLink = styled(Link)`
@@ -81,12 +97,13 @@ const StyledLink = styled(Link)`
 
 const ReminderButton = styled.div`
   color: var(--color-button-text);
+  position: relative;
 `;
 
 const RedDot = styled.span`
   position: absolute;
-  top: 0;
-  right: 0;
+  top: -5;
+  right: -5;
   width: 8px;
   height: 8px;
   background-color: red;

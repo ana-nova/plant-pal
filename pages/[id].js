@@ -91,6 +91,13 @@ export default function PlantDetails({
     setShowPopup(!showPopup);
   }
 
+  function handleMarkAsDone(reminderId) {
+    const reminder = reminders.find((r) => r.id === reminderId);
+    if (reminder) {
+      onEditReminder(reminderId, { isDone: !reminder.isDone });
+    }
+  }
+
   return (
     <>
       <h1>Details Page</h1>
@@ -135,10 +142,6 @@ export default function PlantDetails({
           </AllIconsContainer>
 
           <section>
-            <ButtonNotification onClick={togglePopup}>
-              <NotificationIcon />
-            </ButtonNotification>
-
             <ButtonEdit onClick={handleEditClick}>
               <EditIcon />
             </ButtonEdit>
@@ -157,35 +160,6 @@ export default function PlantDetails({
               </>
             )}
           </section>
-
-          {showPopup && (
-            <PopupContainer>
-              <PopupContent>
-                <h3>Add a Reminder</h3>
-                <p>Plant: {plant.name}</p>
-                <label>
-                  Task Type:
-                  <input
-                    type="text"
-                    value={newTaskType}
-                    onChange={(e) => setNewTaskType(e.target.value)}
-                  />
-                </label>
-                <label>
-                  Due Date:
-                  <input
-                    type="date"
-                    value={newDueDate}
-                    onChange={(e) => setNewDueDate(e.target.value)}
-                  />
-                </label>
-                <ButtonSave onClick={handleAddReminder}>
-                  Add Reminder
-                </ButtonSave>
-                <ButtonCancel onClick={togglePopup}>Close</ButtonCancel>
-              </PopupContent>
-            </PopupContainer>
-          )}
         </CardDetails>
       ) : (
         <PlantForm
@@ -196,6 +170,39 @@ export default function PlantDetails({
         />
       )}
       <CardDetails>
+        <StyledSection>
+          <ButtonNotification onClick={togglePopup}>
+            <NotificationIcon />
+          </ButtonNotification>
+        </StyledSection>
+
+        {showPopup && (
+          <PopupContainer>
+            <PopupContent>
+              <h3>Add a Reminder</h3>
+              <p>Plant: {plant.name}</p>
+              <label>
+                Task Type:
+                <input
+                  type="text"
+                  value={newTaskType}
+                  onChange={(event) => setNewTaskType(event.target.value)}
+                />
+              </label>
+              <label>
+                Due Date:
+                <input
+                  type="date"
+                  value={newDueDate}
+                  onChange={(event) => setNewDueDate(event.target.value)}
+                />
+              </label>
+              <ButtonSave onClick={handleAddReminder}>Add Reminder</ButtonSave>
+              <ButtonCancel onClick={togglePopup}>Close</ButtonCancel>
+            </PopupContent>
+          </PopupContainer>
+        )}
+
         <h3>Your Reminders</h3>
         {plantReminders.length === 0 ? (
           <p>currently no reminders here</p>
@@ -211,7 +218,7 @@ export default function PlantDetails({
                   onEditReminder(reminder.id, { isDone: !reminder.isDone })
                 }
               >
-                {reminder.isDone ? "Undo" : <MarkDoneIcon />}
+                {reminder.isDone ? "Repeat" : <MarkDoneIcon />}
               </ButtonDone>
               <ButtonDeleteIcon onClick={() => onDeleteReminder(reminder.id)}>
                 <TrashIcon />
@@ -223,6 +230,12 @@ export default function PlantDetails({
     </>
   );
 }
+
+const StyledSection = styled.section`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+`;
 
 const CardDetails = styled.article`
   padding: 10px 10px 30px;

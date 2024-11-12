@@ -1,13 +1,13 @@
 import Footer from "./Footer";
 import Header from "./Header";
 
-export default function Layout({ children, reminders }) {
+export default function Layout({ children, reminders, onEditReminder }) {
   return (
     <>
       <Header />
       <hr />
       <main>{children}</main>
-      <Footer reminders={reminders} />
+      <Footer reminders={reminders} onEditReminder={onEditReminder} />
     </>
   );
 }
