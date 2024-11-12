@@ -106,6 +106,8 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
               encType="multipart/form-data"
             >
               <UploadPopUp>
+                <h3>Upload Your Plant</h3>
+
                 <label htmlFor="file-upload"></label>
                 <StyledFileInput
                   type="file"
@@ -192,11 +194,12 @@ const UploadForm = styled.form`
 
 const UploadPopUp = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   background: whitesmoke;
   width: 350px;
-  height: 100px;
+  height: 150px;
   border-radius: 8px;
   text-align: center;
   box-shadow: 0 0 10px var(--color-shadow);
