@@ -158,7 +158,6 @@ export default createGlobalStyle`
     bottom: 0;
     width: 100%;
     background-color: var(--color-footer-background);
-    padding: 10px;
     display: flex;
     justify-content: space-around;
   }

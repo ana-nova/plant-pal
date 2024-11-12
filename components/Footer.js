@@ -9,7 +9,7 @@ import PlantLine from "@/public/Icons/plant-line.svg";
 import PlantFill from "@/public/Icons/plant-fill.svg";
 import ReminderIcon from "@/public/Icons/hourglass-2-fill.svg";
 
-export default function Footer({ reminders, onEditReminder }) {
+export default function Footer({ plants, reminders, onEditReminder }) {
   const router = useRouter();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -50,25 +50,35 @@ export default function Footer({ reminders, onEditReminder }) {
       {isPopupOpen && (
         <PopupContainer>
           <PopupContent>
-            <h2>Your Notifications</h2>
+            <h2>Your Reminders</h2>
             {reminders.filter((reminder) => !reminder.isDone).length > 0 ? (
               reminders
                 .filter((reminder) => !reminder.isDone)
                 .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
-                .map((reminder) => (
-                  <ReminderItem key={reminder.id}>
-                    <p>
-                      <strong>{reminder.taskType}</strong> for{" "}
-                      <strong>{reminder.plantName}</strong> due on{" "}
-                      {new Date(reminder.dueDate).toLocaleDateString()}
-                    </p>
-                    <MarkDoneButton
-                      onClick={() => handleMarkAsDone(reminder.id)}
-                    >
-                      Mark as Done
-                    </MarkDoneButton>
-                  </ReminderItem>
-                ))
+                .map((reminder) => {
+                  const plant = plants.find(
+                    (plant) => plant.id === reminder.plantId
+                  );
+                  return (
+                    <ReminderItem key={reminder.id}>
+                      <p>
+                        <strong>{plant ? plant.name : "Unknown Plant"}</strong>
+                      </p>
+                      <p>
+                        <strong>Task:</strong> {reminder.taskType}
+                      </p>
+                      <p>
+                        <strong>Due Date:</strong>{" "}
+                        {new Date(reminder.dueDate).toLocaleDateString()}
+                      </p>
+                      <MarkDoneButton
+                        onClick={() => handleMarkAsDone(reminder.id)}
+                      >
+                        Mark as Done
+                      </MarkDoneButton>
+                    </ReminderItem>
+                  );
+                })
             ) : (
               <p>No pending reminders!</p>
             )}
@@ -84,7 +94,7 @@ const MarkDoneButton = styled.button`
   color: var(--color-button-cancel);
 `;
 
-const IconsContainer = styled.div`
+const IconsContainer = styled.section`
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -97,7 +107,6 @@ const StyledLink = styled(Link)`
 
 const ReminderButton = styled.div`
   color: var(--color-button-text);
-  position: relative;
 `;
 
 const RedDot = styled.span`
@@ -121,6 +130,7 @@ const PopupContainer = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  border-radius: 8px;
 `;
 
 const PopupContent = styled.div`
@@ -129,6 +139,8 @@ const PopupContent = styled.div`
   border-radius: 8px;
   width: 80%;
   max-width: 400px;
+  max-height: 50vh;
+  overflow-y: auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
 `;

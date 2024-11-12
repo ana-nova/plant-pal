@@ -71,7 +71,11 @@ export default function App({ Component, pageProps }) {
 
   return (
     <>
-      <Layout reminders={reminders} onEditReminder={handleEditReminder}>
+      <Layout
+        plants={plants}
+        reminders={reminders}
+        onEditReminder={handleEditReminder}
+      >
         <GlobalStyle />
         <Component
           {...pageProps}

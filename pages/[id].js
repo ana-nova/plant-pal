@@ -18,6 +18,7 @@ import FertiliserIcon from "@/public/Icons/leaf-fill.svg";
 
 import NotificationIcon from "@/public/Icons/hourglass-2-fill.svg";
 import MarkDoneIcon from "@/public/Icons/check-fill.svg";
+import RepeatIcon from "@/public/Icons/repeat-fill.svg";
 
 const lightNeedIcon = {
   "Full Sun": <FullSunIcon />,
@@ -91,13 +92,6 @@ export default function PlantDetails({
     setShowPopup(!showPopup);
   }
 
-  function handleMarkAsDone(reminderId) {
-    const reminder = reminders.find((r) => r.id === reminderId);
-    if (reminder) {
-      onEditReminder(reminderId, { isDone: !reminder.isDone });
-    }
-  }
-
   return (
     <>
       <h1>Details Page</h1>
@@ -112,7 +106,11 @@ export default function PlantDetails({
           <h2>{plant.name}</h2>
           <h3>{plant.botanicalName}</h3>
 
-          {plant.description && <p>{plant.description}</p>}
+          {plant.description && (
+            <DescriptionContainer>
+              <p>{plant.description}</p>
+            </DescriptionContainer>
+          )}
 
           <AllIconsContainer>
             <p>
@@ -170,31 +168,28 @@ export default function PlantDetails({
         />
       )}
       <CardDetails>
-        <StyledSection>
-          <ButtonNotification onClick={togglePopup}>
-            <NotificationIcon />
-          </ButtonNotification>
-        </StyledSection>
-
         {showPopup && (
           <PopupContainer>
             <PopupContent>
               <h3>Add a Reminder</h3>
-              <p>Plant: {plant.name}</p>
+              <p>{plant.name}</p>
               <label>
                 Task Type:
                 <input
                   type="text"
                   value={newTaskType}
                   onChange={(event) => setNewTaskType(event.target.value)}
+                  required
                 />
               </label>
+
               <label>
                 Due Date:
                 <input
                   type="date"
                   value={newDueDate}
                   onChange={(event) => setNewDueDate(event.target.value)}
+                  required
                 />
               </label>
               <ButtonSave onClick={handleAddReminder}>Add Reminder</ButtonSave>
@@ -205,7 +200,7 @@ export default function PlantDetails({
 
         <h3>Your Reminders</h3>
         {plantReminders.length === 0 ? (
-          <p>currently no reminders here</p>
+          <p>Currently no reminders here ...</p>
         ) : (
           plantReminders.map((reminder) => (
             <ReminderItem key={reminder.id}>
@@ -213,28 +208,33 @@ export default function PlantDetails({
                 Task: {reminder.taskType}, Due Date:{" "}
                 {new Date(reminder.dueDate).toLocaleDateString()}
               </p>
-              <ButtonDone
-                onClick={() =>
-                  onEditReminder(reminder.id, { isDone: !reminder.isDone })
-                }
-              >
-                {reminder.isDone ? "Repeat" : <MarkDoneIcon />}
-              </ButtonDone>
-              <ButtonDeleteIcon onClick={() => onDeleteReminder(reminder.id)}>
-                <TrashIcon />
-              </ButtonDeleteIcon>
+              <ReminderIconContainer>
+                <ButtonDone
+                  onClick={() =>
+                    onEditReminder(reminder.id, { isDone: !reminder.isDone })
+                  }
+                >
+                  {reminder.isDone ? <RepeatIcon /> : <MarkDoneIcon />}
+                </ButtonDone>
+                <ButtonDeleteIcon onClick={() => onDeleteReminder(reminder.id)}>
+                  <TrashIcon />
+                </ButtonDeleteIcon>
+              </ReminderIconContainer>
             </ReminderItem>
           ))
         )}
+        <ButtonNotification onClick={togglePopup}>
+          <NotificationIcon />
+        </ButtonNotification>
       </CardDetails>
     </>
   );
 }
 
-const StyledSection = styled.section`
-  position: absolute;
-  top: 10px;
-  right: 10px;
+const ReminderIconContainer = styled.section`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 const CardDetails = styled.article`
@@ -309,6 +309,7 @@ const AllIconsContainer = styled.div`
   display: flex;
   gap: 50px;
   justify-content: center;
+  margin: 0 30px 0 30px;
 `;
 
 const PopupContainer = styled.div`
@@ -334,13 +335,17 @@ const PopupContent = styled.div`
   text-align: center;
 `;
 
-const RemindersContainer = styled.div`
-  margin-top: 20px;
-`;
-
 const ReminderItem = styled.div`
   margin-bottom: 10px;
   display: flex;
   align-items: center;
   gap: 10px;
+`;
+
+const DescriptionContainer = styled.section`
+  margin: 0 30px 0 30px;
+
+  @media (min-width: 720px) {
+    margin: 0 100px 0 100px;
+  }
 `;
