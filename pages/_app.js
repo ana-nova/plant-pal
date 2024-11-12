@@ -3,6 +3,7 @@ import useLocalStorageState from "use-local-storage-state";
 import { plants as initialPlantsData } from "@/assets/plants";
 import Layout from "@/components/Layout";
 import { uid } from "uid";
+import Router from "next/router";
 
 const initialPlants = initialPlantsData;
 
@@ -26,7 +27,7 @@ export default function App({ Component, pageProps }) {
 
   function handleDeletePlant(id) {
     setPlants((prevPlants) => prevPlants.filter((plant) => plant.id !== id));
-    router.push("/");
+    Router.push("/");
   }
 
   function toggleFavourite(id) {
