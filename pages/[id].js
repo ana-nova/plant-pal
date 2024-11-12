@@ -27,7 +27,7 @@ const seasonIcons = {
 export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const [UploadOpen, setUploadOpen] = useState(false);
+  const [uploadOpen, setUploadOpen] = useState(false);
 
   const router = useRouter();
   const { id } = router.query;
@@ -56,7 +56,7 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
     setShowEdit(false);
   }
   function toggleUploadImage() {
-    setUploadOpen(!UploadOpen);
+    setUploadOpen(!uploadOpen);
   }
 
   async function handleImageUpload(event) {
@@ -73,11 +73,10 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
         const data = await response.json();
         const newImageUrl = data.secure_url;
 
-        // Update plant's image URL
         const updatedPlant = { ...plant, imageUrl: newImageUrl };
 
-        // Update plant in the array and local storage
         onEditPlant(plant.id, updatedPlant);
+        setUploadOpen(false);
       } else {
         console.error("Failed to upload image.");
       }
@@ -101,14 +100,22 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
           />
 
           <button onClick={toggleUploadImage}>Upload Image</button>
-          {UploadOpen && (
+          {uploadOpen && (
             <UploadForm
               onSubmit={handleImageUpload}
               encType="multipart/form-data"
             >
-              <label htmlFor="file-upload">Select image:</label>
-              <input type="file" id="file-upload" name="image" required />
-              <button type="submit">Upload</button>
+              <UploadPopUp>
+                <label htmlFor="file-upload"></label>
+                <StyledFileInput
+                  type="file"
+                  id="file-upload"
+                  name="image"
+                  required
+                />
+                <button type="submit">Upload</button>
+                <button onClick={toggleUploadImage}>Cancel</button>
+              </UploadPopUp>
             </UploadForm>
           )}
 
@@ -172,5 +179,30 @@ const RoundImage = styled(Image)`
 `;
 
 const UploadForm = styled.form`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const UploadPopUp = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: whitesmoke;
+  width: 350px;
+  height: 100px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 0 10px var(--color-shadow);
+`;
+
+const StyledFileInput = styled.input`
   background-color: lightgrey;
+  width: 200px;
 `;

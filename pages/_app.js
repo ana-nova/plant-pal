@@ -38,35 +38,6 @@ export default function App({ Component, pageProps }) {
     );
   }
 
-  async function handleSubmit(event, plantId) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-
-    try {
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        const uploadedImageUrl = data.secure_url;
-
-        setPlants((prevPlants) =>
-          prevPlants.map((plant) =>
-            plant.id === plantId
-              ? { ...plant, imageUrl: uploadedImageUrl }
-              : plant
-          )
-        );
-      } else {
-        console.error("Failed to upload image.");
-      }
-    } catch (error) {
-      console.error("Error uploading image:", error);
-    }
-  }
-
   return (
     <Layout>
       <GlobalStyle />
@@ -77,7 +48,6 @@ export default function App({ Component, pageProps }) {
         onAddPlant={handleAddPlant}
         onDeletePlant={handleDeletePlant}
         onEditPlant={handleEditPlant}
-        handleSubmit={handleSubmit}
       />
     </Layout>
   );
