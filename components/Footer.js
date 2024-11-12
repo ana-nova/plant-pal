@@ -26,6 +26,12 @@ export default function Footer({ plants, reminders, onEditReminder }) {
     }
   }
 
+  const today = new Date().toISOString().split("T")[0];
+
+  const hasTodayReminder = reminders.some(
+    (reminder) => !reminder.isDone && reminder.dueDate === today
+  );
+
   return (
     <footer>
       <IconsContainer>
@@ -39,7 +45,7 @@ export default function Footer({ plants, reminders, onEditReminder }) {
           aria-label="View reminders"
         >
           <ReminderIcon />
-          {reminders.some((reminder) => !reminder.isDone) && <RedDot />}
+          {hasTodayReminder && <RedDot />}
         </ReminderButton>
 
         <StyledLink href={"/favourites"} aria-label="Go to favourite plants">

@@ -47,6 +47,7 @@ export default function PlantDetails({
   const [showPopup, setShowPopup] = useState(false);
   const [newTaskType, setNewTaskType] = useState("");
   const [newDueDate, setNewDueDate] = useState("");
+  const [repeatInterval, setRepeatInterval] = useState("");
 
   const router = useRouter();
   const { id } = router.query;
@@ -81,15 +82,34 @@ export default function PlantDetails({
 
   function handleAddReminder() {
     if (newTaskType && newDueDate) {
-      onAddReminder(plant.id, newTaskType, newDueDate);
+      onAddReminder(plant.id, newTaskType, newDueDate, repeatInterval);
       setNewTaskType("");
       setNewDueDate("");
+      setRepeatInterval("");
       setShowPopup(false);
     }
   }
 
   function togglePopup() {
     setShowPopup(!showPopup);
+  }
+
+  function calculateNextDueDate(currentDueDate, interval) {
+    const dueDate = new Date(currentDueDate);
+    switch (interval) {
+      case "weekly":
+        dueDate.setDate(dueDate.getDate() + 7);
+        break;
+      case "bi-weekly":
+        dueDate.setDate(dueDate.getDate() + 14);
+        break;
+      case "monthly":
+        dueDate.setMonth(dueDate.getMonth() + 1);
+        break;
+      default:
+        break;
+    }
+    return dueDate.toISOString().split("T")[0]; // Format date to "yyyy-mm-dd"
   }
 
   return (
@@ -189,9 +209,24 @@ export default function PlantDetails({
                   type="date"
                   value={newDueDate}
                   onChange={(event) => setNewDueDate(event.target.value)}
+                  min={new Date().toISOString().split("T")[0]}
                   required
                 />
               </label>
+
+              <label>
+                Repeat Interval:
+                <select
+                  value={repeatInterval}
+                  onChange={(event) => setRepeatInterval(event.target.value)}
+                >
+                  <option value="">Select...</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="bi-weekly">Bi-Weekly</option>
+                  <option value="monthly">Monthly</option>
+                </select>
+              </label>
+
               <ButtonSave onClick={handleAddReminder}>Add Reminder</ButtonSave>
               <ButtonCancel onClick={togglePopup}>Close</ButtonCancel>
             </PopupContent>
