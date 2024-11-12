@@ -186,27 +186,6 @@ export default function PlantDetails({
               </PopupContent>
             </PopupContainer>
           )}
-
-          <RemindersContainer>
-            {plantReminders.map((reminder) => (
-              <ReminderItem key={reminder.id}>
-                <p>
-                  Task: {reminder.taskType} - Due:{" "}
-                  {new Date(reminder.dueDate).toLocaleDateString()}
-                </p>
-                <ButtonDone
-                  onClick={() =>
-                    onEditReminder(reminder.id, { isDone: !reminder.isDone })
-                  }
-                >
-                  {reminder.isDone ? "Undo" : <MarkDoneIcon />}
-                </ButtonDone>
-                <ButtonDeleteIcon onClick={() => onDeleteReminder(reminder.id)}>
-                  <TrashIcon />
-                </ButtonDeleteIcon>
-              </ReminderItem>
-            ))}
-          </RemindersContainer>
         </CardDetails>
       ) : (
         <PlantForm
@@ -216,6 +195,31 @@ export default function PlantDetails({
           isEditMode={true}
         />
       )}
+      <CardDetails>
+        <h3>Your Reminders</h3>
+        {plantReminders.length === 0 ? (
+          <p>currently no reminders here</p>
+        ) : (
+          plantReminders.map((reminder) => (
+            <ReminderItem key={reminder.id}>
+              <p>
+                Task: {reminder.taskType}, Due Date:{" "}
+                {new Date(reminder.dueDate).toLocaleDateString()}
+              </p>
+              <ButtonDone
+                onClick={() =>
+                  onEditReminder(reminder.id, { isDone: !reminder.isDone })
+                }
+              >
+                {reminder.isDone ? "Undo" : <MarkDoneIcon />}
+              </ButtonDone>
+              <ButtonDeleteIcon onClick={() => onDeleteReminder(reminder.id)}>
+                <TrashIcon />
+              </ButtonDeleteIcon>
+            </ReminderItem>
+          ))
+        )}
+      </CardDetails>
     </>
   );
 }
