@@ -146,29 +146,23 @@ export default function PlantDetails({
           )}
 
           <AllIconsContainer>
-            <p>
-              <IconContainer>
-                {lightNeedIcon[plant.lightNeed]}
-                <span>{plant.lightNeed}</span>
-              </IconContainer>
-            </p>
+            <IconContainer>
+              {lightNeedIcon[plant.lightNeed]}
+              <span>{plant.lightNeed}</span>
+            </IconContainer>
 
-            <p>
-              <IconContainer>
-                {waterNeedIcon[plant.waterNeed]}
-                <span>{plant.waterNeed} Water Need</span>
-              </IconContainer>
-            </p>
+            <IconContainer>
+              {waterNeedIcon[plant.waterNeed]}
+              <span>{plant.waterNeed} Water Need</span>
+            </IconContainer>
 
             {plant.fertiliserSeason && plant.fertiliserSeason.length > 0 && (
-              <p>
-                <IconContainer>
-                  <FertiliserIcon />
-                  {plant.fertiliserSeason.map((season) => (
-                    <span key={season}>{season}</span>
-                  ))}
-                </IconContainer>
-              </p>
+              <IconContainer>
+                <FertiliserIcon />
+                {plant.fertiliserSeason.map((season) => (
+                  <span key={season}>{season}</span>
+                ))}
+              </IconContainer>
             )}
           </AllIconsContainer>
 

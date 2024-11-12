@@ -4,7 +4,12 @@ import FilterIcon from "@/public/Icons/filter-line.svg";
 import { useState } from "react";
 import styled from "styled-components";
 
-export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
+export default function Homepage({
+  plants,
+  toggleFavourite,
+  onAddPlant,
+  reminders,
+}) {
   const [showForm, setShowForm] = useState(false);
   const [lightFilter, setLightFilter] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -76,7 +81,11 @@ export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
       </FilterContainer>
 
       {filteredPlants.length > 0 ? (
-        <PlantList plants={filteredPlants} toggleFavourite={toggleFavourite} />
+        <PlantList
+          plants={filteredPlants}
+          toggleFavourite={toggleFavourite}
+          reminders={reminders}
+        />
       ) : (
         <p>No plants found for the selected filter.</p>
       )}
