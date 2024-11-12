@@ -42,12 +42,13 @@ export default function App({ Component, pageProps }) {
     );
   }
 
-  function handleAddReminder(plantId, taskType, dueDate) {
+  function handleAddReminder(plantId, taskType, dueDate, interval) {
     const newReminder = {
       id: uid(),
       plantId,
       taskType,
       dueDate,
+      interval,
       isDone: false,
     };
     setReminders((prevReminders) => [...prevReminders, newReminder]);

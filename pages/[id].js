@@ -94,6 +94,19 @@ export default function PlantDetails({
     setShowPopup(!showPopup);
   }
 
+  function handleRepeatReminder(reminderId) {
+    const reminderEntry = reminders.find(
+      (reminder) => reminder.id === reminderId
+    );
+    if (reminderEntry && reminderEntry.interval) {
+      const newDueDate = calculateNextDueDate(
+        reminderEntry.dueDate,
+        reminderEntry.interval
+      );
+      onEditReminder(reminderId, { dueDate: newDueDate });
+    }
+  }
+
   function calculateNextDueDate(currentDueDate, interval) {
     const dueDate = new Date(currentDueDate);
     switch (interval) {
@@ -109,7 +122,7 @@ export default function PlantDetails({
       default:
         break;
     }
-    return dueDate.toISOString().split("T")[0]; // Format date to "yyyy-mm-dd"
+    return dueDate.toISOString().split("T")[0];
   }
 
   return (
@@ -249,7 +262,13 @@ export default function PlantDetails({
                     onEditReminder(reminder.id, { isDone: !reminder.isDone })
                   }
                 >
-                  {reminder.isDone ? <RepeatIcon /> : <MarkDoneIcon />}
+                  {reminder.isDone ? (
+                    <RepeatIcon
+                      onClick={() => handleRepeatReminder(reminder.id)}
+                    />
+                  ) : (
+                    <MarkDoneIcon />
+                  )}
                 </ButtonDone>
                 <ButtonDeleteIcon onClick={() => onDeleteReminder(reminder.id)}>
                   <TrashIcon />
