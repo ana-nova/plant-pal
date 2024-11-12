@@ -19,10 +19,10 @@ export default function PlantCard({ plant, toggleFavourite }) {
       <StyledParagraph>{plant.botanicalName}</StyledParagraph>
 
       <RoundImage
-        alt={`Image of ${plant.name}`}
+        alt={`image of ${plant.name}`}
+        src={plant.imageUrl || "/assets/empty.avif"}
         width={200}
         height={200}
-        src={plant.imageUrl || "/assets/empty.avif"}
       />
 
       <StyledLink href={`/${plant.id}`}>see more</StyledLink>

@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import useLocalStorageState from "use-local-storage-state";
 import Link from "next/link";
 import Image from "next/image";
 import styled from "styled-components";
@@ -28,17 +27,16 @@ const seasonIcons = {
 export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  // POPUP state
   const [UploadOpen, setUploadOpen] = useState(false);
 
   const router = useRouter();
   const { id } = router.query;
-  // IMAGE UPLOAD State for uploaded image URL
-  const [uploadedImageUrl, setUploadedImageUrl] = useLocalStorageState(
-    id ? `uploadedImageUrl-${id}` : null
-  );
 
   if (!router.isReady) return null;
+
+  const plant = plants.find((plant) => plant.id === id);
+
+  if (!plant) return <p>Plant not found</p>;
 
   function handleDelete() {
     setShowConfirmation(true);
@@ -57,13 +55,11 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
     onEditPlant(plant.id, updatedPlant);
     setShowEdit(false);
   }
+  function toggleUploadImage() {
+    setUploadOpen(!UploadOpen);
+  }
 
-  const plant = plants.find((plant) => plant.id === id);
-
-  if (!plant) return <p>Plant not found</p>;
-
-  // FORM //
-  async function handleSubmit(event) {
+  async function handleImageUpload(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
 
@@ -75,18 +71,19 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
 
       if (response.ok) {
         const data = await response.json();
-        setUploadedImageUrl(data.secure_url); // Update state with the uploaded image URL
+        const newImageUrl = data.secure_url;
+
+        // Update plant's image URL
+        const updatedPlant = { ...plant, imageUrl: newImageUrl };
+
+        // Update plant in the array and local storage
+        onEditPlant(plant.id, updatedPlant);
       } else {
         console.error("Failed to upload image.");
       }
     } catch (error) {
       console.error("Error uploading image:", error);
     }
-  }
-  // END FORM //
-
-  function toggleUploadImage() {
-    setUploadOpen(!UploadOpen);
   }
 
   return (
@@ -98,15 +95,18 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
 
           <RoundImage
             alt={`image of ${plant.name}`}
-            src={uploadedImageUrl || plant.imageUrl || "/assets/empty.avif"}
+            src={plant.imageUrl || "/assets/empty.avif"}
             width={200}
             height={200}
           />
 
           <button onClick={toggleUploadImage}>Upload Image</button>
           {UploadOpen && (
-            <UploadForm onSubmit={handleSubmit} encType="multipart/form-data">
-              <label htmlFor="file-upload"></label>
+            <UploadForm
+              onSubmit={handleImageUpload}
+              encType="multipart/form-data"
+            >
+              <label htmlFor="file-upload">Select image:</label>
               <input type="file" id="file-upload" name="image" required />
               <button type="submit">Upload</button>
             </UploadForm>

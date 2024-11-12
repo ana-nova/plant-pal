@@ -1,11 +1,10 @@
 import GlobalStyle from "../styles";
 import useLocalStorageState from "use-local-storage-state";
-import { plants } from "@/assets/plants";
+import { plants as initialPlantsData } from "@/assets/plants";
 import Layout from "@/components/Layout";
-import router from "next/router";
-
 import { uid } from "uid";
-const initialPlants = plants;
+
+const initialPlants = initialPlantsData;
 
 export default function App({ Component, pageProps }) {
   const [plants, setPlants] = useLocalStorageState("plants", {
@@ -38,19 +37,47 @@ export default function App({ Component, pageProps }) {
     );
   }
 
+  async function handleSubmit(event, plantId) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+
+    try {
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const uploadedImageUrl = data.secure_url;
+
+        setPlants((prevPlants) =>
+          prevPlants.map((plant) =>
+            plant.id === plantId
+              ? { ...plant, imageUrl: uploadedImageUrl }
+              : plant
+          )
+        );
+      } else {
+        console.error("Failed to upload image.");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  }
+
   return (
-    <>
-      <Layout>
-        <GlobalStyle />
-        <Component
-          {...pageProps}
-          plants={plants}
-          toggleFavourite={toggleFavourite}
-          onAddPlant={handleAddPlant}
-          onDeletePlant={handleDeletePlant}
-          onEditPlant={handleEditPlant}
-        />
-      </Layout>
-    </>
+    <Layout>
+      <GlobalStyle />
+      <Component
+        {...pageProps}
+        plants={plants}
+        toggleFavourite={toggleFavourite}
+        onAddPlant={handleAddPlant}
+        onDeletePlant={handleDeletePlant}
+        onEditPlant={handleEditPlant}
+        handleSubmit={handleSubmit}
+      />
+    </Layout>
   );
 }
