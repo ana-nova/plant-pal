@@ -185,6 +185,6 @@ const IconContainer = styled.div`
 
 const AllIconsContainer = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 50px;
   justify-content: center;
 `;
