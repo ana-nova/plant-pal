@@ -155,6 +155,7 @@ const ButtonEdit = styled.button`
 
 const ButtonDelete = styled.button`
   background-color: var(--color-button-delete);
+  margin: 5px;
 
   &:hover {
     background-color: var(--color-button-delete-hover);

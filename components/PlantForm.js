@@ -131,14 +131,14 @@ export default function PlantForm({
         </OptionsContainer>
       </fieldset>
 
-      <StyledButton>
+      <ButtonContainer>
         <ButtonSave type="submit">
           {isEditMode ? "Save Changes" : "Add Plant"}
         </ButtonSave>
         <ButtonCancel type="button" onClick={onToggleForm}>
           Cancel
         </ButtonCancel>
-      </StyledButton>
+      </ButtonContainer>
     </form>
   );
 }
@@ -169,7 +169,7 @@ const OptionsContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const StyledButton = styled.div`
+const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   gap: 5px;

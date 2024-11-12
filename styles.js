@@ -222,7 +222,7 @@ export default createGlobalStyle`
 
   legend {
     font-size: 1rem;
-    color: (--color-text-primary);
+    color: var(--color-text-primary);
     padding: 0 5px;
   }
 

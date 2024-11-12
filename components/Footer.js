@@ -11,16 +11,16 @@ export default function Footer() {
 
   return (
     <footer>
-      <StyledFooter href={"/"} aria-label="Go to homepage">
+      <StyledLink href={"/"} aria-label="Go to homepage">
         {router.pathname === "/" ? <HouseFill /> : <HouseLine />}
-      </StyledFooter>
-      <StyledFooter href={"/favourites"} aria-label="Go to favourite plants">
+      </StyledLink>
+      <StyledLink href={"/favourites"} aria-label="Go to favourite plants">
         {router.pathname === "/favourites" ? <PlantFill /> : <PlantLine />}
-      </StyledFooter>
+      </StyledLink>
     </footer>
   );
 }
 
-const StyledFooter = styled(Link)`
+const StyledLink = styled(Link)`
   color: var(--color-button-text);
 `;
