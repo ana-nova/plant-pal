@@ -134,6 +134,7 @@ export default function PlantForm({
           ))}
         </OptionsContainer>
       </fieldset>
+
       <h3>Additional Options</h3>
       <FormLabel htmlFor="location">
         Indoor/Outdoor
