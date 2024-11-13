@@ -4,7 +4,12 @@ import FilterIcon from "@/public/Icons/filter-line.svg";
 import { useState } from "react";
 import styled from "styled-components";
 
-export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
+export default function Homepage({
+  plants,
+  toggleFavourite,
+  onAddPlant,
+  reminders,
+}) {
   const [showForm, setShowForm] = useState(false);
   const [lightFilter, setLightFilter] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
@@ -55,19 +60,19 @@ export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
           <Dropdown>
             <FilterOption
               onClick={() => handleLightFilter("Full Sun")}
-              isActive={lightFilter === "Full Sun"}
+              $isActive={lightFilter === "Full Sun"}
             >
               Full Sun
             </FilterOption>
             <FilterOption
               onClick={() => handleLightFilter("Partial Shade")}
-              isActive={lightFilter === "Partial Shade"}
+              $isActive={lightFilter === "Partial Shade"}
             >
               Partial Shade
             </FilterOption>
             <FilterOption
               onClick={() => handleLightFilter("Full Shade")}
-              isActive={lightFilter === "Full Shade"}
+              $isActive={lightFilter === "Full Shade"}
             >
               Full Shade
             </FilterOption>
@@ -76,7 +81,11 @@ export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
       </FilterContainer>
 
       {filteredPlants.length > 0 ? (
-        <PlantList plants={filteredPlants} toggleFavourite={toggleFavourite} />
+        <PlantList
+          plants={filteredPlants}
+          toggleFavourite={toggleFavourite}
+          reminders={reminders}
+        />
       ) : (
         <p>No plants found for the selected filter.</p>
       )}

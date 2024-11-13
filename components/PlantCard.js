@@ -1,10 +1,16 @@
 import styled from "styled-components";
-import PlantFavIcon from "@/public/Icons/plant-line.svg";
-import PlantFavIconFill from "@/public/Icons/plant-fill.svg";
 import Link from "next/link";
 import Image from "next/image";
 
-export default function PlantCard({ plant, toggleFavourite }) {
+import PlantFavIcon from "@/public/Icons/plant-line.svg";
+import PlantFavIconFill from "@/public/Icons/plant-fill.svg";
+import ReminderIcon from "@/public/Icons/calendar-schedule-line.svg";
+
+export default function PlantCard({
+  plant,
+  toggleFavourite,
+  hasActiveReminder,
+}) {
   return (
     <StyledArticle>
       <ButtonFavourite
@@ -26,10 +32,18 @@ export default function PlantCard({ plant, toggleFavourite }) {
         height={200}
       />
 
+      {hasActiveReminder && <StyledReminderIcon />}
+
       <SeeMoreLink href={`/${plant.id}`}>see more</SeeMoreLink>
     </StyledArticle>
   );
 }
+
+const StyledReminderIcon = styled(ReminderIcon)`
+  position: absolute;
+  top: 10px;
+  left: 10px;
+`;
 
 const StyledArticle = styled.article`
   padding: 10px 10px 30px;

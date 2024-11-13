@@ -12,6 +12,10 @@ export default function App({ Component, pageProps }) {
     defaultValue: initialPlants,
   });
 
+  const [reminders, setReminders] = useLocalStorageState("reminders", {
+    defaultValue: [],
+  });
+
   function handleAddPlant(plantData) {
     const newPlant = { id: uid(), ...plantData, isFavourite: false };
     setPlants((prevPlants) => [newPlant, ...prevPlants]);
@@ -38,17 +42,55 @@ export default function App({ Component, pageProps }) {
     );
   }
 
+  function handleAddReminder(plantId, taskType, dueDate, interval) {
+    const newReminder = {
+      id: uid(),
+      plantId,
+      taskType,
+      dueDate,
+      interval,
+      isDone: false,
+    };
+    setReminders((prevReminders) => [...prevReminders, newReminder]);
+  }
+
+  function handleEditReminder(reminderId, updatedReminder) {
+    setReminders((prevReminders) =>
+      prevReminders.map((reminder) =>
+        reminder.id === reminderId
+          ? { ...reminder, ...updatedReminder }
+          : reminder
+      )
+    );
+  }
+
+  function handleDeleteReminder(reminderId) {
+    setReminders((prevReminders) =>
+      prevReminders.filter((reminder) => reminder.id !== reminderId)
+    );
+  }
+
   return (
-    <Layout>
-      <GlobalStyle />
-      <Component
-        {...pageProps}
+    <>
+      <Layout
         plants={plants}
-        toggleFavourite={toggleFavourite}
-        onAddPlant={handleAddPlant}
-        onDeletePlant={handleDeletePlant}
-        onEditPlant={handleEditPlant}
-      />
-    </Layout>
+        reminders={reminders}
+        onEditReminder={handleEditReminder}
+      >
+        <GlobalStyle />
+        <Component
+          {...pageProps}
+          plants={plants}
+          toggleFavourite={toggleFavourite}
+          onAddPlant={handleAddPlant}
+          onDeletePlant={handleDeletePlant}
+          onEditPlant={handleEditPlant}
+          reminders={reminders}
+          onAddReminder={handleAddReminder}
+          onEditReminder={handleEditReminder}
+          onDeleteReminder={handleDeleteReminder}
+        />
+      </Layout>
+    </>
   );
 }

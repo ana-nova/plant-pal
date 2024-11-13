@@ -1,7 +1,7 @@
 import PlantList from "@/components/PlantList";
 import styled from "styled-components";
 
-export default function MyPlantsPage({ plants, toggleFavourite }) {
+export default function MyPlantsPage({ plants, toggleFavourite, reminders }) {
   const favouritePlants = plants
     ? plants.filter((plant) => plant.isFavourite)
     : [];
@@ -10,7 +10,11 @@ export default function MyPlantsPage({ plants, toggleFavourite }) {
     <>
       <h1>My Plants</h1>
       {favouritePlants.length > 0 ? (
-        <PlantList plants={favouritePlants} toggleFavourite={toggleFavourite} />
+        <PlantList
+          plants={favouritePlants}
+          toggleFavourite={toggleFavourite}
+          reminders={reminders}
+        />
       ) : (
         <StyledCard>
           Looks like you have not added any favorite plants yet! Start selecting

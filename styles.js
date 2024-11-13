@@ -80,12 +80,7 @@ export default createGlobalStyle`
     cursor: pointer;             
     transition: background-color 0.3s ease; 
     font-family: "Junge", sans-serif;
-
-    &:hover {
-      background-color: var(--color-button-hover-background); 
-    }
   }
-
 
   article {
     background-color: var(--color-background-cards); 
@@ -163,7 +158,6 @@ export default createGlobalStyle`
     bottom: 0;
     width: 100%;
     background-color: var(--color-footer-background);
-    padding: 10px;
     display: flex;
     justify-content: space-around;
   }
