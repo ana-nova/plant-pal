@@ -92,6 +92,7 @@ export default function Footer({ plants, reminders, onEditReminder }) {
   );
 }
 
+
 const MarkDoneButton = styled.button`
   color: var(--color-button-cancel);
 `;

@@ -13,8 +13,11 @@ import HighWaterdropIcon from "@/public/Icons/drop-fill.svg";
 import FullSunIcon from "@/public/Icons/sun-fill.svg";
 import PartialShadeIcon from "@/public/Icons/sun-foggy-fill.svg";
 import FullShadeIcon from "@/public/Icons/sun-cloudy-fill.svg";
-
 import FertiliserIcon from "@/public/Icons/leaf-fill.svg";
+import LocationIcon from "@/public/Icons/map-pin-2-line.svg";
+import TemperatureIcon from "@/public/Icons/temp-cold-line.svg";
+import HumidityIcon from "@/public/Icons/water-percent-line.svg";
+import AirDraftIcon from "@/public/Icons/windy-fill.svg";
 
 import PlantReminder from "@/components/PlantReminder";
 
@@ -42,6 +45,8 @@ export default function PlantDetails({
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [uploadOpen, setUploadOpen] = useState(false);
+
 
   const router = useRouter();
   const { id } = router.query;
@@ -49,11 +54,13 @@ export default function PlantDetails({
   if (!router.isReady) return null;
 
   const plant = plants.find((plant) => plant.id === id);
+
   if (!plant) return <p>Plant not found</p>;
 
   const plantReminders = reminders.filter(
     (reminder) => reminder.plantId === plant.id
   );
+
 
   function handleDelete() {
     setShowConfirmation(true);
@@ -72,6 +79,44 @@ export default function PlantDetails({
     onEditPlant(plant.id, updatedPlant);
     setShowEdit(false);
   }
+  function toggleUploadImage() {
+    setUploadOpen(!uploadOpen);
+  }
+
+  async function handleImageUpload(event) {
+    event.preventDefault();
+    const file = event.target.image.files[0];
+    const formData = new FormData(event.target);
+
+    const maxSizeMB = 5;
+    if (file.size > maxSizeMB * 1024 * 1024) {
+      alert(
+        `Your image is larger than ${maxSizeMB}MB. Please select a smaller image.`
+      );
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const newImageUrl = data.secure_url;
+
+        const updatedPlant = { ...plant, imageUrl: newImageUrl };
+
+        onEditPlant(plant.id, updatedPlant);
+        setUploadOpen(false);
+      } else {
+        alert("Image upload failed. Please try again.");
+      }
+    } catch (error) {
+      alert("An error occurred during the upload.");
+    }
+  }
 
   return (
     <>
@@ -84,6 +129,35 @@ export default function PlantDetails({
             width={200}
             height={200}
           />
+
+          <ButtonUpload onClick={toggleUploadImage}>Upload Image</ButtonUpload>
+          {uploadOpen && (
+            <UploadForm
+              onSubmit={handleImageUpload}
+              encType="multipart/form-data"
+            >
+              <UploadPopUp>
+                <h3>Upload Your Plant</h3>
+
+                <label htmlFor="file-upload"></label>
+                <StyledFileInput
+                  type="file"
+                  id="file-upload"
+                  name="image"
+                  accept=".jpg, .jpeg, .png"
+                  required
+                />
+
+                <ButtonContainer>
+                  <ButtonSave type="submit">Upload</ButtonSave>
+                  <ButtonCancel onClick={toggleUploadImage}>
+                    Cancel
+                  </ButtonCancel>
+                </ButtonContainer>
+              </UploadPopUp>
+            </UploadForm>
+          )}
+
           <h2>{plant.name}</h2>
           <h3>{plant.botanicalName}</h3>
 
@@ -98,10 +172,12 @@ export default function PlantDetails({
               {lightNeedIcon[plant.lightNeed]}
               <span>{plant.lightNeed}</span>
             </IconContainer>
+
             <IconContainer>
               {waterNeedIcon[plant.waterNeed]}
               <span>{plant.waterNeed} Water Need</span>
             </IconContainer>
+
 
             {plant.fertiliserSeason && plant.fertiliserSeason.length > 0 && (
               <IconContainer>
@@ -109,6 +185,44 @@ export default function PlantDetails({
                 {plant.fertiliserSeason.map((season) => (
                   <span key={season}>{season}</span>
                 ))}
+              </IconContainer>
+
+            {plant.fertiliserSeason && plant.fertiliserSeason.length > 0 && (
+              <IconContainer>
+                <FertiliserIcon />
+                {plant.fertiliserSeason.map((season) => (
+                  <span key={season}>{season}</span>
+                ))}
+              </IconContainer>
+            )}
+          </AllIconsContainer>
+
+          <AllIconsContainer>
+            {plant.location && (
+              <IconContainer>
+                <LocationIcon />
+                <span>{plant.location}</span>
+              </IconContainer>
+            )}
+            {plant.humidity && (
+              <IconContainer>
+                <HumidityIcon />
+                <span>{plant.humidity} Humidity</span>
+              </IconContainer>
+            )}
+          </AllIconsContainer>
+
+          <AllIconsContainer>
+            {plant.temperature && (
+              <IconContainer>
+                <TemperatureIcon />
+                <span>{plant.temperature}</span>
+              </IconContainer>
+            )}
+            {plant.airDraftIntolerance && (
+              <IconContainer>
+                <AirDraftIcon />
+                <span>{plant.airDraftIntolerance} Airdraft</span>
               </IconContainer>
             )}
           </AllIconsContainer>
@@ -219,4 +333,59 @@ const DescriptionContainer = styled.section`
   @media (min-width: 720px) {
     margin: 0 100px 0 100px;
   }
+`;
+
+const UploadForm = styled.form`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  z-index: 1000;
+  border-radius: 0;
+`;
+
+const UploadPopUp = styled.div`
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+  max-height: 50vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+`;
+
+const StyledFileInput = styled.input`
+  background-color: lightgrey;
+  width: 200px;
+`;
+
+const ButtonUpload = styled.button`
+  background-color: var(--color-text-primary);
+
+  &:hover {
+    background-color: var(--color-button-add-hover);
+  }
+`;
+
+const ButtonSave = styled.button`
+  background-color: var(--color-button-save);
+  margin: 5px;
+
+  &:hover {
+    background-color: var(--color-button-save-hover);
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 5px;
 `;
