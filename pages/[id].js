@@ -31,6 +31,16 @@ const waterNeedIcon = {
 export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [uploadOpen, setUploadOpen] = useState(false);
+
+  const router = useRouter();
+  const { id } = router.query;
+
+  if (!router.isReady) return null;
+
+  const plant = plants.find((plant) => plant.id === id);
+
+  if (!plant) return <p>Plant not found</p>;
 
   function handleDelete() {
     setShowConfirmation(true);
@@ -49,15 +59,44 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
     onEditPlant(plant.id, updatedPlant);
     setShowEdit(false);
   }
+  function toggleUploadImage() {
+    setUploadOpen(!uploadOpen);
+  }
 
-  const router = useRouter();
-  const { id } = router.query;
+  async function handleImageUpload(event) {
+    event.preventDefault();
+    const file = event.target.image.files[0];
+    const formData = new FormData(event.target);
 
-  if (!router.isReady) return null;
+    const maxSizeMB = 5;
+    if (file.size > maxSizeMB * 1024 * 1024) {
+      alert(
+        `Your image is larger than ${maxSizeMB}MB. Please select a smaller image.`
+      );
+      return;
+    }
 
-  const plant = plants.find((plant) => plant.id === id);
+    try {
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
 
-  if (!plant) return <p>Plant not found</p>;
+      if (response.ok) {
+        const data = await response.json();
+        const newImageUrl = data.secure_url;
+
+        const updatedPlant = { ...plant, imageUrl: newImageUrl };
+
+        onEditPlant(plant.id, updatedPlant);
+        setUploadOpen(false);
+      } else {
+        alert("Image upload failed. Please try again.");
+      }
+    } catch (error) {
+      alert("An error occurred during the upload.");
+    }
+  }
 
   return (
     <>
@@ -70,6 +109,30 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
             width={200}
             height={200}
           />
+
+          <button onClick={toggleUploadImage}>Upload Image</button>
+          {uploadOpen && (
+            <UploadForm
+              onSubmit={handleImageUpload}
+              encType="multipart/form-data"
+            >
+              <UploadPopUp>
+                <h3>Upload Your Plant</h3>
+
+                <label htmlFor="file-upload"></label>
+                <StyledFileInput
+                  type="file"
+                  id="file-upload"
+                  name="image"
+                  accept=".jpg, .jpeg, .png"
+                  required
+                />
+                <button type="submit">Upload</button>
+                <button onClick={toggleUploadImage}>Cancel</button>
+              </UploadPopUp>
+            </UploadForm>
+          )}
+
           <h2>{plant.name}</h2>
           <h3>{plant.botanicalName}</h3>
 
@@ -188,4 +251,34 @@ const AllIconsContainer = styled.div`
   display: flex;
   gap: 50px;
   justify-content: center;
+`;
+
+const UploadForm = styled.form`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const UploadPopUp = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: whitesmoke;
+  width: 350px;
+  height: 150px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 0 10px var(--color-shadow);
+`;
+
+const StyledFileInput = styled.input`
+  background-color: lightgrey;
+  width: 200px;
 `;

@@ -1,11 +1,11 @@
 import GlobalStyle from "../styles";
 import useLocalStorageState from "use-local-storage-state";
-import { plants } from "@/assets/plants";
+import { plants as initialPlantsData } from "@/assets/plants";
 import Layout from "@/components/Layout";
-import router from "next/router";
-
 import { uid } from "uid";
-const initialPlants = plants;
+import Router from "next/router";
+
+const initialPlants = initialPlantsData;
 
 export default function App({ Component, pageProps }) {
   const [plants, setPlants] = useLocalStorageState("plants", {
@@ -27,7 +27,7 @@ export default function App({ Component, pageProps }) {
 
   function handleDeletePlant(id) {
     setPlants((prevPlants) => prevPlants.filter((plant) => plant.id !== id));
-    router.push("/");
+    Router.push("/");
   }
 
   function toggleFavourite(id) {
@@ -39,18 +39,16 @@ export default function App({ Component, pageProps }) {
   }
 
   return (
-    <>
-      <Layout>
-        <GlobalStyle />
-        <Component
-          {...pageProps}
-          plants={plants}
-          toggleFavourite={toggleFavourite}
-          onAddPlant={handleAddPlant}
-          onDeletePlant={handleDeletePlant}
-          onEditPlant={handleEditPlant}
-        />
-      </Layout>
-    </>
+    <Layout>
+      <GlobalStyle />
+      <Component
+        {...pageProps}
+        plants={plants}
+        toggleFavourite={toggleFavourite}
+        onAddPlant={handleAddPlant}
+        onDeletePlant={handleDeletePlant}
+        onEditPlant={handleEditPlant}
+      />
+    </Layout>
   );
 }

@@ -18,11 +18,12 @@ export default function PlantCard({ plant, toggleFavourite }) {
       <h2>{plant.name}</h2>
       <p>{plant.botanicalName}</p>
 
-      <Image
-        alt={`Image of ${plant.name}`}
+
+   <Image
+        alt={`image of ${plant.name}`}
+        src={plant.imageUrl || "/assets/empty.avif"}
         width={200}
         height={200}
-        src={plant.imageUrl || "/assets/empty.avif"}
       />
 
       <SeeMoreLink href={`/${plant.id}`}>see more</SeeMoreLink>
