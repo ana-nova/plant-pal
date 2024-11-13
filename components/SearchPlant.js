@@ -9,34 +9,28 @@ export default function SearchPlant({ plants, setFilteredPlants }) {
   const [lightFilter, setLightFilter] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
-  useEffect(
-    function () {
-      // `searcher` wird nur innerhalb von `useEffect` verwendet.
-      const searcher = new FuzzySearch(plants, ["name", "botanicalName"], {
-        caseSensitive: false,
-      });
 
-      let results = plants;
+  useEffect(() => {
+    const searcher = new FuzzySearch(plants, ["name", "botanicalName"], {
+      caseSensitive: false,
+    });
 
-      if (searchQuery) {
-        results = searcher.search(searchQuery);
-      }
+    let results = plants;
 
-      if (lightFilter) {
-        results = results.filter(function (plant) {
-          return plant.light === lightFilter;
-        });
-      }
+    if (searchQuery) {
+      results = searcher.search(searchQuery);
+    }
 
-      setFilteredPlants(results);
-    },
-    [searchQuery, lightFilter, plants]
-  );
+    if (lightFilter) {
+      results = results.filter((plant) => plant.lightNeed === lightFilter);
+    }
+
+    setFilteredPlants(results);
+  }, [searchQuery, lightFilter, plants, setFilteredPlants]);
 
   function handleSearchChange(event) {
     const query = event.target.value;
     setSearchQuery(query);
-    updateFilteredPlants(query, lightFilter);
   }
 
   function handleToggleDropdown() {
@@ -48,49 +42,41 @@ export default function SearchPlant({ plants, setFilteredPlants }) {
   function handleLightFilter(filter) {
     setLightFilter(filter);
     setShowDropdown(false);
-    updateFilteredPlants(searchQuery, filter);
   }
 
   function clearFilter() {
     setLightFilter("");
     setShowDropdown(false);
-    updateFilteredPlants(searchQuery, "");
-  }
-
-  function updateFilteredPlants(query, filter) {
-    const filtered = plants
-      .filter((plant) => !query || searcher.search(query).includes(plant))
-      .filter((plant) => !filter || plant.lightNeed === filter);
-    setFilteredPlants(filtered);
   }
 
   return (
     <>
-      <div></div>
-
       <FilterContainer>
-        <div>
-          <FilterButton onClick={toggleSearch}>
-            <SearchIcon />
-          </FilterButton>
-          {showSearch && (
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={handleSearchChange}
-              placeholder="Search plants..."
-            />
-          )}
-        </div>
+        <SearchFilterContainer>
+          <SearchContainer>
+            {showSearch && (
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                placeholder="Search plants..."
+              />
+            )}
+            <FilterButton onClick={toggleSearch}>
+              <SearchIcon />
+            </FilterButton>
+          </SearchContainer>
 
-        <FilterButton onClick={handleToggleDropdown}>
-          <FilterIcon />
-        </FilterButton>
-        {lightFilter && (
-          <FilterTag onClick={clearFilter}>
-            {lightFilter} <span>&times;</span>
-          </FilterTag>
-        )}
+          <FilterButton onClick={handleToggleDropdown}>
+            <FilterIcon />
+          </FilterButton>
+          {lightFilter && (
+            <FilterTag onClick={clearFilter}>
+              {lightFilter} <span>&times;</span>
+            </FilterTag>
+          )}
+        </SearchFilterContainer>
+
         {showDropdown && (
           <Dropdown>
             <FilterOption
@@ -118,7 +104,6 @@ export default function SearchPlant({ plants, setFilteredPlants }) {
   );
 }
 
-// Styling components as in your original code
 const FilterContainer = styled.div`
   position: relative;
   display: flex;
@@ -183,4 +168,15 @@ const FilterTag = styled.div`
   &:hover {
     background-color: var(--color-link-see-more);
   }
+`;
+
+const SearchContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: -25px;
+`;
+
+const SearchFilterContainer = styled.section`
+  display: flex;
+  align-items: center;
 `;
