@@ -1,13 +1,25 @@
 import PlantForm from "@/components/PlantForm";
 import PlantList from "@/components/PlantList";
+import SearchPlants from "@/components/SearchPlant";
 import FilterIcon from "@/public/Icons/filter-line.svg";
 import { useState } from "react";
 import styled from "styled-components";
+import FuzzySearch from "fuzzy-search";
 
 export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
   const [showForm, setShowForm] = useState(false);
   const [lightFilter, setLightFilter] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const searcher = new FuzzySearch(plants, ["name", "botanicalName"], {
+    caseSensitive: false,
+  });
+
+  function handleSearchChange(event) {
+    const query = event.target.value;
+    setSearchQuery(query);
+  }
 
   function handleToggleForm() {
     setShowForm(!showForm);
@@ -27,9 +39,11 @@ export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
     setShowDropdown(false);
   }
 
-  const filteredPlants = lightFilter
-    ? plants.filter((plant) => plant.lightNeed === lightFilter)
-    : plants;
+  const filteredPlants = plants
+    .filter(
+      (plant) => !searchQuery || searcher.search(searchQuery).includes(plant)
+    )
+    .filter((plant) => !lightFilter || plant.lightNeed === lightFilter);
 
   return (
     <>
@@ -41,6 +55,15 @@ export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
       {showForm && (
         <PlantForm onSubmitPlant={onAddPlant} onToggleForm={handleToggleForm} />
       )}
+
+      <div>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          placeholder="Search plants..."
+        />
+      </div>
 
       <FilterContainer>
         <FilterButton onClick={handleToggleDropdown}>
