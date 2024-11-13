@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import PlantFavIcon from "@/public/Icons/plant-line.svg";
 import PlantFavIconFill from "@/public/Icons/plant-fill.svg";
-import ReminderIcon from "@/public/Icons/hourglass-2-fill.svg";
+import ReminderIcon from "@/public/Icons/calendar-schedule-line.svg";
 
 export default function PlantCard({
   plant,

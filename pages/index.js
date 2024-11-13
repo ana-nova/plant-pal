@@ -60,19 +60,19 @@ export default function Homepage({
           <Dropdown>
             <FilterOption
               onClick={() => handleLightFilter("Full Sun")}
-              isActive={lightFilter === "Full Sun"}
+              $isActive={lightFilter === "Full Sun"}
             >
               Full Sun
             </FilterOption>
             <FilterOption
               onClick={() => handleLightFilter("Partial Shade")}
-              isActive={lightFilter === "Partial Shade"}
+              $isActive={lightFilter === "Partial Shade"}
             >
               Partial Shade
             </FilterOption>
             <FilterOption
               onClick={() => handleLightFilter("Full Shade")}
-              isActive={lightFilter === "Full Shade"}
+              $isActive={lightFilter === "Full Shade"}
             >
               Full Shade
             </FilterOption>
