@@ -1,49 +1,16 @@
+import { useState } from "react";
 import PlantForm from "@/components/PlantForm";
 import PlantList from "@/components/PlantList";
-import SearchPlants from "@/components/SearchPlant";
-import FilterIcon from "@/public/Icons/filter-line.svg";
-import { useState } from "react";
+import SearchPlant from "@/components/SearchPlant";
 import styled from "styled-components";
-import FuzzySearch from "fuzzy-search";
 
 export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
   const [showForm, setShowForm] = useState(false);
-  const [lightFilter, setLightFilter] = useState("");
-  const [showDropdown, setShowDropdown] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const searcher = new FuzzySearch(plants, ["name", "botanicalName"], {
-    caseSensitive: false,
-  });
-
-  function handleSearchChange(event) {
-    const query = event.target.value;
-    setSearchQuery(query);
-  }
+  const [filteredPlants, setFilteredPlants] = useState(plants);
 
   function handleToggleForm() {
     setShowForm(!showForm);
   }
-
-  function handleToggleDropdown() {
-    setShowDropdown(!showDropdown);
-  }
-
-  function handleLightFilter(filter) {
-    setLightFilter(filter);
-    setShowDropdown(false);
-  }
-
-  function clearFilter() {
-    setLightFilter("");
-    setShowDropdown(false);
-  }
-
-  const filteredPlants = plants
-    .filter(
-      (plant) => !searchQuery || searcher.search(searchQuery).includes(plant)
-    )
-    .filter((plant) => !lightFilter || plant.lightNeed === lightFilter);
 
   return (
     <>
@@ -52,51 +19,12 @@ export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
           {showForm ? "Hide form" : "Add new plant"}
         </ButtonAdd>
       </ButtonContainer>
+
       {showForm && (
         <PlantForm onSubmitPlant={onAddPlant} onToggleForm={handleToggleForm} />
       )}
 
-      <div>
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={handleSearchChange}
-          placeholder="Search plants..."
-        />
-      </div>
-
-      <FilterContainer>
-        <FilterButton onClick={handleToggleDropdown}>
-          <FilterIcon />
-        </FilterButton>
-        {lightFilter && (
-          <FilterTag onClick={clearFilter}>
-            {lightFilter} <span>&times;</span>
-          </FilterTag>
-        )}
-        {showDropdown && (
-          <Dropdown>
-            <FilterOption
-              onClick={() => handleLightFilter("Full Sun")}
-              isActive={lightFilter === "Full Sun"}
-            >
-              Full Sun
-            </FilterOption>
-            <FilterOption
-              onClick={() => handleLightFilter("Partial Shade")}
-              isActive={lightFilter === "Partial Shade"}
-            >
-              Partial Shade
-            </FilterOption>
-            <FilterOption
-              onClick={() => handleLightFilter("Full Shade")}
-              isActive={lightFilter === "Full Shade"}
-            >
-              Full Shade
-            </FilterOption>
-          </Dropdown>
-        )}
-      </FilterContainer>
+      <SearchPlant plants={plants} setFilteredPlants={setFilteredPlants} />
 
       {filteredPlants.length > 0 ? (
         <PlantList plants={filteredPlants} toggleFavourite={toggleFavourite} />
@@ -107,6 +35,7 @@ export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
   );
 }
 
+// Styling components remain as they are
 const ButtonAdd = styled.button`
   background-color: var(--color-button-add);
 
@@ -118,70 +47,4 @@ const ButtonAdd = styled.button`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
-`;
-
-const FilterContainer = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 10px;
-  top: 10px;
-  right: 10px;
-`;
-
-const FilterButton = styled.button`
-  color: var(--color-button-filter);
-
-  &:hover {
-    background-color: transparent;
-    transform: scale(1.1);
-  }
-`;
-
-const Dropdown = styled.div`
-  position: absolute;
-  top: 40px;
-  right: 0;
-  background-color: var(--color-background-cards);
-  border: 1px solid var(--color-button-border);
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  gap: 5px;
-  z-index: 100;
-`;
-
-const FilterOption = styled.button`
-  background: ${({ isActive }) =>
-    isActive ? "var(--color-link-see-more-hover)" : "transparent"};
-  color: var(--color-text-primary);
-  text-align: left;
-
-  &:hover {
-    background-color: var(--color-link-see-more);
-  }
-`;
-
-const FilterTag = styled.div`
-  display: inline-flex;
-  align-items: center;
-  background-color: var(--color-button-filter-tag);
-  color: var(--color-button-text);
-  border-radius: var(--border-radius);
-  padding: 5px 10px;
-  font-size: 0.9em;
-  cursor: pointer;
-
-  span {
-    margin-left: 8px;
-    font-weight: bold;
-    color: var(--color-button-text);
-  }
-
-  &:hover {
-    background-color: var(--color-link-see-more);
-  }
 `;
