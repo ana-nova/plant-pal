@@ -61,7 +61,16 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
 
   async function handleImageUpload(event) {
     event.preventDefault();
+    const file = event.target.image.files[0];
     const formData = new FormData(event.target);
+
+    const maxSizeMB = 5;
+    if (file.size > maxSizeMB * 1024 * 1024) {
+      alert(
+        `Your image is larger than ${maxSizeMB}MB. Please select a smaller image.`
+      );
+      return;
+    }
 
     try {
       const response = await fetch("/api/upload", {
@@ -113,6 +122,7 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
                   type="file"
                   id="file-upload"
                   name="image"
+                  accept=".jpg, .jpeg, .png"
                   required
                 />
                 <button type="submit">Upload</button>
