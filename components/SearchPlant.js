@@ -1,16 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import FuzzySearch from "fuzzy-search";
 import FilterIcon from "@/public/Icons/filter-line.svg";
+import SearchIcon from "@/public/Icons/search-line.svg";
 
 export default function SearchPlant({ plants, setFilteredPlants }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [lightFilter, setLightFilter] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  useEffect(
+    function () {
+      // `searcher` wird nur innerhalb von `useEffect` verwendet.
+      const searcher = new FuzzySearch(plants, ["name", "botanicalName"], {
+        caseSensitive: false,
+      });
 
-  const searcher = new FuzzySearch(plants, ["name", "botanicalName"], {
-    caseSensitive: false,
-  });
+      let results = plants;
+
+      if (searchQuery) {
+        results = searcher.search(searchQuery);
+      }
+
+      if (lightFilter) {
+        results = results.filter(function (plant) {
+          return plant.light === lightFilter;
+        });
+      }
+
+      setFilteredPlants(results);
+    },
+    [searchQuery, lightFilter, plants]
+  );
 
   function handleSearchChange(event) {
     const query = event.target.value;
@@ -21,7 +42,9 @@ export default function SearchPlant({ plants, setFilteredPlants }) {
   function handleToggleDropdown() {
     setShowDropdown(!showDropdown);
   }
-
+  function toggleSearch() {
+    setShowSearch(!showSearch);
+  }
   function handleLightFilter(filter) {
     setLightFilter(filter);
     setShowDropdown(false);
@@ -43,16 +66,23 @@ export default function SearchPlant({ plants, setFilteredPlants }) {
 
   return (
     <>
-      <div>
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={handleSearchChange}
-          placeholder="Search plants..."
-        />
-      </div>
+      <div></div>
 
       <FilterContainer>
+        <div>
+          <FilterButton onClick={toggleSearch}>
+            <SearchIcon />
+          </FilterButton>
+          {showSearch && (
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              placeholder="Search plants..."
+            />
+          )}
+        </div>
+
         <FilterButton onClick={handleToggleDropdown}>
           <FilterIcon />
         </FilterButton>
