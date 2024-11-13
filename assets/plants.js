@@ -10,6 +10,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "The Snake Plant, also known as Mother-in-Law's Tongue, is a hardy and low-maintenance plant that can thrive in low light and requires minimal watering.",
+
+    location: "indoor",
+    humidity: "70%",
+    temperature: "10-20°C",
+    airDraftIntolerance: "No",
   },
   {
     id: "2",
@@ -22,6 +27,11 @@ export const plants = [
     fertiliserSeason: ["Spring"],
     description:
       "The Fiddle Leaf Fig is a popular indoor tree known for its large, violin-shaped leaves. It prefers bright, indirect light and consistent watering.",
+
+    location: "indoor",
+    humidity: "60%",
+    temperature: "10-20°C",
+    airDraftIntolerance: "No",
   },
   {
     id: "3",
@@ -34,6 +44,11 @@ export const plants = [
     fertiliserSeason: ["Summer"],
     description:
       "Aloe Vera is a succulent plant species known for its medicinal properties. It requires bright light and minimal water, making it easy to care for.",
+
+    location: "indoor",
+    humidity: "50%",
+    temperature: "10-20°C",
+    airDraftIntolerance: "No",
   },
   {
     id: "4",
@@ -46,6 +61,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "The Spider Plant is a resilient houseplant known for its air-purifying qualities and ability to thrive in a variety of light conditions.",
+
+    location: "indoor",
+    humidity: "60%",
+    temperature: "10-20°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "5",
@@ -58,6 +78,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "Peace Lilies are known for their beautiful white flowers and ability to thrive in low light. They require frequent watering to maintain their lush foliage.",
+
+    location: "indoor",
+    humidity: "70%",
+    temperature: "10-20°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "6",
@@ -70,6 +95,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Fall"],
     description:
       "The Rubber Plant is a popular indoor tree with large, glossy leaves. It thrives in medium to bright light and needs regular watering.",
+
+    location: "indoor",
+    humidity: "60%",
+    temperature: "10-20°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "7",
@@ -82,6 +112,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "The ZZ Plant is a hardy and drought-tolerant plant that can survive in low light and requires minimal watering, making it perfect for beginners.",
+
+    location: "indoor",
+    humidity: "50%",
+    temperature: "10-25°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "8",
@@ -94,6 +129,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "Monstera Deliciosa, also known as the Swiss Cheese Plant, is famous for its large, split leaves. It prefers indirect light and moderate watering.",
+
+    location: "indoor",
+    humidity: "50%",
+    temperature: "10°C-30°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "9",
@@ -106,6 +146,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "Pothos is a versatile and low-maintenance plant that can thrive in low light and requires infrequent watering. It's known for its trailing vines.",
+
+    location: "indoor",
+    humidity: "50%",
+    temperature: "10°C-30°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "10",
@@ -118,6 +163,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "Boston Ferns are lush, green plants that thrive in humid environments with bright, indirect light. They need regular watering to keep their fronds healthy.",
+
+    location: "indoor",
+    humidity: "60%",
+    temperature: "10°C-30°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "11",
@@ -130,6 +180,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "Orchids are elegant flowering plants that prefer bright, indirect light and minimal watering. They are known for their beautiful and long-lasting blooms.",
+
+    location: "indoor",
+    humidity: "70%",
+    temperature: "10°C-30°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "12",
@@ -142,6 +197,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Fall"],
     description:
       "The Jade Plant is a succulent known for its thick, fleshy leaves. It thrives in bright light and requires minimal watering, making it easy to care for.",
+
+    location: "indoor",
+    humidity: "50%",
+    temperature: "10°C-30°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "13",
@@ -154,6 +214,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "Philodendrons are popular houseplants known for their heart-shaped leaves. They prefer indirect light and consistent watering.",
+
+    location: "indoor",
+    humidity: "60%",
+    temperature: "10°C-30°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "14",
@@ -166,6 +231,11 @@ export const plants = [
     fertiliserSeason: ["Summer"],
     description:
       "Cacti are desert plants that thrive in bright light and require very little water. They are known for their unique shapes and spines.",
+
+    location: "indoor",
+    humidity: "50%",
+    temperature: "10°C-30°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "15",
@@ -178,6 +248,11 @@ export const plants = [
     fertiliserSeason: ["Spring"],
     description:
       "Lavender is a fragrant herb known for its purple flowers and soothing scent. It requires full sun and minimal watering.",
+
+    location: "indoor",
+    humidity: "60%",
+    temperature: "10°C-30°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "16",
@@ -190,6 +265,11 @@ export const plants = [
     fertiliserSeason: ["Summer", "Fall"],
     description:
       "Succulents are a diverse group of plants known for their water-storing capabilities. They thrive in bright light and require minimal watering.",
+
+    location: "indoor",
+    humidity: "60%",
+    temperature: "10°C-30°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "17",
@@ -202,6 +282,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "Calatheas are known for their stunning, patterned leaves. They thrive in low light and high humidity, requiring regular watering to keep their foliage vibrant.",
+
+    location: "indoor",
+    humidity: "70%",
+    temperature: "10°C-30°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "18",
@@ -214,6 +299,11 @@ export const plants = [
     fertiliserSeason: ["Spring"],
     description:
       "Yucca plants are hardy and drought-tolerant, known for their long, sword-shaped leaves. They thrive in bright light and require minimal watering.",
+
+    location: "indoor",
+    humidity: "50%",
+    temperature: "10°C-30°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "19",
@@ -226,6 +316,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "Bamboo plants are fast-growing and known for their tall, graceful stalks. They prefer bright light and consistent watering, especially during the growing season.",
+
+    location: "indoor",
+    humidity: "70%",
+    temperature: "10°C-30°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "20",
@@ -238,6 +333,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Fall"],
     description:
       "Anthuriums are known for their striking, heart-shaped flowers and glossy leaves. They prefer bright, indirect light and moderate watering.",
+
+    location: "indoor",
+    humidity: "60%",
+    temperature: "10°C-30°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "21",
@@ -250,6 +350,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "English Ivy is a versatile plant known for its trailing vines and ability to thrive in shaded areas. It requires moderate watering.",
+
+    location: "indoor",
+    humidity: "70%",
+    temperature: "10°C-30°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "22",
@@ -262,6 +367,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "Dumb Cane is a popular houseplant known for its large, variegated leaves. It prefers indirect light and regular watering.",
+
+    location: "indoor",
+    humidity: "70%",
+    temperature: "10°C-30°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "23",
@@ -274,6 +384,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "Golden Pothos is a low-maintenance plant that can thrive in low light and requires infrequent watering. It's known for its trailing vines.",
+
+    location: "indoor",
+    humidity: "70%",
+    temperature: "10°C-30°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "24",
@@ -286,6 +401,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "Peace Lilies are known for their beautiful white flowers and ability to thrive in low light. They require frequent watering to maintain their lush foliage.",
+
+    location: "indoor",
+    humidity: "70%",
+    temperature: "10°C-30°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "25",
@@ -298,6 +418,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "Areca Palms are popular indoor palms known for their feathery, arching fronds. They prefer indirect light and regular watering.",
+
+    location: "indoor",
+    humidity: "50%",
+    temperature: "10°C-20°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "26",
@@ -310,6 +435,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "The Swiss Cheese Plant is known for its unique, perforated leaves. It prefers bright, indirect light and moderate watering.",
+
+    location: "indoor",
+    humidity: "50%",
+    temperature: "10°C-20°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "27",
@@ -322,6 +452,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "The Chinese Money Plant is a trendy houseplant known for its round, coin-shaped leaves. It thrives in bright, indirect light and requires minimal watering.",
+
+    location: "indoor",
+    humidity: "70%",
+    temperature: "10°C-20°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "28",
@@ -334,6 +469,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "Bird of Paradise is known for its striking, tropical flowers. It requires bright light and regular watering to thrive.",
+
+    location: "indoor",
+    humidity: "50%",
+    temperature: "10°C-20°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "29",
@@ -346,6 +486,11 @@ export const plants = [
     fertiliserSeason: ["Spring", "Fall"],
     description:
       "The Jade Plant is a succulent known for its thick, fleshy leaves. It thrives in bright light and requires minimal watering, making it easy to care for.",
+
+    location: "indoor",
+    humidity: "50%",
+    temperature: "10°C-20°C",
+    airDraftIntolerance: "Yes",
   },
   {
     id: "30",
@@ -358,5 +503,10 @@ export const plants = [
     fertiliserSeason: ["Spring", "Summer"],
     description:
       "African Violets are popular indoor flowering plants known for their vibrant, velvety flowers. They prefer indirect light and moderate watering.",
+
+    location: "indoor",
+    humidity: "60%",
+    temperature: "10°C-20°C",
+    airDraftIntolerance: "Yes",
   },
 ];

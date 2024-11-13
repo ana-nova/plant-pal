@@ -13,8 +13,11 @@ import HighWaterdropIcon from "@/public/Icons/drop-fill.svg";
 import FullSunIcon from "@/public/Icons/sun-fill.svg";
 import PartialShadeIcon from "@/public/Icons/sun-foggy-fill.svg";
 import FullShadeIcon from "@/public/Icons/sun-cloudy-fill.svg";
-
 import FertiliserIcon from "@/public/Icons/leaf-fill.svg";
+import LocationIcon from "@/public/Icons/map-pin-2-line.svg";
+import TemperatureIcon from "@/public/Icons/temp-cold-line.svg";
+import HumidityIcon from "@/public/Icons/water-percent-line.svg";
+import AirDraftIcon from "@/public/Icons/windy-fill.svg";
 
 const lightNeedIcon = {
   "Full Sun": <FullSunIcon />,
@@ -144,29 +147,53 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
           {plant.description && <p>{plant.description}</p>}
 
           <AllIconsContainer>
-            <p>
-              <IconContainer>
-                {lightNeedIcon[plant.lightNeed]}
-                <span>{plant.lightNeed}</span>
-              </IconContainer>
-            </p>
+            <IconContainer>
+              {lightNeedIcon[plant.lightNeed]}
+              <span>{plant.lightNeed}</span>
+            </IconContainer>
 
-            <p>
-              <IconContainer>
-                {waterNeedIcon[plant.waterNeed]}
-                <span>{plant.waterNeed} Water Need</span>
-              </IconContainer>
-            </p>
+            <IconContainer>
+              {waterNeedIcon[plant.waterNeed]}
+              <span>{plant.waterNeed} Water Need</span>
+            </IconContainer>
 
             {plant.fertiliserSeason && plant.fertiliserSeason.length > 0 && (
-              <p>
-                <IconContainer>
-                  <FertiliserIcon />
-                  {plant.fertiliserSeason.map((season) => (
-                    <span key={season}>{season}</span>
-                  ))}
-                </IconContainer>
-              </p>
+              <IconContainer>
+                <FertiliserIcon />
+                {plant.fertiliserSeason.map((season) => (
+                  <span key={season}>{season}</span>
+                ))}
+              </IconContainer>
+            )}
+          </AllIconsContainer>
+
+          <AllIconsContainer>
+            {plant.location && (
+              <IconContainer>
+                <LocationIcon />
+                <span>{plant.location}</span>
+              </IconContainer>
+            )}
+            {plant.humidity && (
+              <IconContainer>
+                <HumidityIcon />
+                <span>{plant.humidity} Humidity</span>
+              </IconContainer>
+            )}
+          </AllIconsContainer>
+
+          <AllIconsContainer>
+            {plant.temperature && (
+              <IconContainer>
+                <TemperatureIcon />
+                <span>{plant.temperature}</span>
+              </IconContainer>
+            )}
+            {plant.airDraftIntolerance && (
+              <IconContainer>
+                <AirDraftIcon />
+                <span>{plant.airDraftIntolerance} Airdraft</span>
+              </IconContainer>
             )}
           </AllIconsContainer>
 
@@ -256,6 +283,7 @@ const AllIconsContainer = styled.div`
   display: flex;
   gap: 50px;
   justify-content: center;
+  margin: 0 5px 0 5px;
 `;
 
 const UploadForm = styled.form`
