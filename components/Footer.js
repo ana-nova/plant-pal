@@ -1,31 +1,26 @@
+import { useRouter } from "next/router";
 import HouseLine from "@/public/Icons/home-4-line.svg";
-import styled from "styled-components";
-import PlantFavIcon from "@/public/Icons/plant-line.svg";
+import HouseFill from "@/public/Icons/home-4-fill.svg";
+import PlantLine from "@/public/Icons/plant-line.svg";
+import PlantFill from "@/public/Icons/plant-fill.svg";
 import Link from "next/link";
+import styled from "styled-components";
 
 export default function Footer() {
+  const router = useRouter();
+
   return (
-    <StyledFooter>
+    <footer>
       <StyledLink href={"/"} aria-label="Go to homepage">
-        <HouseLine />
+        {router.pathname === "/" ? <HouseFill /> : <HouseLine />}
       </StyledLink>
-      <StyledLink href={"/myPlants"} aria-label="Go to favourite plants">
-        <PlantFavIcon />
+      <StyledLink href={"/favourites"} aria-label="Go to favourite plants">
+        {router.pathname === "/favourites" ? <PlantFill /> : <PlantLine />}
       </StyledLink>
-    </StyledFooter>
+    </footer>
   );
 }
 
-const StyledFooter = styled.footer`
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: lightgray;
-  padding: 10px;
-  display: flex;
-  justify-content: space-around;
-`;
-
 const StyledLink = styled(Link)`
-  color: black;
+  color: var(--color-button-text);
 `;
