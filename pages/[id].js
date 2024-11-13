@@ -110,7 +110,7 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
             height={200}
           />
 
-          <button onClick={toggleUploadImage}>Upload Image</button>
+          <ButtonUpload onClick={toggleUploadImage}>Upload Image</ButtonUpload>
           {uploadOpen && (
             <UploadForm
               onSubmit={handleImageUpload}
@@ -127,8 +127,13 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
                   accept=".jpg, .jpeg, .png"
                   required
                 />
-                <button type="submit">Upload</button>
-                <button onClick={toggleUploadImage}>Cancel</button>
+
+                <ButtonContainer>
+                  <ButtonSave type="submit">Upload</ButtonSave>
+                  <ButtonCancel onClick={toggleUploadImage}>
+                    Cancel
+                  </ButtonCancel>
+                </ButtonContainer>
               </UploadPopUp>
             </UploadForm>
           )}
@@ -254,31 +259,74 @@ const AllIconsContainer = styled.div`
 `;
 
 const UploadForm = styled.form`
+  // position: fixed;
+  // top: 0;
+  // left: 0;
+  // right: 0;
+  // bottom: 0;
+  // background: rgba(0, 0, 0, 0.5);
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1000;
+  border-radius: 8px;
+  margin: -20px;
 `;
 
 const UploadPopUp = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: whitesmoke;
-  width: 350px;
-  height: 150px;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: center;
+  // align-items: center;
+  // background: whitesmoke;
+  // height: 200px;
+  // border-radius: 8px;
+  // text-align: center;
+  // box-shadow: 0 0 10px var(--color-shadow);
+  background: white;
+  padding: 20px;
   border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+  max-height: 50vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
-  box-shadow: 0 0 10px var(--color-shadow);
 `;
 
 const StyledFileInput = styled.input`
   background-color: lightgrey;
   width: 200px;
+`;
+
+const ButtonUpload = styled.button`
+  background-color: var(--color-text-primary);
+
+  &:hover {
+    background-color: var(--color-button-add-hover);
+  }
+`;
+
+const ButtonSave = styled.button`
+  background-color: var(--color-button-save);
+  margin: 5px;
+
+  &:hover {
+    background-color: var(--color-button-save-hover);
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 5px;
 `;
