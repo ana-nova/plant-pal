@@ -87,10 +87,10 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
         onEditPlant(plant.id, updatedPlant);
         setUploadOpen(false);
       } else {
-        console.error("Failed to upload image.");
+        alert("Image upload failed. Please try again.");
       }
     } catch (error) {
-      console.error("Error uploading image:", error);
+      alert("An error occurred during the upload.");
     }
   }
 
