@@ -28,6 +28,15 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
+  const router = useRouter();
+  const { id } = router.query;
+
+  if (!router.isReady) return null;
+
+  const plant = plants.find((plant) => plant.id === id);
+
+  if (!plant) return <p>Plant not found</p>;
+
   function handleDelete() {
     setShowConfirmation(true);
   }
@@ -45,15 +54,6 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
     onEditPlant(plant.id, updatedPlant);
     setShowEdit(false);
   }
-
-  const router = useRouter();
-  const { id } = router.query;
-
-  if (!router.isReady) return null;
-
-  const plant = plants.find((plant) => plant.id === id);
-
-  if (!plant) return <p>Plant not found</p>;
 
   return (
     <>
@@ -84,6 +84,12 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
               </span>
             ))}
           </p>
+
+          {/* Anzeige der neuen Bedürfnisse */}
+          <p>Location: {plant.location}</p>
+          <p>Humidity: {plant.humidity}</p>
+          <p>Temperature: {plant.temperature}</p>
+          <p>Air Draft Intolerance: {plant.airDraftIntolerance}</p>
 
           <section>
             <button onClick={handleEditClick}>Edit</button>

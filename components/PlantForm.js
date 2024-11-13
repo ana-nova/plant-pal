@@ -12,6 +12,10 @@ export default function PlantForm({
     lightNeed: "",
     waterNeed: "",
     fertiliserSeason: [],
+    location: "",
+    humidity: "",
+    temperature: "",
+    airDraftIntolerance: "",
   },
 }) {
   function handleSubmit(event) {
@@ -27,7 +31,7 @@ export default function PlantForm({
 
   return (
     <FormContainer onSubmit={handleSubmit}>
-      <Title>{initialData.name ? "Edit Plant" : "Add a New Plant"}</Title>
+      <Title>{isEditMode ? "Edit Plant" : "Add a New Plant"}</Title>
 
       <FormLabel htmlFor="name">
         Plant Name
@@ -130,6 +134,61 @@ export default function PlantForm({
           ))}
         </OptionsContainer>
       </Fieldset>
+      <h3>Additional Options</h3>
+      <FormLabel htmlFor="location">
+        Indoor/Outdoor
+        <SelectInput
+          id="location"
+          name="location"
+          defaultValue={initialData.location || ""}
+        >
+          <option value="">Select location</option>
+          <option value="Indoor">Indoor</option>
+          <option value="Outdoor">Outdoor</option>
+          <option value="Both">Both</option>
+        </SelectInput>
+      </FormLabel>
+
+      <FormLabel htmlFor="humidity">
+        Humidity Needs
+        <SelectInput
+          id="humidity"
+          name="humidity"
+          defaultValue={initialData.humidity || ""}
+        >
+          <option value="">Select humidity level</option>
+          <option value="50%">50%</option>
+          <option value="60%">60%</option>
+          <option value="70%">70%</option>
+        </SelectInput>
+      </FormLabel>
+
+      <FormLabel htmlFor="temperature">
+        Temperature Range
+        <SelectInput
+          id="temperature"
+          name="temperature"
+          defaultValue={initialData.temperature || ""}
+        >
+          <option value="">Select temperature range</option>
+
+          <option value="20-30°C">20°C-30°C</option>
+          <option value="10-20°C">10°C-20°C</option>
+        </SelectInput>
+      </FormLabel>
+
+      <FormLabel htmlFor="airDraftIntolerance">
+        Draft Sensitivity
+        <SelectInput
+          id="airDraftIntolerance"
+          name="airDraftIntolerance"
+          defaultValue={initialData.airDraftIntolerance || ""}
+        >
+          <option value="">Select draft sensitivity</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </SelectInput>
+      </FormLabel>
 
       <StyledButton>
         <button type="submit">
@@ -234,4 +293,17 @@ const CheckboxLabel = styled.label`
 const StyledButton = styled.p`
   display: flex;
   justify-content: center;
+`;
+
+const SelectInput = styled.select`
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
 `;
