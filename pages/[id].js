@@ -111,7 +111,7 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
             {plant.humidity && (
               <IconContainer>
                 <HumidityIcon />
-                <span>{plant.humidity}</span>
+                <span>{plant.humidity} Humidity</span>
               </IconContainer>
             )}
           </AllIconsContainer>
@@ -126,7 +126,7 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
             {plant.airDraftIntolerance && (
               <IconContainer>
                 <AirDraftIcon />
-                <span>{plant.airDraftIntolerance}</span>
+                <span>{plant.airDraftIntolerance} Airdraft</span>
               </IconContainer>
             )}
           </AllIconsContainer>
@@ -217,4 +217,5 @@ const AllIconsContainer = styled.div`
   display: flex;
   gap: 50px;
   justify-content: center;
+  margin: 0 5px 0 5px;
 `;

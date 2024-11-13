@@ -34,7 +34,7 @@ export default function PlantForm({
       <h2>{initialData.name ? "Edit Plant" : "Add a New Plant"}</h2>
 
       <FormLabel htmlFor="name">
-        Plant Name
+        Plant Name*
         <input
           type="text"
           id="name"
@@ -46,7 +46,7 @@ export default function PlantForm({
       </FormLabel>
 
       <FormLabel htmlFor="botanicalName">
-        Botanical Name
+        Botanical Name*
         <input
           type="text"
           id="botanicalName"
@@ -62,13 +62,13 @@ export default function PlantForm({
         <textarea
           id="description"
           name="description"
-          placeholder="Enter description (optional)"
+          placeholder="Enter description"
           defaultValue={initialData.description || ""}
         />
       </FormLabel>
 
       <fieldset>
-        <legend>Light Needs</legend>
+        <legend>Light Needs*</legend>
         <OptionsContainer>
           {[
             { label: "Full Sun", value: "Full Sun" },
@@ -90,7 +90,7 @@ export default function PlantForm({
       </fieldset>
 
       <fieldset>
-        <legend>Water Needs</legend>
+        <legend>Water Needs*</legend>
         <OptionsContainer>
           {[
             { label: "Low", value: "Low" },
