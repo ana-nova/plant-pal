@@ -8,23 +8,20 @@ export default function MyPlantsPage({ plants, toggleFavourite }) {
 
   return (
     <>
-      <StyledHeader>My Plants</StyledHeader>
+      <h1>My Plants</h1>
       {favouritePlants.length > 0 ? (
         <PlantList plants={favouritePlants} toggleFavourite={toggleFavourite} />
       ) : (
-        <StyledParagraph>
-          No favourite plants found. Please select some favourite plants.
-        </StyledParagraph>
+        <StyledCard>
+          Looks like you have not added any favorite plants yet! Start selecting
+          some to see them here.
+        </StyledCard>
       )}
     </>
   );
 }
 
-const StyledHeader = styled.h1`
-  display: flex;
-  justify-content: center;
-`;
-
-const StyledParagraph = styled.p`
-  padding: 15px;
+const StyledCard = styled.article`
+  padding: 10px 10px 30px;
+  margin: 20px 38px 23px 35px;
 `;

@@ -33,11 +33,10 @@ export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
 
   return (
     <>
-      <StyledHeader>My Plants Collection</StyledHeader>
       <ButtonContainer>
-        <button onClick={handleToggleForm}>
+        <ButtonAdd onClick={handleToggleForm}>
           {showForm ? "Hide form" : "Add new plant"}
-        </button>
+        </ButtonAdd>
       </ButtonContainer>
       {showForm && (
         <PlantForm onSubmitPlant={onAddPlant} onToggleForm={handleToggleForm} />
@@ -85,6 +84,14 @@ export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
   );
 }
 
+const ButtonAdd = styled.button`
+  background-color: var(--color-button-add);
+
+  &:hover {
+    background-color: var(--color-button-add-hover);
+  }
+`;
+
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -95,29 +102,28 @@ const FilterContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin: 10px 0;
   gap: 10px;
+  top: 10px;
+  right: 10px;
 `;
 
 const FilterButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-`;
+  color: var(--color-button-filter);
 
-const StyledHeader = styled.h1`
-  display: flex;
-  justify-content: center;
+  &:hover {
+    background-color: transparent;
+    transform: scale(1.1);
+  }
 `;
 
 const Dropdown = styled.div`
   position: absolute;
   top: 40px;
   right: 0;
-  background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-background-cards);
+  border: 1px solid var(--color-button-border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
   display: flex;
   flex-direction: column;
   padding: 10px;
@@ -126,35 +132,33 @@ const Dropdown = styled.div`
 `;
 
 const FilterOption = styled.button`
-  background: ${({ isActive }) => (isActive ? "#e0e0e0" : "transparent")};
-  border: none;
-  padding: 8px 12px;
+  background: ${({ isActive }) =>
+    isActive ? "var(--color-link-see-more-hover)" : "transparent"};
+  color: var(--color-text-primary);
   text-align: left;
-  width: 100%;
-  cursor: pointer;
 
   &:hover {
-    background-color: #f0f0f0;
+    background-color: var(--color-link-see-more);
   }
 `;
 
 const FilterTag = styled.div`
   display: inline-flex;
   align-items: center;
-  background-color: #e0e0e0;
-  border-radius: 12px;
+  background-color: var(--color-button-filter-tag);
+  color: var(--color-button-text);
+  border-radius: var(--border-radius);
   padding: 5px 10px;
   font-size: 0.9em;
-  color: #333;
   cursor: pointer;
 
   span {
     margin-left: 8px;
     font-weight: bold;
-    color: #888;
+    color: var(--color-button-text);
   }
 
   &:hover {
-    background-color: #d0d0d0;
+    background-color: var(--color-link-see-more);
   }
 `;

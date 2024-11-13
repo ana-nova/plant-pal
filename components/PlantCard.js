@@ -6,56 +6,62 @@ import Image from "next/image";
 
 export default function PlantCard({ plant, toggleFavourite }) {
   return (
-    <Container>
-      <button
+    <StyledArticle>
+      <ButtonFavourite
         aria-label={
           plant.isFavourite ? "Remove from favorites" : "Add to favorites"
         }
         onClick={() => toggleFavourite(plant.id)}
       >
         {plant.isFavourite ? <PlantFavIconFill /> : <PlantFavIcon />}
-      </button>
+      </ButtonFavourite>
       <h2>{plant.name}</h2>
-      <StyledParagraph>{plant.botanicalName}</StyledParagraph>
+      <p>{plant.botanicalName}</p>
 
-      <RoundImage
+      <Image
         alt={`Image of ${plant.name}`}
         width={200}
         height={200}
         src={plant.imageUrl || "/assets/empty.avif"}
       />
 
-      <StyledLink href={`/${plant.id}`}>see more</StyledLink>
-    </Container>
+      <SeeMoreLink href={`/${plant.id}`}>see more</SeeMoreLink>
+    </StyledArticle>
   );
 }
 
-const StyledLink = styled(Link)`
-  border: 1px solid black;
-  border-radius: 8px;
-  background-color: lightgray;
-  color: black;
-  text-decoration: none;
-  padding: 5px;
-`;
-
-const RoundImage = styled(Image)`
-  border-radius: 100px;
-`;
-
-const Container = styled.article`
-  border: 2px solid black;
-  border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+const StyledArticle = styled.article`
   padding: 10px 10px 30px;
-  margin-bottom: 23px;
-  margin-right: 38px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
+  margin: 0 21px 23px -20px;
 `;
 
-const StyledParagraph = styled.p`
-  margin: 5px;
+const ButtonFavourite = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  color: var(--color-button-favourite);
+
+  &:hover {
+    background-color: transparent;
+    transform: scale(1.1);
+  }
+`;
+
+const SeeMoreLink = styled(Link)`
+  display: inline-block;
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  border-radius: var(--border-radius);
+  padding: 10px 15px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+
+  &:hover {
+    border: 1px solid var(--color-link-see-more-hover);
+  }
 `;
