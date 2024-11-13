@@ -62,8 +62,6 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
 
   if (!plant) return <p>Plant not found</p>;
 
-  console.log("Plant Data:", plant);
-
   return (
     <>
       <h1>Details Page</h1>
