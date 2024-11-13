@@ -47,7 +47,6 @@ export default function PlantDetails({
   const [showPopup, setShowPopup] = useState(false);
   const [uploadOpen, setUploadOpen] = useState(false);
 
-
   const router = useRouter();
   const { id } = router.query;
 
@@ -60,7 +59,6 @@ export default function PlantDetails({
   const plantReminders = reminders.filter(
     (reminder) => reminder.plantId === plant.id
   );
-
 
   function handleDelete() {
     setShowConfirmation(true);
@@ -177,15 +175,6 @@ export default function PlantDetails({
               {waterNeedIcon[plant.waterNeed]}
               <span>{plant.waterNeed} Water Need</span>
             </IconContainer>
-
-
-            {plant.fertiliserSeason && plant.fertiliserSeason.length > 0 && (
-              <IconContainer>
-                <FertiliserIcon />
-                {plant.fertiliserSeason.map((season) => (
-                  <span key={season}>{season}</span>
-                ))}
-              </IconContainer>
 
             {plant.fertiliserSeason && plant.fertiliserSeason.length > 0 && (
               <IconContainer>
