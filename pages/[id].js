@@ -101,6 +101,10 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
               </p>
             )}
           </AllIconsContainer>
+          <p>Location: {plant.location}</p>
+          <p>Humidity: {plant.humidity}</p>
+          <p>Temperature: {plant.temperature}</p>
+          <p>Air Draft Intolerance: {plant.airDraftIntolerance}</p>
 
           <section>
             <ButtonEdit onClick={handleEditClick}>
