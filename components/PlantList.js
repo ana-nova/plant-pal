@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import PlantCard from "./PlantCard";
 
 export default function PlantList({ plants, toggleFavourite }) {

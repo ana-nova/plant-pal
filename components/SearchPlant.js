@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import FuzzySearch from "fuzzy-search";
+import CloseIcon from "@/public/Icons/close-fill.svg";
 import FilterIcon from "@/public/Icons/filter-line.svg";
 import SearchIcon from "@/public/Icons/search-line.svg";
 
@@ -37,8 +38,13 @@ export default function SearchPlant({ plants, setFilteredPlants }) {
     setShowDropdown(!showDropdown);
   }
   function toggleSearch() {
+    if (showSearch) {
+      setSearchQuery("");
+      setFilteredPlants(plants);
+    }
     setShowSearch(!showSearch);
   }
+
   function handleLightFilter(filter) {
     setLightFilter(filter);
     setShowDropdown(false);
@@ -63,7 +69,7 @@ export default function SearchPlant({ plants, setFilteredPlants }) {
               />
             )}
             <FilterButton onClick={toggleSearch}>
-              <SearchIcon />
+              {showSearch ? <CloseIcon /> : <SearchIcon />}
             </FilterButton>
           </SearchContainer>
 

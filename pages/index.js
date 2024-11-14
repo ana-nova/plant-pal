@@ -35,7 +35,6 @@ export default function Homepage({ plants, toggleFavourite, onAddPlant }) {
   );
 }
 
-// Styling components remain as they are
 const ButtonAdd = styled.button`
   background-color: var(--color-button-add);
 
