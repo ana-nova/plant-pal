@@ -19,6 +19,8 @@ import TemperatureIcon from "@/public/Icons/temp-cold-line.svg";
 import HumidityIcon from "@/public/Icons/water-percent-line.svg";
 import AirDraftIcon from "@/public/Icons/windy-fill.svg";
 
+import PlantReminder from "@/components/PlantReminder";
+
 const lightNeedIcon = {
   "Full Sun": <FullSunIcon />,
   "Partial Shade": <PartialShadeIcon />,
@@ -31,9 +33,18 @@ const waterNeedIcon = {
   High: <HighWaterdropIcon />,
 };
 
-export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
+export default function PlantDetails({
+  plants,
+  onDeletePlant,
+  onEditPlant,
+  reminders,
+  onAddReminder,
+  onEditReminder,
+  onDeleteReminder,
+}) {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
   const [uploadOpen, setUploadOpen] = useState(false);
 
   const router = useRouter();
@@ -44,6 +55,10 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
   const plant = plants.find((plant) => plant.id === id);
 
   if (!plant) return <p>Plant not found</p>;
+
+  const plantReminders = reminders.filter(
+    (reminder) => reminder.plantId === plant.id
+  );
 
   function handleDelete() {
     setShowConfirmation(true);
@@ -144,7 +159,11 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
           <h2>{plant.name}</h2>
           <h3>{plant.botanicalName}</h3>
 
-          {plant.description && <p>{plant.description}</p>}
+          {plant.description && (
+            <DescriptionContainer>
+              <p>{plant.description}</p>
+            </DescriptionContainer>
+          )}
 
           <AllIconsContainer>
             <IconContainer>
@@ -203,9 +222,9 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
             </ButtonEdit>
 
             {!showConfirmation ? (
-              <ButtonDelete onClick={handleDelete}>
+              <ButtonDeleteIcon onClick={handleDelete}>
                 <TrashIcon />
-              </ButtonDelete>
+              </ButtonDeleteIcon>
             ) : (
               <>
                 <p>Are you sure?</p>
@@ -225,6 +244,16 @@ export default function PlantDetails({ plants, onDeletePlant, onEditPlant }) {
           isEditMode={true}
         />
       )}
+
+      <PlantReminder
+        plant={plant}
+        reminders={plantReminders}
+        showPopup={showPopup}
+        setShowPopup={setShowPopup}
+        onAddReminder={onAddReminder}
+        onEditReminder={onEditReminder}
+        onDeleteReminder={onDeleteReminder}
+      />
     </>
   );
 }
@@ -240,12 +269,13 @@ const CardDetails = styled.article`
 `;
 
 const ButtonEdit = styled.button`
-  background-color: var(--color-button-edit);
+  color: var(--color-button-favourite);
   margin: 5px;
+`;
 
-  &:hover {
-    background-color: var(--color-button-edit-hover);
-  }
+const ButtonDeleteIcon = styled.button`
+  color: var(--color-button-favourite);
+  margin: 5px;
 `;
 
 const ButtonDelete = styled.button`
@@ -283,7 +313,15 @@ const AllIconsContainer = styled.div`
   display: flex;
   gap: 50px;
   justify-content: center;
-  margin: 0 5px 0 5px;
+  margin: 0 30px 0 30px;
+`;
+
+const DescriptionContainer = styled.section`
+  margin: 0 30px 0 30px;
+
+  @media (min-width: 720px) {
+    margin: 0 100px 0 100px;
+  }
 `;
 
 const UploadForm = styled.form`
