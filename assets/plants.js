@@ -15,6 +15,9 @@ export const plants = [
     humidity: "70%",
     temperature: "10-20°C",
     airDraftIntolerance: "No",
+    catPoisonous: "No",
+    dogPoisonous: "Yes",
+    careLevel: "Beginner",
   },
   {
     id: "2",
