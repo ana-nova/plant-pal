@@ -135,7 +135,60 @@ export default function PlantForm({
         </OptionsContainer>
       </fieldset>
 
+      <fieldset>
+        <legend>Poisonus for cats</legend>
+        <OptionsContainer>
+          {[
+            { label: "Safe for cats", value: "Safe" },
+            { label: "Poisonous for cats", value: "Poisonous" },
+          ].map((option) => (
+            <label key={option.value}>
+              <input
+                type="radio"
+                name="cat"
+                value={option.value}
+                defaultChecked={initialData.cat === option.value}
+              />
+              {option.label}
+            </label>
+          ))}
+        </OptionsContainer>
+      </fieldset>
+      <fieldset>
+        <legend>Poisonus for dogs</legend>
+        <OptionsContainer>
+          {[
+            { label: "Safe for dogs", value: "Safe" },
+            { label: "Poisonous for dogs", value: "Poisonous" },
+          ].map((option) => (
+            <label key={option.value}>
+              <input
+                type="radio"
+                name="dog"
+                value={option.value}
+                defaultChecked={initialData.dog === option.value}
+              />
+              {option.label}
+            </label>
+          ))}
+        </OptionsContainer>
+      </fieldset>
+
       <h3>Additional Options</h3>
+
+      <FormLabel htmlFor="care">
+        Care level
+        <SelectInput
+          id="care"
+          name="care"
+          defaultValue={initialData.care || ""}
+        >
+          <option value="Beginner">Beginner</option>
+          <option value="Average">Average</option>
+          <option value="Expert">Expert</option>
+        </SelectInput>
+      </FormLabel>
+
       <FormLabel htmlFor="location">
         Indoor/Outdoor
         <SelectInput

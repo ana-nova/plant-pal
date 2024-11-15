@@ -18,7 +18,9 @@ import LocationIcon from "@/public/Icons/map-pin-2-line.svg";
 import TemperatureIcon from "@/public/Icons/temp-cold-line.svg";
 import HumidityIcon from "@/public/Icons/water-percent-line.svg";
 import AirDraftIcon from "@/public/Icons/windy-fill.svg";
-
+import CatIcon from "@/public/Icons/cat.svg";
+import DogIcon from "@/public/Icons/dog.svg";
+import CareIcon from "@/public/Icons/award-line.svg";
 import PlantReminder from "@/components/PlantReminder";
 
 const lightNeedIcon = {
@@ -186,6 +188,33 @@ export default function PlantDetails({
             )}
           </AllIconsContainer>
 
+          <PetContainer>
+            {plant.cat && (
+              <IconContainer>
+                <CatIcon />
+                {plant.cat}
+              </IconContainer>
+            )}
+
+            {plant.dog && (
+              <IconContainer>
+                <DogIcon />
+                {plant.dog}
+              </IconContainer>
+            )}
+          </PetContainer>
+
+          <h3>Additional Infos</h3>
+
+          <AllIconsContainer>
+            {plant.care && (
+              <IconContainer>
+                <CareIcon />
+                <span>{plant.care}</span>
+              </IconContainer>
+            )}
+          </AllIconsContainer>
+
           <AllIconsContainer>
             {plant.location && (
               <IconContainer>
@@ -258,6 +287,21 @@ export default function PlantDetails({
   );
 }
 
+const PetContainer = styled.div`
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+  align-items: center;
+  margin: 0 30px 0 30px;
+`;
+
+const Pet = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+`;
 const CardDetails = styled.article`
   padding: 10px 10px 30px;
   margin: 20px 38px 23px 35px;
