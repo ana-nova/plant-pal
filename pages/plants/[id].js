@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import useSWR from "swr";
 import Image from "next/image";
 import styled from "styled-components";
 import { useState } from "react";
@@ -48,16 +49,26 @@ export default function PlantDetails({
   const [uploadOpen, setUploadOpen] = useState(false);
 
   const router = useRouter();
+
   const { id } = router.query;
+
+  console.log("my id in id.js", id);
+
+  const {
+    data: plant,
+    isLoading,
+    error,
+    mutate,
+  } = useSWR(id ? `/api/plants/${id}` : null);
 
   if (!router.isReady) return null;
 
-  const plant = plants.find((plant) => plant.id === id);
+  // const plant = plants.find((plant) => plant.id === id);
 
   if (!plant) return <p>Plant not found</p>;
 
   const plantReminders = reminders.filter(
-    (reminder) => reminder.plantId === plant.id
+    (reminder) => reminder.plantId === plant._id && !reminder.isDone
   );
 
   function handleDelete() {
@@ -66,17 +77,64 @@ export default function PlantDetails({
   function handleCancelDelete() {
     setShowConfirmation(false);
   }
-  function handleConfirmDelete() {
-    onDeletePlant(plant.id);
-    setShowConfirmation(false);
+  // function handleConfirmDelete() {
+  //   onDeletePlant(plant.id);
+  //   setShowConfirmation(false);
+  // }
+
+  async function handleConfirmDelete() {
+    try {
+      const response = await fetch(`/api/plants/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) throw new Error("Failed to delete the plant.");
+
+      mutate();
+      onDeletePlant(id);
+      setShowConfirmation(false);
+      router.push("/");
+    } catch (error) {
+      console.error("Error deleting plant:", error);
+      alert("An error occurred while deleting the plant.");
+    }
   }
+
   function handleEditClick() {
     setShowEdit(true);
   }
-  function handleEdit(updatedPlant) {
-    onEditPlant(plant.id, updatedPlant);
-    setShowEdit(false);
+  // function handleEdit(updatedPlant) {
+  //   onEditPlant(plant.id, updatedPlant);
+  //   setShowEdit(false);
+  // }
+
+  async function handleEdit(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const updatedPlant = Object.fromEntries(formData);
+
+    try {
+      const response = await fetch(`/api/plants/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedPlant),
+      });
+
+      if (!response.ok) throw new Error("Failed to update the plant.");
+
+      const updatedData = await response.json();
+      mutate(updatedData, false); // Update the local cache
+      onEditPlant(id, updatedData); // Call parent handler with updated plant
+      setShowEdit(false);
+    } catch (error) {
+      console.error("Error updating plant:", error);
+      alert("An error occurred while updating the plant.");
+    }
   }
+
   function toggleUploadImage() {
     setUploadOpen(!uploadOpen);
   }
@@ -114,6 +172,14 @@ export default function PlantDetails({
     } catch (error) {
       alert("An error occurred during the upload.");
     }
+  }
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!plant || error) {
+    return <h1>Element not found.</h1>;
   }
 
   return (
@@ -240,7 +306,7 @@ export default function PlantDetails({
         <PlantForm
           initialData={plant}
           onSubmitPlant={handleEdit}
-          onToggleForm={() => setShowEdit(false)}
+          onToggleForm={() => setShowEdit(true)}
           isEditMode={true}
         />
       )}

@@ -17,15 +17,14 @@ export default function PlantCard({
         aria-label={
           plant.isFavourite ? "Remove from favorites" : "Add to favorites"
         }
-        onClick={() => toggleFavourite(plant.id)}
+        onClick={() => toggleFavourite(plant._id)}
       >
         {plant.isFavourite ? <PlantFavIconFill /> : <PlantFavIcon />}
       </ButtonFavourite>
       <h2>{plant.name}</h2>
       <p>{plant.botanicalName}</p>
 
-
-   <Image
+      <Image
         alt={`image of ${plant.name}`}
         src={plant.imageUrl || "/assets/empty.avif"}
         width={200}
@@ -34,7 +33,7 @@ export default function PlantCard({
 
       {hasActiveReminder && <StyledReminderIcon />}
 
-      <SeeMoreLink href={`/${plant.id}`}>see more</SeeMoreLink>
+      <SeeMoreLink href={`/plants/${plant._id}`}>see more</SeeMoreLink>
     </StyledArticle>
   );
 }
