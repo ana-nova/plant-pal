@@ -62,7 +62,7 @@ export default function Footer({ plants, reminders, onEditReminder }) {
                 .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
                 .map((reminder) => {
                   const plant = plants.find(
-                    (plant) => plant.id === reminder.plantId
+                    (plant) => plant._id === reminder.plantId
                   );
                   return (
                     <ReminderItem key={reminder._id}>
