@@ -123,7 +123,13 @@ export default function PlantReminder({
               >
                 {reminder.isDone ? (
                   <RepeatIcon
-                    onClick={() => handleRepeatReminder(reminder._id)}
+                    onClick={() => {
+                      console.log(
+                        "RepeatIcon clicked for reminder ID:",
+                        reminder._id
+                      );
+                      handleRepeatReminder(reminder._id);
+                    }}
                   />
                 ) : (
                   <MarkDoneIcon />

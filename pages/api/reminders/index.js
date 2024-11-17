@@ -1,6 +1,5 @@
 import dbConnect from "@/db/connect";
 import Reminder from "@/db/models/Reminder";
-import mongoose from "mongoose";
 
 export default async function handler(req, res) {
   await dbConnect();
@@ -10,26 +9,8 @@ export default async function handler(req, res) {
     return res.status(200).json(reminders);
   }
 
-  // if (req.method === "POST") {
-  //   const reminderData = req.body;
-  //   const newReminder = new Reminder(reminderData);
-
-  //   const savedReminder = await newReminder.save();
-  //   return res.status(201).json(savedReminder);
-  // }
-
   if (req.method === "POST") {
     const reminderData = req.body;
-
-    console.log("Request body:", reminderData);
-
-    // Convert `plantId` to an ObjectId
-    if (!mongoose.Types.ObjectId.isValid(reminderData.plantId)) {
-      return res.status(400).json({ error: "Invalid plantId" });
-    }
-
-    reminderData.plantId = new mongoose.Types.ObjectId(reminderData.plantId);
-
     const newReminder = new Reminder(reminderData);
 
     const savedReminder = await newReminder.save();
