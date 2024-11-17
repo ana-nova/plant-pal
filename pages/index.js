@@ -56,9 +56,9 @@ export default function Homepage({ toggleFavourite, reminders }) {
 
       <SearchPlant setFilteredPlants={setFilteredPlants} allPlants={plants} />
 
-      {filteredPlants && filteredPlants.length > 0 ? (
+      {filteredPlants.length > 0 ? (
         <PlantList
-          plants={filteredPlants}
+          plants={filteredPlants || []}
           toggleFavourite={toggleFavourite}
           reminders={reminders}
         />

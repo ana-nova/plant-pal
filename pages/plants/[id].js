@@ -60,7 +60,7 @@ export default function PlantDetails({
   if (!plant) return <p>Plant not found</p>;
 
   const plantReminders = reminders.filter(
-    (reminder) => reminder.plantId === plant._id && !reminder.isDone
+    (reminder) => reminder.plantId === plant._id
   );
 
   function handleDelete() {
@@ -147,7 +147,6 @@ export default function PlantDetails({
         alert("Failed to update plant with new image. Please try again.");
       }
     } catch (error) {
-      console.error("An error occurred during the upload:", error);
       alert("An unexpected error occurred. Please try again.");
     }
   }
@@ -284,7 +283,7 @@ export default function PlantDetails({
         <PlantForm
           initialData={plant}
           onSubmitPlant={handleEdit}
-          onToggleForm={() => setShowEdit(true)}
+          onToggleForm={() => setShowEdit(false)}
           isEditMode={true}
         />
       )}

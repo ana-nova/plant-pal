@@ -44,7 +44,6 @@ export default function PlantReminder({
   }
 
   function calculateNextDueDate(currentDueDate, interval) {
-    console.log("Calculating next due date for:", currentDueDate, interval);
     const dueDate = new Date(currentDueDate);
 
     switch (interval) {
@@ -123,13 +122,7 @@ export default function PlantReminder({
               >
                 {reminder.isDone ? (
                   <RepeatIcon
-                    onClick={() => {
-                      console.log(
-                        "RepeatIcon clicked for reminder ID:",
-                        reminder._id
-                      );
-                      handleRepeatReminder(reminder._id);
-                    }}
+                    onClick={() => handleRepeatReminder(reminder._id)}
                   />
                 ) : (
                   <MarkDoneIcon />
