@@ -1,17 +1,26 @@
 import GlobalStyle from "../styles";
-import useLocalStorageState from "use-local-storage-state";
 import Layout from "@/components/Layout";
-import { uid } from "uid";
-import { SWRConfig } from "swr";
+import useSWR, { SWRConfig } from "swr";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function App({ Component, pageProps }) {
-  const [reminders, setReminders] = useLocalStorageState("reminders", {
-    defaultValue: [],
-  });
+  const { data: plants, mutate: mutatePlants } = useSWR("/api/plants", fetcher);
+  const { data: reminders, mutate: mutateReminders } = useSWR(
+    "/api/reminders",
+    fetcher
+  );
 
   async function toggleFavourite(id, isFavourite) {
+    mutatePlants(
+      "/api/plants",
+      (plants) =>
+        plants.map((plant) =>
+          plant._id === id ? { ...plant, isFavourite: !isFavourite } : plant
+        ),
+      false
+    );
+
     const response = await fetch(`/api/plants/${id}`, {
       method: "PUT",
       headers: {
@@ -22,43 +31,64 @@ export default function App({ Component, pageProps }) {
 
     if (!response.ok) {
       console.error("Failed to toggle favorite state.");
+      mutatePlants("/api/plants");
       return;
     }
-    mutate(`/api/plants`);
+    mutatePlants("/api/plants");
   }
 
-  function handleAddReminder(plantId, taskType, dueDate, interval) {
-    const newReminder = {
-      id: uid(),
-      plantId,
-      taskType,
-      dueDate,
-      interval,
-      isDone: false,
-    };
-    setReminders((prevReminders) => [...prevReminders, newReminder]);
+  async function handleAddReminder(newReminder) {
+    const response = await fetch("/api/reminders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newReminder),
+    });
+
+    if (response.ok) {
+      mutateReminders();
+    } else {
+      console.error("Failed to add reminder");
+    }
   }
 
-  function handleEditReminder(reminderId, updatedReminder) {
-    setReminders((prevReminders) =>
-      prevReminders.map((reminder) =>
-        reminder.id === reminderId
-          ? { ...reminder, ...updatedReminder }
-          : reminder
-      )
-    );
+  async function handleEditReminder(reminderId, updatedReminder) {
+    const response = await fetch(`/api/reminders/${reminderId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedReminder),
+    });
+
+    if (response.ok) {
+      mutateReminders();
+    } else {
+      console.error("Failed to edit reminder");
+    }
   }
 
-  function handleDeleteReminder(reminderId) {
-    setReminders((prevReminders) =>
-      prevReminders.filter((reminder) => reminder.id !== reminderId)
-    );
+  async function handleDeleteReminder(reminderId) {
+    const response = await fetch(`/api/reminders/${reminderId}`, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      mutateReminders();
+    } else {
+      console.error("Failed to delete reminder");
+    }
   }
 
   return (
     <>
       <SWRConfig value={{ fetcher }}>
-        <Layout reminders={reminders} onEditReminder={handleEditReminder}>
+        <Layout
+          plants={plants}
+          reminders={reminders}
+          onEditReminder={handleEditReminder}
+        >
           <GlobalStyle />
           <Component
             {...pageProps}

@@ -1,5 +1,4 @@
 import PlantCard from "./PlantCard";
-import useSWR from "swr";
 
 export default function PlantList({ plants, toggleFavourite, reminders }) {
   if (!plants || plants.length === 0) {
@@ -9,6 +8,11 @@ export default function PlantList({ plants, toggleFavourite, reminders }) {
         collection.
       </p>
     );
+  }
+
+  if (!Array.isArray(plants)) {
+    console.error("Invalid data format for plants:", plants);
+    return <p>Failed to load plants.</p>;
   }
 
   return (
@@ -21,7 +25,6 @@ export default function PlantList({ plants, toggleFavourite, reminders }) {
         return (
           <li key={plant._id}>
             <PlantCard
-              _id={plant._id}
               plant={plant}
               toggleFavourite={toggleFavourite}
               hasActiveReminder={plantReminders.length > 0}

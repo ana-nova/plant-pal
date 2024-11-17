@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import useSWR from "swr";
 
 export default function PlantForm({
   onToggleForm,
@@ -118,7 +117,7 @@ export default function PlantForm({
                 type="checkbox"
                 name="fertiliserSeason"
                 value={season.value}
-                defaultChecked={initialData.fertiliserSeason.includes(
+                defaultChecked={initialData.fertiliserSeason?.includes(
                   season.value
                 )}
               />
