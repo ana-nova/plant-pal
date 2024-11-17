@@ -34,8 +34,6 @@ const waterNeedIcon = {
   High: <HighWaterdropIcon />,
 };
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
-
 export default function PlantDetails({
   reminders,
   onAddReminder,
@@ -55,7 +53,7 @@ export default function PlantDetails({
     error,
     isLoading,
     mutate,
-  } = useSWR(id ? `/api/plants/${id}` : null, fetcher);
+  } = useSWR(id ? `/api/plants/${id}` : null);
 
   if (!router.isReady) return null;
 

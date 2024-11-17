@@ -18,7 +18,14 @@ export default function PlantReminder({
     const formData = new FormData(event.target);
     const { taskType, dueDate, repeatInterval } = Object.fromEntries(formData);
 
-    onAddReminder(plant._id, taskType, dueDate, repeatInterval);
+    const newReminder = {
+      plantId: plant._id,
+      taskType,
+      dueDate,
+      interval: repeatInterval,
+    };
+
+    onAddReminder(newReminder);
     setShowPopup(false);
   }
 
@@ -37,7 +44,9 @@ export default function PlantReminder({
   }
 
   function calculateNextDueDate(currentDueDate, interval) {
+    console.log("Calculating next due date for:", currentDueDate, interval);
     const dueDate = new Date(currentDueDate);
+
     switch (interval) {
       case "weekly":
         dueDate.setDate(dueDate.getDate() + 7);

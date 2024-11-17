@@ -5,15 +5,8 @@ import SearchPlant from "@/components/SearchPlant";
 import styled from "styled-components";
 import useSWR from "swr";
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
-
 export default function Homepage({ toggleFavourite, reminders }) {
-  const {
-    data: plants,
-    error,
-    isLoading,
-    mutate,
-  } = useSWR("/api/plants", fetcher);
+  const { data: plants, error, isLoading, mutate } = useSWR("/api/plants");
 
   const [showForm, setShowForm] = useState(false);
   const [filteredPlants, setFilteredPlants] = useState([]);

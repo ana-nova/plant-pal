@@ -2,11 +2,8 @@ import PlantList from "@/components/PlantList";
 import styled from "styled-components";
 import useSWR from "swr";
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
-
 export default function MyPlantsPage({ toggleFavourite, reminders }) {
-  const { data: plants } = useSWR("/api/plants", fetcher);
-  console.log("Plants data:", plants);
+  const { data: plants } = useSWR("/api/plants");
 
   const favouritePlants = Array.isArray(plants)
     ? plants.filter((plant) => plant.isFavourite)

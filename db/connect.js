@@ -15,7 +15,6 @@ if (!cached) {
 }
 
 async function dbConnect() {
-  console.log("connecting to db 1");
   if (cached.conn) {
     return cached.conn;
   }
@@ -30,11 +29,9 @@ async function dbConnect() {
     });
   }
 
-  console.log("connecting to db 2");
   try {
     cached.conn = await cached.promise;
   } catch (e) {
-    console.log("connecting to db 3");
     cached.promise = null;
     throw e;
   }

@@ -1,12 +1,12 @@
 import dbConnect from "@/db/connect";
-import Reminder from "@/db/models/Reminders";
+import Reminder from "@/db/models/Reminder";
 
 export default async function handler(req, res) {
   await dbConnect();
   const { id } = req.query;
 
   if (req.method === "GET") {
-    const reminder = await Reminder.findById(id);
+    const reminder = await Reminder.findById(id).populate("plantId");
     if (!reminder) {
       res.status(404).json({ error: "Reminder not found" });
       return;

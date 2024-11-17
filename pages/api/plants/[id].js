@@ -1,5 +1,5 @@
 import dbConnect from "@/db/connect";
-import Plant from "@/db/models/Plants";
+import Plant from "@/db/models/Plant";
 
 export default async function handler(req, res) {
   await dbConnect();

@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-
+import "./Plant";
 const { Schema } = mongoose;
 
-const ReminderSchema = new Schema({
+const reminderSchema = new Schema({
   plantId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "Plant",
     required: true,
   },
@@ -16,6 +16,6 @@ const ReminderSchema = new Schema({
 });
 
 const Reminder =
-  mongoose.models.Reminder || mongoose.model("Reminder", ReminderSchema);
+  mongoose.models.Reminder || mongoose.model("Reminder", reminderSchema);
 
 export default Reminder;
