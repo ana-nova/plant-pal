@@ -30,7 +30,6 @@ export default function App({ Component, pageProps }) {
     });
 
     if (!response.ok) {
-      console.error("Failed to toggle favorite state.");
       mutatePlants("/api/plants");
       return;
     }
@@ -49,7 +48,6 @@ export default function App({ Component, pageProps }) {
     if (response.ok) {
       mutateReminders();
     } else {
-      console.error("Failed to add reminder");
     }
   }
 
@@ -64,8 +62,6 @@ export default function App({ Component, pageProps }) {
 
     if (response.ok) {
       mutateReminders();
-    } else {
-      console.error("Failed to edit reminder");
     }
   }
 
@@ -76,8 +72,6 @@ export default function App({ Component, pageProps }) {
 
     if (response.ok) {
       mutateReminders();
-    } else {
-      console.error("Failed to delete reminder");
     }
   }
 

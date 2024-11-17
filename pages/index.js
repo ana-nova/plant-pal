@@ -33,8 +33,6 @@ export default function Homepage({ toggleFavourite, reminders }) {
     if (response.ok) {
       mutate();
       setShowForm(false);
-    } else {
-      console.error("Failed to add plant");
     }
   };
 

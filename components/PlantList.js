@@ -11,7 +11,6 @@ export default function PlantList({ plants, toggleFavourite, reminders }) {
   }
 
   if (!Array.isArray(plants)) {
-    console.error("Invalid data format for plants:", plants);
     return <p>Failed to load plants.</p>;
   }
 

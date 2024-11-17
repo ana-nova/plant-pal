@@ -106,7 +106,6 @@ export default function PlantDetails({
   async function handleImageUpload(event) {
     event.preventDefault();
     const file = event.target.image.files[0];
-    const formData = new FormData(event.target);
 
     const maxSizeMB = 5;
     if (file.size > maxSizeMB * 1024 * 1024) {
@@ -116,26 +115,40 @@ export default function PlantDetails({
       return;
     }
 
+    const formData = new FormData();
+    formData.append("image", file);
+
     try {
       const response = await fetch("/api/upload", {
         method: "POST",
         body: formData,
       });
 
-      if (response.ok) {
-        const updatedPlant = { ...plant, imageUrl: data.secure_url };
-        await fetch(`/api/plants/${id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updatedPlant),
-        });
+      if (!response.ok) {
+        alert("Image upload failed. Please try again.");
+        return;
+      }
+
+      const data = await response.json();
+      const newImageUrl = data.secure_url;
+
+      const updatedPlant = { ...plant, imageUrl: newImageUrl };
+
+      const updateResponse = await fetch(`/api/plants/${plant._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedPlant),
+      });
+
+      if (updateResponse.ok) {
         mutate();
         setUploadOpen(false);
       } else {
-        alert("Image upload failed. Please try again.");
+        alert("Failed to update plant with new image. Please try again.");
       }
     } catch (error) {
-      alert("An error occurred during the upload.");
+      console.error("An error occurred during the upload:", error);
+      alert("An unexpected error occurred. Please try again.");
     }
   }
 
