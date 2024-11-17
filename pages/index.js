@@ -1,21 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PlantForm from "@/components/PlantForm";
 import PlantList from "@/components/PlantList";
 import SearchPlant from "@/components/SearchPlant";
 import styled from "styled-components";
+import useSWR from "swr";
 
-export default function Homepage({
-  plants,
-  toggleFavourite,
-  onAddPlant,
-  reminders,
-}) {
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
+export default function Homepage({ toggleFavourite, reminders }) {
+  const { data: plants, error, isLoading } = useSWR("/api/plants", fetcher);
+
   const [showForm, setShowForm] = useState(false);
-  const [filteredPlants, setFilteredPlants] = useState(plants);
+  const [filteredPlants, setFilteredPlants] = useState([]);
+
+  useEffect(() => {
+    if (plants) {
+      setFilteredPlants(plants);
+    }
+  }, [plants]);
 
   function handleToggleForm() {
     setShowForm(!showForm);
   }
+
+  if (isLoading) return <p>Loading plants...</p>;
+  if (error) return <p>Failed to load plants.</p>;
 
   return (
     <>
@@ -25,13 +34,11 @@ export default function Homepage({
         </ButtonAdd>
       </ButtonContainer>
 
-      {showForm && (
-        <PlantForm onSubmitPlant={onAddPlant} onToggleForm={handleToggleForm} />
-      )}
+      {showForm && <PlantForm onToggleForm={handleToggleForm} />}
 
-      <SearchPlant plants={plants} setFilteredPlants={setFilteredPlants} />
+      <SearchPlant setFilteredPlants={setFilteredPlants} allPlants={plants} />
 
-      {filteredPlants.length > 0 ? (
+      {filteredPlants && filteredPlants.length > 0 ? (
         <PlantList
           plants={filteredPlants}
           toggleFavourite={toggleFavourite}

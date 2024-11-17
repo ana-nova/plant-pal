@@ -1,13 +1,7 @@
 import PlantCard from "./PlantCard";
 import useSWR from "swr";
 
-export default function PlantList({ toggleFavourite, reminders }) {
-  const { data: plants, isLoading } = useSWR("/api/plants");
-
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
+export default function PlantList({ plants, toggleFavourite, reminders }) {
   if (!plants || plants.length === 0) {
     return (
       <p>

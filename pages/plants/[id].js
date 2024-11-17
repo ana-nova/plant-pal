@@ -34,10 +34,9 @@ const waterNeedIcon = {
   High: <HighWaterdropIcon />,
 };
 
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
 export default function PlantDetails({
-  plants,
-  onDeletePlant,
-  onEditPlant,
   reminders,
   onAddReminder,
   onEditReminder,
@@ -49,21 +48,16 @@ export default function PlantDetails({
   const [uploadOpen, setUploadOpen] = useState(false);
 
   const router = useRouter();
-
   const { id } = router.query;
-
-  console.log("my id in id.js", id);
 
   const {
     data: plant,
-    isLoading,
     error,
+    isLoading,
     mutate,
-  } = useSWR(id ? `/api/plants/${id}` : null);
+  } = useSWR(id ? `/api/plants/${id}` : null, fetcher);
 
   if (!router.isReady) return null;
-
-  // const plant = plants.find((plant) => plant.id === id);
 
   if (!plant) return <p>Plant not found</p>;
 
@@ -77,61 +71,33 @@ export default function PlantDetails({
   function handleCancelDelete() {
     setShowConfirmation(false);
   }
-  // function handleConfirmDelete() {
-  //   onDeletePlant(plant.id);
-  //   setShowConfirmation(false);
-  // }
 
   async function handleConfirmDelete() {
-    try {
-      const response = await fetch(`/api/plants/${id}`, {
-        method: "DELETE",
-      });
+    const response = await fetch(`/api/plants/${id}`, {
+      method: "DELETE",
+    });
 
-      if (!response.ok) throw new Error("Failed to delete the plant.");
-
-      mutate();
-      onDeletePlant(id);
-      setShowConfirmation(false);
+    if (response.ok) {
       router.push("/");
-    } catch (error) {
-      console.error("Error deleting plant:", error);
-      alert("An error occurred while deleting the plant.");
     }
   }
 
   function handleEditClick() {
     setShowEdit(true);
   }
-  // function handleEdit(updatedPlant) {
-  //   onEditPlant(plant.id, updatedPlant);
-  //   setShowEdit(false);
-  // }
 
-  async function handleEdit(event) {
-    event.preventDefault();
+  async function handleEdit(updatedPlant) {
+    const response = await fetch(`/api/plants/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedPlant),
+    });
 
-    const formData = new FormData(event.target);
-    const updatedPlant = Object.fromEntries(formData);
-
-    try {
-      const response = await fetch(`/api/plants/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedPlant),
-      });
-
-      if (!response.ok) throw new Error("Failed to update the plant.");
-
-      const updatedData = await response.json();
-      mutate(updatedData, false); // Update the local cache
-      onEditPlant(id, updatedData); // Call parent handler with updated plant
+    if (response.ok) {
+      mutate();
       setShowEdit(false);
-    } catch (error) {
-      console.error("Error updating plant:", error);
-      alert("An error occurred while updating the plant.");
     }
   }
 
@@ -159,12 +125,13 @@ export default function PlantDetails({
       });
 
       if (response.ok) {
-        const data = await response.json();
-        const newImageUrl = data.secure_url;
-
-        const updatedPlant = { ...plant, imageUrl: newImageUrl };
-
-        onEditPlant(plant.id, updatedPlant);
+        const updatedPlant = { ...plant, imageUrl: data.secure_url };
+        await fetch(`/api/plants/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedPlant),
+        });
+        mutate();
         setUploadOpen(false);
       } else {
         alert("Image upload failed. Please try again.");

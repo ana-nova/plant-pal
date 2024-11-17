@@ -3,59 +3,23 @@ import styled from "styled-components";
 import useSWR from "swr";
 
 export default function PlantForm({
-  onSubmitPlant,
   onToggleForm,
   isEditMode = false,
-  initialData = {
-    name: "",
-    botanicalName: "",
-    description: "",
-    lightNeed: "",
-    waterNeed: "",
-    fertiliserSeason: [],
-    location: "",
-    humidity: "",
-    temperature: "",
-    airDraftIntolerance: "",
-    isFavourite: false,
-  },
+  initialData = {},
+  onSubmitPlant,
 }) {
-  const { data, mutate } = useSWR("/api/plants");
-
   async function handleSubmit(event) {
-    // event.preventDefault();
-    console.log("for event in plantform", event);
+    event.preventDefault();
+
     const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
+    const plantData = Object.fromEntries(formData);
 
-    console.log("for my data", data);
-    data.fertiliserSeason = formData.getAll("fertiliserSeason");
+    plantData.fertiliserSeason = formData.getAll("fertiliserSeason");
 
-    onSubmitPlant(data);
+    onSubmitPlant(plantData);
+
     onToggleForm();
-
-    try {
-      const response = await fetch("/api/plants", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to add plant: ${response.statusText}`);
-      }
-
-      // const newPlant = await response.json();
-
-      mutate();
-
-      event.target.reset();
-    } catch (error) {
-      console.error("Error adding plant:", error);
-      // Optionally, display error feedback to the user here
-    }
+    event.target.reset();
   }
 
   return (
