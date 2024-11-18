@@ -1,83 +1,65 @@
-import { useEffect, useState } from "react";
-import PlantForm from "@/components/PlantForm";
-import PlantList from "@/components/PlantList";
-import SearchPlant from "@/components/SearchPlant";
+import Link from "next/link";
 import styled from "styled-components";
-import useSWR from "swr";
 
-export default function Homepage({ toggleFavourite, reminders }) {
-  const { data: plants, error, isLoading, mutate } = useSWR("/api/plants");
-
-  const [showForm, setShowForm] = useState(false);
-  const [filteredPlants, setFilteredPlants] = useState([]);
-
-  useEffect(() => {
-    if (plants) {
-      setFilteredPlants(plants);
-    }
-  }, [plants]);
-
-  function handleToggleForm() {
-    setShowForm(!showForm);
-  }
-
-  async function handleAddPlant(newPlantData) {
-    const response = await fetch("/api/plants", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newPlantData),
-    });
-
-    if (response.ok) {
-      setShowForm(false);
-      mutate();
-    }
-  }
-
-  if (isLoading) return <p>Loading plants...</p>;
-  if (error) return <p>Failed to load plants.</p>;
-
+export default function LandingPage() {
   return (
     <>
-      <ButtonContainer>
-        <ButtonAdd onClick={handleToggleForm}>
-          {showForm ? "Hide form" : "Add new plant"}
-        </ButtonAdd>
-      </ButtonContainer>
-
-      {showForm && (
-        <PlantForm
-          onSubmitPlant={handleAddPlant}
-          onToggleForm={handleToggleForm}
-        />
-      )}
-
-      <SearchPlant setFilteredPlants={setFilteredPlants} allPlants={plants} />
-
-      {filteredPlants.length > 0 ? (
-        <PlantList
-          plants={filteredPlants || []}
-          toggleFavourite={toggleFavourite}
-          reminders={reminders}
-        />
-      ) : (
-        <p>No plants found for the selected filter.</p>
-      )}
+      <Cardcontainer>
+        <Card>
+          <StyledLink href={"/create"}>
+            <p>Create New Plant</p>
+          </StyledLink>
+        </Card>
+        <Card>
+          <StyledLink href={"/plants/"}>
+            <p>My Plant List</p>
+          </StyledLink>
+        </Card>
+        <Card>
+          <StyledLink href={"/favourites"}>
+            <p>My Owned Plants</p>
+          </StyledLink>
+        </Card>
+      </Cardcontainer>
+      <Cardcontainer>
+        <Weathercard>
+          <StyledLink href={"/"}>Weather Data for Plants</StyledLink>
+        </Weathercard>
+      </Cardcontainer>
+      <Cardcontainer>
+        <Caretipcard>Care Tip of the Day</Caretipcard>
+      </Cardcontainer>
     </>
   );
 }
 
-const ButtonAdd = styled.button`
-  background-color: var(--color-button-add);
-
-  &:hover {
-    background-color: var(--color-button-add-hover);
-  }
+const Cardcontainer = styled.section`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 `;
 
-const ButtonContainer = styled.div`
-  display: flex;
+const Card = styled.article`
+  width: 25%;
+  text-align: center;
+  height: 100px;
   justify-content: center;
+`;
+
+const Weathercard = styled.article`
+  margin-top: 35px;
+  width: 80%;
+  height: 150px;
+  justify-content: center;
+`;
+
+const Caretipcard = styled.article`
+  margin-top: 35px;
+  width: 80%;
+  height: 150px;
+  justify-content: center;
+`;
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: var(--color-text-primary);
 `;
