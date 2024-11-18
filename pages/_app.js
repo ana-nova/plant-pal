@@ -10,7 +10,6 @@ export default function App({ Component, pageProps }) {
     "/api/reminders",
     fetcher
   );
-  console.log("reminders", reminders);
 
   async function toggleFavourite(id, isFavourite) {
     const response = await fetch(`/api/plants/${id}`, {

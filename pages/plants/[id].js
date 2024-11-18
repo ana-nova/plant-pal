@@ -232,17 +232,17 @@ export default function PlantDetails({
           </AllIconsContainer>
 
           <PetContainer>
-            {plant.cat && (
+            {plant.catPoisonous && (
               <IconContainer>
                 <CatIcon />
-                {plant.cat}
+                {plant.catPoisonous}
               </IconContainer>
             )}
 
-            {plant.dog && (
+            {plant.dogPoisonous && (
               <IconContainer>
                 <DogIcon />
-                {plant.dog}
+                {plant.dogPoisonous}
               </IconContainer>
             )}
           </PetContainer>
@@ -250,10 +250,10 @@ export default function PlantDetails({
           <h3>Additional Infos</h3>
 
           <AllIconsContainer>
-            {plant.care && (
+            {plant.careLevel && (
               <IconContainer>
                 <CareIcon />
-                <span>{plant.care}</span>
+                <span>{plant.careLevel}</span>
               </IconContainer>
             )}
           </AllIconsContainer>

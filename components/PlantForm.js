@@ -137,9 +137,9 @@ export default function PlantForm({
             <label key={option.value}>
               <input
                 type="radio"
-                name="cat"
+                name="catPoisonous"
                 value={option.value}
-                defaultChecked={initialData.cat === option.value}
+                defaultChecked={initialData.catPoisonous === option.value}
               />
               {option.label}
             </label>
@@ -156,9 +156,9 @@ export default function PlantForm({
             <label key={option.value}>
               <input
                 type="radio"
-                name="dog"
+                name="dogPoisonous"
                 value={option.value}
-                defaultChecked={initialData.dog === option.value}
+                defaultChecked={initialData.dogPoisonous === option.value}
               />
               {option.label}
             </label>
@@ -168,12 +168,12 @@ export default function PlantForm({
 
       <h3>Additional Options</h3>
 
-      <FormLabel htmlFor="care">
+      <FormLabel htmlFor="careLevel">
         Care level
         <SelectInput
-          id="care"
-          name="care"
-          defaultValue={initialData.care || ""}
+          id="careLevel"
+          name="careLevel"
+          defaultValue={initialData.careLevel || ""}
         >
           <option value="Beginner">Beginner</option>
           <option value="Average">Average</option>
