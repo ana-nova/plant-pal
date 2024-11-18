@@ -17,7 +17,10 @@ export default function PlantCard({
         aria-label={
           plant.isFavourite ? "Remove from favorites" : "Add to favorites"
         }
-        onClick={() => toggleFavourite(plant._id, plant.isFavourite)}
+        onClick={(event) => {
+          event.preventDefault();
+          toggleFavourite(plant._id, plant.isFavourite);
+        }}
       >
         {plant.isFavourite ? <PlantFavIconFill /> : <PlantFavIcon />}
       </ButtonFavourite>

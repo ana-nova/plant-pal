@@ -10,17 +10,9 @@ export default function App({ Component, pageProps }) {
     "/api/reminders",
     fetcher
   );
+  console.log("reminders", reminders);
 
   async function toggleFavourite(id, isFavourite) {
-    mutatePlants(
-      "/api/plants",
-      (plants) =>
-        plants.map((plant) =>
-          plant._id === id ? { ...plant, isFavourite: !isFavourite } : plant
-        ),
-      false
-    );
-
     const response = await fetch(`/api/plants/${id}`, {
       method: "PUT",
       headers: {
@@ -33,7 +25,7 @@ export default function App({ Component, pageProps }) {
       mutatePlants("/api/plants");
       return;
     }
-    mutatePlants("/api/plants");
+    mutatePlants();
   }
 
   async function handleAddReminder(newReminder) {
@@ -47,7 +39,7 @@ export default function App({ Component, pageProps }) {
 
     if (response.ok) {
       mutateReminders();
-    } else {
+      return;
     }
   }
 

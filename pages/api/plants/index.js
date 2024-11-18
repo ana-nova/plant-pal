@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   await dbConnect();
 
   if (req.method === "GET") {
-    const plants = await Plant.find();
+    const plants = await Plant.find().sort({ createdAt: -1 });
     res.status(200).json(plants);
   }
 

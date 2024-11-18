@@ -17,7 +17,7 @@ export default function PlantList({ plants, toggleFavourite, reminders }) {
   return (
     <ul>
       {plants.map((plant) => {
-        const plantReminders = reminders.filter(
+        const plantReminders = reminders?.filter(
           (reminder) => reminder.plantId === plant._id && !reminder.isDone
         );
 
@@ -26,7 +26,7 @@ export default function PlantList({ plants, toggleFavourite, reminders }) {
             <PlantCard
               plant={plant}
               toggleFavourite={toggleFavourite}
-              hasActiveReminder={plantReminders.length > 0}
+              hasActiveReminder={plantReminders?.length > 0}
             />
           </li>
         );

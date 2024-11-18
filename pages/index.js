@@ -21,7 +21,7 @@ export default function Homepage({ toggleFavourite, reminders }) {
     setShowForm(!showForm);
   }
 
-  const handleAddPlant = async (newPlantData) => {
+  async function handleAddPlant(newPlantData) {
     const response = await fetch("/api/plants", {
       method: "POST",
       headers: {
@@ -31,10 +31,10 @@ export default function Homepage({ toggleFavourite, reminders }) {
     });
 
     if (response.ok) {
-      mutate();
       setShowForm(false);
+      mutate();
     }
-  };
+  }
 
   if (isLoading) return <p>Loading plants...</p>;
   if (error) return <p>Failed to load plants.</p>;
