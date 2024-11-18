@@ -283,7 +283,7 @@ export default function PlantDetails({
             {plant.airDraftIntolerance && (
               <IconContainer>
                 <AirDraftIcon />
-                <span>{plant.airDraftIntolerance} Airdraft</span>
+                <span>{plant.airDraftIntolerance} Airdraft Sensitivity</span>
               </IconContainer>
             )}
           </AllIconsContainer>
