@@ -1,21 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PlantForm from "@/components/PlantForm";
 import PlantList from "@/components/PlantList";
 import SearchPlant from "@/components/SearchPlant";
 import styled from "styled-components";
+import useSWR from "swr";
 
-export default function Homepage({
-  plants,
-  toggleFavourite,
-  onAddPlant,
-  reminders,
-}) {
+export default function Homepage({ toggleFavourite, reminders }) {
+  const { data: plants, error, isLoading, mutate } = useSWR("/api/plants");
+
   const [showForm, setShowForm] = useState(false);
-  const [filteredPlants, setFilteredPlants] = useState(plants);
+  const [filteredPlants, setFilteredPlants] = useState([]);
+
+  useEffect(() => {
+    if (plants) {
+      setFilteredPlants(plants);
+    }
+  }, [plants]);
 
   function handleToggleForm() {
     setShowForm(!showForm);
   }
+
+  async function handleAddPlant(newPlantData) {
+    const response = await fetch("/api/plants", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newPlantData),
+    });
+
+    if (response.ok) {
+      setShowForm(false);
+      mutate();
+    }
+  }
+
+  if (isLoading) return <p>Loading plants...</p>;
+  if (error) return <p>Failed to load plants.</p>;
 
   return (
     <>
@@ -26,14 +48,17 @@ export default function Homepage({
       </ButtonContainer>
 
       {showForm && (
-        <PlantForm onSubmitPlant={onAddPlant} onToggleForm={handleToggleForm} />
+        <PlantForm
+          onSubmitPlant={handleAddPlant}
+          onToggleForm={handleToggleForm}
+        />
       )}
 
-      <SearchPlant plants={plants} setFilteredPlants={setFilteredPlants} />
+      <SearchPlant setFilteredPlants={setFilteredPlants} allPlants={plants} />
 
       {filteredPlants.length > 0 ? (
         <PlantList
-          plants={filteredPlants}
+          plants={filteredPlants || []}
           toggleFavourite={toggleFavourite}
           reminders={reminders}
         />

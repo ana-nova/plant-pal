@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import useSWR from "swr";
 import Image from "next/image";
 import styled from "styled-components";
 import { useState } from "react";
@@ -36,9 +37,6 @@ const waterNeedIcon = {
 };
 
 export default function PlantDetails({
-  plants,
-  onDeletePlant,
-  onEditPlant,
   reminders,
   onAddReminder,
   onEditReminder,
@@ -52,14 +50,19 @@ export default function PlantDetails({
   const router = useRouter();
   const { id } = router.query;
 
-  if (!router.isReady) return null;
+  const {
+    data: plant,
+    error,
+    isLoading,
+    mutate,
+  } = useSWR(id ? `/api/plants/${id}` : null);
 
-  const plant = plants.find((plant) => plant.id === id);
+  if (!router.isReady) return null;
 
   if (!plant) return <p>Plant not found</p>;
 
   const plantReminders = reminders.filter(
-    (reminder) => reminder.plantId === plant.id
+    (reminder) => reminder.plantId === plant._id
   );
 
   function handleDelete() {
@@ -68,17 +71,36 @@ export default function PlantDetails({
   function handleCancelDelete() {
     setShowConfirmation(false);
   }
-  function handleConfirmDelete() {
-    onDeletePlant(plant.id);
-    setShowConfirmation(false);
+
+  async function handleConfirmDelete() {
+    const response = await fetch(`/api/plants/${id}`, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      router.push("/");
+    }
   }
+
   function handleEditClick() {
     setShowEdit(true);
   }
-  function handleEdit(updatedPlant) {
-    onEditPlant(plant.id, updatedPlant);
-    setShowEdit(false);
+
+  async function handleEdit(updatedPlant) {
+    const response = await fetch(`/api/plants/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedPlant),
+    });
+
+    if (response.ok) {
+      mutate();
+      setShowEdit(false);
+    }
   }
+
   function toggleUploadImage() {
     setUploadOpen(!uploadOpen);
   }
@@ -86,7 +108,6 @@ export default function PlantDetails({
   async function handleImageUpload(event) {
     event.preventDefault();
     const file = event.target.image.files[0];
-    const formData = new FormData(event.target);
 
     const maxSizeMB = 5;
     if (file.size > maxSizeMB * 1024 * 1024) {
@@ -96,26 +117,48 @@ export default function PlantDetails({
       return;
     }
 
+    const formData = new FormData();
+    formData.append("image", file);
+
     try {
       const response = await fetch("/api/upload", {
         method: "POST",
         body: formData,
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        const newImageUrl = data.secure_url;
+      if (!response.ok) {
+        alert("Image upload failed. Please try again.");
+        return;
+      }
 
-        const updatedPlant = { ...plant, imageUrl: newImageUrl };
+      const data = await response.json();
+      const newImageUrl = data.secure_url;
 
-        onEditPlant(plant.id, updatedPlant);
+      const updatedPlant = { ...plant, imageUrl: newImageUrl };
+
+      const updateResponse = await fetch(`/api/plants/${plant._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedPlant),
+      });
+
+      if (updateResponse.ok) {
+        mutate();
         setUploadOpen(false);
       } else {
-        alert("Image upload failed. Please try again.");
+        alert("Failed to update plant with new image. Please try again.");
       }
     } catch (error) {
-      alert("An error occurred during the upload.");
+      alert("An unexpected error occurred. Please try again.");
     }
+  }
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!plant || error) {
+    return <h1>Element not found.</h1>;
   }
 
   return (

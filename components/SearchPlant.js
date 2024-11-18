@@ -5,18 +5,18 @@ import CloseIcon from "@/public/Icons/close-fill.svg";
 import FilterIcon from "@/public/Icons/filter-line.svg";
 import SearchIcon from "@/public/Icons/search-line.svg";
 
-export default function SearchPlant({ plants, setFilteredPlants }) {
+export default function SearchPlant({ allPlants, setFilteredPlants }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [lightFilter, setLightFilter] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
 
   useEffect(() => {
-    const searcher = new FuzzySearch(plants, ["name", "botanicalName"], {
+    const searcher = new FuzzySearch(allPlants, ["name", "botanicalName"], {
       caseSensitive: false,
     });
 
-    let results = plants;
+    let results = allPlants;
 
     if (searchQuery) {
       results = searcher.search(searchQuery);
@@ -27,7 +27,7 @@ export default function SearchPlant({ plants, setFilteredPlants }) {
     }
 
     setFilteredPlants(results);
-  }, [searchQuery, lightFilter, plants, setFilteredPlants]);
+  }, [searchQuery, lightFilter, allPlants, setFilteredPlants]);
 
   function handleSearchChange(event) {
     const query = event.target.value;
@@ -40,7 +40,7 @@ export default function SearchPlant({ plants, setFilteredPlants }) {
   function toggleSearch() {
     if (showSearch) {
       setSearchQuery("");
-      setFilteredPlants(plants);
+      setFilteredPlants(allPlants);
     }
     setShowSearch(!showSearch);
   }
@@ -87,19 +87,19 @@ export default function SearchPlant({ plants, setFilteredPlants }) {
           <Dropdown>
             <FilterOption
               onClick={() => handleLightFilter("Full Sun")}
-              isActive={lightFilter === "Full Sun"}
+              $isActive={lightFilter === "Full Sun"}
             >
               Full Sun
             </FilterOption>
             <FilterOption
               onClick={() => handleLightFilter("Partial Shade")}
-              isActive={lightFilter === "Partial Shade"}
+              $isActive={lightFilter === "Partial Shade"}
             >
               Partial Shade
             </FilterOption>
             <FilterOption
               onClick={() => handleLightFilter("Full Shade")}
-              isActive={lightFilter === "Full Shade"}
+              $isActive={lightFilter === "Full Shade"}
             >
               Full Shade
             </FilterOption>

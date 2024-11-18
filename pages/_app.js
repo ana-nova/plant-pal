@@ -1,96 +1,91 @@
 import GlobalStyle from "../styles";
-import useLocalStorageState from "use-local-storage-state";
-import { plants as initialPlantsData } from "@/assets/plants";
 import Layout from "@/components/Layout";
-import { uid } from "uid";
-import Router from "next/router";
+import useSWR, { SWRConfig } from "swr";
 
-const initialPlants = initialPlantsData;
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function App({ Component, pageProps }) {
-  const [plants, setPlants] = useLocalStorageState("plants", {
-    defaultValue: initialPlants,
-  });
+  const { data: plants, mutate: mutatePlants } = useSWR("/api/plants", fetcher);
+  const { data: reminders, mutate: mutateReminders } = useSWR(
+    "/api/reminders",
+    fetcher
+  );
+  console.log("reminders", reminders);
 
-  const [reminders, setReminders] = useLocalStorageState("reminders", {
-    defaultValue: [],
-  });
+  async function toggleFavourite(id, isFavourite) {
+    const response = await fetch(`/api/plants/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ isFavourite: !isFavourite }),
+    });
 
-  function handleAddPlant(plantData) {
-    const newPlant = { id: uid(), ...plantData, isFavourite: false };
-    setPlants((prevPlants) => [newPlant, ...prevPlants]);
+    if (!response.ok) {
+      mutatePlants("/api/plants");
+      return;
+    }
+    mutatePlants();
   }
 
-  function handleEditPlant(plantId, updatedPlant) {
-    setPlants((prevPlants) =>
-      prevPlants.map((plant) =>
-        plant.id === plantId ? { ...plant, ...updatedPlant } : plant
-      )
-    );
+  async function handleAddReminder(newReminder) {
+    const response = await fetch("/api/reminders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newReminder),
+    });
+
+    if (response.ok) {
+      mutateReminders();
+      return;
+    }
   }
 
-  function handleDeletePlant(id) {
-    setPlants((prevPlants) => prevPlants.filter((plant) => plant.id !== id));
-    Router.push("/");
+  async function handleEditReminder(reminderId, updatedReminder) {
+    const response = await fetch(`/api/reminders/${reminderId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedReminder),
+    });
+
+    if (response.ok) {
+      mutateReminders();
+    }
   }
 
-  function toggleFavourite(id) {
-    setPlants((prevPlants) =>
-      prevPlants.map((plant) =>
-        plant.id === id ? { ...plant, isFavourite: !plant.isFavourite } : plant
-      )
-    );
-  }
+  async function handleDeleteReminder(reminderId) {
+    const response = await fetch(`/api/reminders/${reminderId}`, {
+      method: "DELETE",
+    });
 
-  function handleAddReminder(plantId, taskType, dueDate, interval) {
-    const newReminder = {
-      id: uid(),
-      plantId,
-      taskType,
-      dueDate,
-      interval,
-      isDone: false,
-    };
-    setReminders((prevReminders) => [...prevReminders, newReminder]);
-  }
-
-  function handleEditReminder(reminderId, updatedReminder) {
-    setReminders((prevReminders) =>
-      prevReminders.map((reminder) =>
-        reminder.id === reminderId
-          ? { ...reminder, ...updatedReminder }
-          : reminder
-      )
-    );
-  }
-
-  function handleDeleteReminder(reminderId) {
-    setReminders((prevReminders) =>
-      prevReminders.filter((reminder) => reminder.id !== reminderId)
-    );
+    if (response.ok) {
+      mutateReminders();
+    }
   }
 
   return (
     <>
-      <Layout
-        plants={plants}
-        reminders={reminders}
-        onEditReminder={handleEditReminder}
-      >
-        <GlobalStyle />
-        <Component
-          {...pageProps}
+      <SWRConfig value={{ fetcher }}>
+        <Layout
           plants={plants}
-          toggleFavourite={toggleFavourite}
-          onAddPlant={handleAddPlant}
-          onDeletePlant={handleDeletePlant}
-          onEditPlant={handleEditPlant}
           reminders={reminders}
-          onAddReminder={handleAddReminder}
           onEditReminder={handleEditReminder}
-          onDeleteReminder={handleDeleteReminder}
-        />
-      </Layout>
+        >
+          <GlobalStyle />
+          <Component
+            {...pageProps}
+            toggleFavourite={toggleFavourite}
+            reminders={reminders}
+            onAddReminder={handleAddReminder}
+            onEditReminder={handleEditReminder}
+            onDeleteReminder={handleDeleteReminder}
+          />
+        </Layout>
+      </SWRConfig>
     </>
   );
 }

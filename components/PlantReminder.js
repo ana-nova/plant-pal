@@ -18,15 +18,22 @@ export default function PlantReminder({
     const formData = new FormData(event.target);
     const { taskType, dueDate, repeatInterval } = Object.fromEntries(formData);
 
-    onAddReminder(plant.id, taskType, dueDate, repeatInterval);
+    const newReminder = {
+      plantId: plant._id,
+      taskType,
+      dueDate,
+      interval: repeatInterval,
+    };
+
+    onAddReminder(newReminder);
     setShowPopup(false);
   }
 
-  // Function to handle repeating reminders
   function handleRepeatReminder(reminderId) {
     const reminderEntry = reminders.find(
-      (reminder) => reminder.id === reminderId
+      (reminder) => reminder._id === reminderId
     );
+
     if (reminderEntry && reminderEntry.interval) {
       const newDueDate = calculateNextDueDate(
         reminderEntry.dueDate,
@@ -36,9 +43,9 @@ export default function PlantReminder({
     }
   }
 
-  // Helper function to calculate the next due date based on the interval
   function calculateNextDueDate(currentDueDate, interval) {
     const dueDate = new Date(currentDueDate);
+
     switch (interval) {
       case "weekly":
         dueDate.setDate(dueDate.getDate() + 7);
@@ -102,7 +109,7 @@ export default function PlantReminder({
         <p>Currently no reminders here ...</p>
       ) : (
         reminders.map((reminder) => (
-          <ReminderItem key={reminder.id}>
+          <ReminderItem key={reminder._id}>
             <p>
               Task: {reminder.taskType}, Due Date:{" "}
               {new Date(reminder.dueDate).toLocaleDateString()}
@@ -110,18 +117,18 @@ export default function PlantReminder({
             <ReminderIconContainer>
               <ButtonDone
                 onClick={() =>
-                  onEditReminder(reminder.id, { isDone: !reminder.isDone })
+                  onEditReminder(reminder._id, { isDone: !reminder.isDone })
                 }
               >
                 {reminder.isDone ? (
                   <RepeatIcon
-                    onClick={() => handleRepeatReminder(reminder.id)}
+                    onClick={() => handleRepeatReminder(reminder._id)}
                   />
                 ) : (
                   <MarkDoneIcon />
                 )}
               </ButtonDone>
-              <ButtonDeleteIcon onClick={() => onDeleteReminder(reminder.id)}>
+              <ButtonDeleteIcon onClick={() => onDeleteReminder(reminder._id)}>
                 <TrashIcon />
               </ButtonDeleteIcon>
             </ReminderIconContainer>

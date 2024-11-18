@@ -3,9 +3,9 @@ import Header from "./Header";
 
 export default function Layout({
   children,
+  plants,
   reminders,
   onEditReminder,
-  plants,
 }) {
   return (
     <>

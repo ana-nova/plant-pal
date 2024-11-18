@@ -1,14 +1,17 @@
 import PlantList from "@/components/PlantList";
 import styled from "styled-components";
+import useSWR from "swr";
 
-export default function MyPlantsPage({ plants, toggleFavourite, reminders }) {
-  const favouritePlants = plants
+export default function MyPlantsPage({ toggleFavourite, reminders }) {
+  const { data: plants } = useSWR("/api/plants");
+
+  const favouritePlants = Array.isArray(plants)
     ? plants.filter((plant) => plant.isFavourite)
     : [];
 
   return (
     <>
-      <h1>My Plants</h1>
+      <h1>My Owned Plants</h1>
       {favouritePlants.length > 0 ? (
         <PlantList
           plants={favouritePlants}

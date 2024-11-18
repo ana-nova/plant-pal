@@ -19,7 +19,7 @@ export default function Footer({ plants, reminders, onEditReminder }) {
 
   function handleMarkAsDone(reminderId) {
     const reminderEntry = reminders.find(
-      (reminder) => reminder.id === reminderId
+      (reminder) => reminder._id === reminderId
     );
     if (reminderEntry) {
       onEditReminder(reminderId, { isDone: !reminderEntry.isDone });
@@ -28,9 +28,10 @@ export default function Footer({ plants, reminders, onEditReminder }) {
 
   const today = new Date().toISOString().split("T")[0];
 
-  const hasTodayReminder = reminders.some(
-    (reminder) => !reminder.isDone && reminder.dueDate === today
-  );
+  const hasTodayReminder = (reminders || []).some((reminder) => {
+    const reminderDate = new Date(reminder.dueDate).toISOString().split("T")[0];
+    return !reminder.isDone && reminderDate === today;
+  });
 
   return (
     <footer>
@@ -59,10 +60,10 @@ export default function Footer({ plants, reminders, onEditReminder }) {
                 .sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
                 .map((reminder) => {
                   const plant = plants.find(
-                    (plant) => plant.id === reminder.plantId
+                    (plant) => plant._id === reminder.plantId
                   );
                   return (
-                    <ReminderItem key={reminder.id}>
+                    <ReminderItem key={reminder._id}>
                       <p>
                         <strong>{plant ? plant.name : "Unknown Plant"}</strong>
                       </p>
@@ -74,7 +75,7 @@ export default function Footer({ plants, reminders, onEditReminder }) {
                         {new Date(reminder.dueDate).toLocaleDateString()}
                       </p>
                       <MarkDoneButton
-                        onClick={() => handleMarkAsDone(reminder.id)}
+                        onClick={() => handleMarkAsDone(reminder._id)}
                       >
                         Mark as Done
                       </MarkDoneButton>
@@ -91,7 +92,6 @@ export default function Footer({ plants, reminders, onEditReminder }) {
     </footer>
   );
 }
-
 
 const MarkDoneButton = styled.button`
   color: var(--color-button-cancel);

@@ -2,31 +2,23 @@ import React from "react";
 import styled from "styled-components";
 
 export default function PlantForm({
-  onSubmitPlant,
   onToggleForm,
   isEditMode = false,
-  initialData = {
-    name: "",
-    botanicalName: "",
-    description: "",
-    lightNeed: "",
-    waterNeed: "",
-    fertiliserSeason: [],
-    location: "",
-    humidity: "",
-    temperature: "",
-    airDraftIntolerance: "",
-  },
+  initialData = {},
+  onSubmitPlant,
 }) {
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
+
     const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
+    const plantData = Object.fromEntries(formData);
 
-    data.fertiliserSeason = formData.getAll("fertiliserSeason");
+    plantData.fertiliserSeason = formData.getAll("fertiliserSeason");
 
-    onSubmitPlant({ ...initialData, ...data });
+    onSubmitPlant(plantData);
+
     onToggleForm();
+    event.target.reset();
   }
 
   return (
@@ -125,7 +117,7 @@ export default function PlantForm({
                 type="checkbox"
                 name="fertiliserSeason"
                 value={season.value}
-                defaultChecked={initialData.fertiliserSeason.includes(
+                defaultChecked={initialData.fertiliserSeason?.includes(
                   season.value
                 )}
               />
