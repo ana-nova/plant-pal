@@ -22,17 +22,22 @@ export default function Homepage({ toggleFavourite, reminders }) {
   }
 
   async function handleAddPlant(newPlantData) {
-    const response = await fetch("/api/plants", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newPlantData),
-    });
+    try {
+      const response = await fetch("/api/plants", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newPlantData),
+      });
 
-    if (response.ok) {
+      if (!response.ok) {
+        throw new Error("Failed to add the plant. Please try again.");
+      }
+
       setShowForm(false);
       mutate();
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
     }
   }
 

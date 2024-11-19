@@ -44,11 +44,11 @@ export default function LandingPage() {
           <StyledWeatherLink href={"/"}>
             Hold onto your leaves! Weather feature sprouting soon ... 🌤️
             <div>
-              <Player
+              <PlayerWeatherCare
                 autoplay
                 loop
                 src={weatherAnimation}
-                style={{ height: "100px", width: "100px" }}
+                aria-hidden="true"
               />
             </div>
           </StyledWeatherLink>
@@ -57,11 +57,11 @@ export default function LandingPage() {
       <Cardcontainer>
         <Caretipcard>
           <div>
-            <Player
+            <PlayerWeatherCare
               autoplay
               loop
               src={careTipAnimation}
-              style={{ height: "100px", width: "100px" }}
+              aria-hidden="true"
             />
           </div>
           Leaf it to us! Daily tips are budding ... 🪴
@@ -69,11 +69,11 @@ export default function LandingPage() {
       </Cardcontainer>
 
       <FixedAnimation>
-        <Player
+        <PlayerPlant
           autoplay
           loop
           src={fixedPlantAnimation}
-          style={{ height: "150px", width: "150px" }}
+          aria-hidden="true"
         />
       </FixedAnimation>
     </>
@@ -153,4 +153,14 @@ const FixedAnimation = styled.div`
   right: -35px;
   z-index: 100;
   pointer-events: none;
+`;
+
+const PlayerWeatherCare = styled(Player)`
+  height: 100px;
+  width: 100px;
+`;
+
+const PlayerPlant = styled(Player)`
+  height: 150px;
+  width: 150px;
 `;

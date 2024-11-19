@@ -1,11 +1,12 @@
 import PlantForm from "@/components/PlantForm";
 import useSWR from "swr";
 import { useRouter } from "next/router";
-import Router from "next/router";
 
 export default function CreatePage() {
   const { data: plants, error, isLoading, mutate } = useSWR("/api/plants");
+
   const router = useRouter();
+
   async function handleAddPlant(newPlantData) {
     const response = await fetch("/api/plants", {
       method: "POST",
@@ -16,8 +17,8 @@ export default function CreatePage() {
     });
 
     if (response.ok) {
-      Router.push("/plants");
       mutate();
+      router.push("/plants");
     }
   }
   function handleCancel() {
