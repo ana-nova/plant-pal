@@ -1,12 +1,47 @@
 import { Player } from "@lottiefiles/react-lottie-player";
 import Link from "next/link";
 import styled, { keyframes, css } from "styled-components";
+import WeatherIcon from "@/components/WeatherIcon";
+
+function getAllWeatherDescription(code) {
+  const weatherDescriptions = {
+    0: "Clear sky",
+    1: "Mostly clear",
+    2: "Partly cloudy",
+    3: "Overcast",
+    45: "Fog",
+    48: "Rime fog",
+    51: "Light drizzle",
+    53: "Moderate drizzle",
+    55: "Heavy drizzle",
+    56: "Light freezing drizzle",
+    57: "Heavy freezing drizzle",
+    61: "Light rain",
+    63: "Moderate rain",
+    65: "Heavy rain",
+    66: "Light freezing rain",
+    67: "Heavy freezing rain",
+    71: "Light snowfall",
+    73: "Moderate snowfall",
+    75: "Heavy snowfall",
+    77: "Snow grains",
+    80: "Light rain showers",
+    81: "Moderate rain showers",
+    82: "Heavy rain showers",
+    85: "Light snow showers",
+    86: "Heavy snow showers",
+    95: "Thunderstorm",
+    96: "Thunderstorm with light hail",
+    99: "Thunderstorm with heavy hail",
+  };
+  return weatherDescriptions[code] || "Unknown conditions";
+}
 
 const weatherAnimation = "/animation/weather.json";
 const careTipAnimation = "/animation/caretip.json";
 const fixedPlantAnimation = "/animation/plantgrowing.json";
 
-export default function LandingPage() {
+export default function LandingPage({ weatherData }) {
   return (
     <>
       <Cardcontainer>
@@ -42,7 +77,15 @@ export default function LandingPage() {
       <Cardcontainer>
         <Weathercard>
           <StyledWeatherLink href={"/"}>
-            Hold onto your leaves! Weather feature sprouting soon ... 🌤️
+            <h2>Current Weather Of Your Location</h2>
+            <p>Temperature: {weatherData?.temperature}°C</p>
+            <p>Air Humidity: {weatherData?.humidity}%</p>
+            <p>Wind Speed: {weatherData?.windspeed} km/h</p>
+            <p>
+              Weather Condition:{" "}
+              {getAllWeatherDescription(weatherData?.weathercode)}
+            </p>
+            <WeatherIcon weatherData={weatherData?.weathercode} />
             <div>
               <PlayerWeatherCare
                 autoplay
