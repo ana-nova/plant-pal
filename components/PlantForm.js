@@ -17,7 +17,6 @@ export default function PlantForm({
 
     onSubmitPlant(plantData);
 
-    onToggleForm();
     event.target.reset();
   }
 
