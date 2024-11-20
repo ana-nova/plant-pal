@@ -9,7 +9,7 @@ export default function WeatherModal({ onClose, code }) {
     <ModalOverlay onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <h2>Weather Alert</h2>
-        <p>Weather Condition: {code ? getWeatherDescription(code) : "Upsi"}</p>
+        <p>{code ? getWeatherDescription(code) : "Upsi"}</p>
 
         {isAlertCondition && <WeatherAlertIcon />}
 
