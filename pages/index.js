@@ -2,40 +2,7 @@ import { Player } from "@lottiefiles/react-lottie-player";
 import Link from "next/link";
 import styled, { keyframes, css } from "styled-components";
 import WeatherIcon from "@/components/WeatherIcon";
-
-function getAllWeatherDescription(code) {
-  const weatherDescriptions = {
-    0: "Clear sky",
-    1: "Mostly clear",
-    2: "Partly cloudy",
-    3: "Overcast",
-    45: "Fog",
-    48: "Rime fog",
-    51: "Light drizzle",
-    53: "Moderate drizzle",
-    55: "Heavy drizzle",
-    56: "Light freezing drizzle",
-    57: "Heavy freezing drizzle",
-    61: "Light rain",
-    63: "Moderate rain",
-    65: "Heavy rain",
-    66: "Light freezing rain",
-    67: "Heavy freezing rain",
-    71: "Light snowfall",
-    73: "Moderate snowfall",
-    75: "Heavy snowfall",
-    77: "Snow grains",
-    80: "Light rain showers",
-    81: "Moderate rain showers",
-    82: "Heavy rain showers",
-    85: "Light snow showers",
-    86: "Heavy snow showers",
-    95: "Thunderstorm",
-    96: "Thunderstorm with light hail",
-    99: "Thunderstorm with heavy hail",
-  };
-  return weatherDescriptions[code] || "Unknown conditions";
-}
+import { getAllWeatherDescription } from "@/utils/getweatherdeatails";
 
 const weatherAnimation = "/animation/weather.json";
 const careTipAnimation = "/animation/caretip.json";
@@ -77,29 +44,29 @@ export default function LandingPage({ weatherData }) {
       <Cardcontainer>
         <Weathercard>
           <StyledWeatherLink href={"/"}>
-            <WeatherHeaderContainer>
-              <h2>Current Weather Of Your Location</h2>
-              <p> {weatherData?.temperature}°C</p>
-            </WeatherHeaderContainer>
-            <HumdityWindContainer>
-              <p>Humidity: {weatherData?.humidity}%</p>
-              <p>Wind: {weatherData?.windspeed} km/h</p>
-            </HumdityWindContainer>
+            <h2>Current Weather Of Your Location</h2>
+
             <WindWeatherContainer>
-              <p>{getAllWeatherDescription(weatherData?.weathercode)}</p>
+              <p> {weatherData?.temperature}°C</p>
               <WeatherIcon weatherData={weatherData?.weathercode} />
+              <p>{getAllWeatherDescription(weatherData?.weathercode)}</p>
             </WindWeatherContainer>
-            <div>
-              <PlayerWeatherCare
-                autoplay
-                loop
-                src={weatherAnimation}
-                aria-hidden="true"
-              />
-            </div>
+
+            <HumdityWindContainer>
+              <HumidityContainer>
+                <P>{weatherData?.humidity}%</P>
+                <P>Humidity</P>
+              </HumidityContainer>
+
+              <WindContainer>
+                <P>{weatherData?.windspeed} km/h</P>
+                <P>Wind</P>
+              </WindContainer>
+            </HumdityWindContainer>
           </StyledWeatherLink>
         </Weathercard>
       </Cardcontainer>
+
       <Cardcontainer>
         <Caretipcard>
           <div>
@@ -171,8 +138,8 @@ const StyledLink = styled(Link)`
 const Weathercard = styled.article`
   margin-top: 35px;
   width: 80%;
-
   justify-content: center;
+  text-align: center;
 `;
 
 const Caretipcard = styled.article`
@@ -217,28 +184,33 @@ const WindWeatherContainer = styled.section`
   text-decoration: none;
   color: var(--color-text-primary);
   display: flex;
-  flex-direction: column;
-
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   padding: 20px;
   display: flex;
 `;
 
-const Temperature = styled.p`
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin: 0;
-`;
-
-const WeatherHeaderContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-`;
-
 const HumdityWindContainer = styled.section`
   display: flex;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+const WindContainer = styled.section`
+  display: flex;
   justify-content: space-between;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const HumidityContainer = styled.section`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const P = styled.p`
+  margin: 3px;
 `;

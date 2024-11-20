@@ -1,25 +1,5 @@
 import styled from "styled-components";
-
-function getWeatherDescription(code) {
-  const weatherDescriptions = {
-    61: "Light rain",
-    3: "Overcast",
-    55: "Heavy drizzle",
-    56: "Light freezing drizzle",
-    57: "Heavy freezing drizzle",
-    65: "Heavy rain",
-    67: "Heavy freezing rain",
-    75: "Heavy snowfall",
-    77: "Snow grains",
-    82: "Heavy rain showers",
-    86: "Heavy snow showers",
-    95: "Thunderstorm",
-    96: "Thunderstorm with light hail",
-    99: "Thunderstorm with heavy hail",
-  };
-
-  return weatherDescriptions[code] || "unknown condition";
-}
+import { getWeatherDescription } from "@/utils/getweatherdeatails";
 
 export default function WeatherModal({ onClose, code }) {
   const alertWeatherCodes = [55, 56, 57, 65, 67, 75, 77, 82, 86, 95, 96, 99];
@@ -31,7 +11,6 @@ export default function WeatherModal({ onClose, code }) {
         <h2>Weather Alert</h2>
         <p>Weather Condition: {code ? getWeatherDescription(code) : "Upsi"}</p>
 
-        {/* Zeige das Icon nur, wenn die Bedingung erfüllt ist */}
         {isAlertCondition && <WeatherAlertIcon />}
 
         <CloseButton onClick={onClose}>Close</CloseButton>
@@ -65,7 +44,11 @@ const ModalContent = styled.div`
   background-color: white;
   padding: 20px;
   border-radius: 5px;
+  display: flex;
+  justify-content: center;
   position: relative;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const CloseButton = styled.button`
@@ -75,4 +58,5 @@ const CloseButton = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  display: flex;
 `;

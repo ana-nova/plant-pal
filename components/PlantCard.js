@@ -5,33 +5,12 @@ import WeatherAlertIcon from "@/public/Icons/weather-warning-icon.svg";
 import PlantFavIcon from "@/public/Icons/plant-line.svg";
 import PlantFavIconFill from "@/public/Icons/plant-fill.svg";
 import ReminderIcon from "@/public/Icons/calendar-schedule-line.svg";
-
-function getWeatherDescription(code) {
-  const weatherDescriptions = {
-    61: "Light rain",
-    3: "Overcast",
-    55: "Heavy drizzle",
-    56: "Light freezing drizzle",
-    57: "Heavy freezing drizzle",
-    65: "Heavy rain",
-    67: "Heavy freezing rain",
-    75: "Heavy snowfall",
-    77: "Snow grains",
-    82: "Heavy rain showers",
-    86: "Heavy snow showers",
-    95: "Thunderstorm",
-    96: "Thunderstorm with light hail",
-    99: "Thunderstorm with heavy hail",
-  };
-
-  return weatherDescriptions[code] || "";
-}
+import { getWeatherDescription } from "@/utils/getweatherdeatails";
 
 export default function PlantCard({
   plant,
   toggleFavourite,
   hasActiveReminder,
-
   openWeatherAlertModal,
   code,
 }) {
