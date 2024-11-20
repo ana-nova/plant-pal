@@ -77,15 +77,18 @@ export default function LandingPage({ weatherData }) {
       <Cardcontainer>
         <Weathercard>
           <StyledWeatherLink href={"/"}>
-            <h2>Current Weather Of Your Location</h2>
-            <p>Temperature: {weatherData?.temperature}°C</p>
-            <p>Air Humidity: {weatherData?.humidity}%</p>
-            <p>Wind Speed: {weatherData?.windspeed} km/h</p>
-            <p>
-              Weather Condition:{" "}
-              {getAllWeatherDescription(weatherData?.weathercode)}
-            </p>
-            <WeatherIcon weatherData={weatherData?.weathercode} />
+            <WeatherHeaderContainer>
+              <h2>Current Weather Of Your Location</h2>
+              <p> {weatherData?.temperature}°C</p>
+            </WeatherHeaderContainer>
+            <HumdityWindContainer>
+              <p>Humidity: {weatherData?.humidity}%</p>
+              <p>Wind: {weatherData?.windspeed} km/h</p>
+            </HumdityWindContainer>
+            <WindWeatherContainer>
+              <p>{getAllWeatherDescription(weatherData?.weathercode)}</p>
+              <WeatherIcon weatherData={weatherData?.weathercode} />
+            </WindWeatherContainer>
             <div>
               <PlayerWeatherCare
                 autoplay
@@ -168,7 +171,7 @@ const StyledLink = styled(Link)`
 const Weathercard = styled.article`
   margin-top: 35px;
   width: 80%;
-  height: 150px;
+
   justify-content: center;
 `;
 
@@ -188,6 +191,8 @@ const StyledWeatherLink = styled(Link)`
   flex-direction: row;
   justify-content: center;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const FixedAnimation = styled.div`
@@ -206,4 +211,34 @@ const PlayerWeatherCare = styled(Player)`
 const PlayerPlant = styled(Player)`
   height: 150px;
   width: 150px;
+`;
+
+const WindWeatherContainer = styled.section`
+  text-decoration: none;
+  color: var(--color-text-primary);
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  display: flex;
+`;
+
+const Temperature = styled.p`
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0;
+`;
+
+const WeatherHeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+`;
+
+const HumdityWindContainer = styled.section`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
 `;
