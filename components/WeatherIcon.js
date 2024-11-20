@@ -6,13 +6,23 @@ import Fog from "@/public/Icons/foggy-line.svg";
 import Partlycloudy from "@/public/Icons/sun-foggy-line.svg";
 import SnowIcon from "@/public/Icons/snowflake-line.svg";
 import ThunderIcon from "@/public/Icons/thunderstorms-line.svg";
+import { Player } from "@lottiefiles/react-lottie-player";
+const weatherAnimation = "/animation/weather.json";
 
 export default WeatherIcon;
 const iconMapping = {
   0: <FullSunIcon />,
   1: <FullSunIcon />,
   2: <Partlycloudy />,
-  3: <Overcast />,
+  3: (
+    <Player
+      autoplay
+      loop
+      src={weatherAnimation}
+      aria-hidden="true"
+      style={{ height: "150px", width: "150px" }}
+    />
+  ),
   45: <Fog />,
   51: <RainIcon />,
   53: <RainIcon />,
