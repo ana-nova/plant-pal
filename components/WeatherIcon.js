@@ -1,51 +1,262 @@
-import FullSunIcon from "@/public/Icons/sun-fill.svg";
-import Overcast from "@/public/Icons/cloudy-fill.svg";
-import HighWaterdropIcon from "@/public/Icons/drop-fill.svg";
-import RainIcon from "@/public/Icons/rain-icon.svg";
-import Fog from "@/public/Icons/foggy-line.svg";
-import Partlycloudy from "@/public/Icons/sun-foggy-line.svg";
-import SnowIcon from "@/public/Icons/snowflake-line.svg";
-import ThunderIcon from "@/public/Icons/thunderstorms-line.svg";
 import { Player } from "@lottiefiles/react-lottie-player";
-const weatherAnimation = "/animation/weather.json";
+
+const drizzleAnimation = "/animation/drizzle.json";
+const fogAnimation = "/animation/fog.json";
+const heavyRainAnimation = "/animation/heavyrain.json";
+const ligthSnowAnimation = "/animation/ligntsnow.json";
+const mostlyClearAnimation = "/animation/mostlyclear.json";
+const overcastAnimation = "/animation/overcast.json";
+const rainAnimation = "/animation/rain.json";
+const snowAnimation = "/animation/snow.json";
+const sunnyAnimation = "/animation/sunny.json";
+const thunderAnimation = "/animation/thunderrain.json";
+const thunderstormAnimation = "/animation/thunderstorm.json";
 
 export default WeatherIcon;
 const iconMapping = {
-  0: <FullSunIcon />,
-  1: <FullSunIcon />,
-  2: <Partlycloudy />,
+  0: (
+    <Player
+      autoplay
+      loop
+      src={sunnyAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  1: (
+    <Player
+      autoplay
+      loop
+      src={mostlyClearAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  2: (
+    <Player
+      autoplay
+      loop
+      src={mostlyClearAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
   3: (
     <Player
       autoplay
       loop
-      src={weatherAnimation}
+      src={overcastAnimation}
       aria-hidden="true"
-      style={{ height: "150px", width: "150px" }}
+      style={{ height: "100px", width: "100px" }}
     />
   ),
-  45: <Fog />,
-  51: <RainIcon />,
-  53: <RainIcon />,
-  55: <RainIcon />,
-  56: <RainIcon />,
-  57: <RainIcon />,
-  61: <RainIcon />,
-  63: <RainIcon />,
-  65: <RainIcon />,
-  66: <SnowIcon />,
-  67: <SnowIcon />,
-  71: <SnowIcon />,
-  73: <SnowIcon />,
-  75: <SnowIcon />,
-  77: <SnowIcon />,
-  80: <RainIcon />,
-  81: <RainIcon />,
-  82: <RainIcon />,
-  85: <SnowIcon />,
-  86: <SnowIcon />,
-  95: <HighWaterdropIcon />,
-  96: <ThunderIcon />,
-  99: <ThunderIcon />,
+  45: (
+    <Player
+      autoplay
+      loop
+      src={fogAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  51: (
+    <Player
+      autoplay
+      loop
+      src={drizzleAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  53: (
+    <Player
+      autoplay
+      loop
+      src={drizzleAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  55: (
+    <Player
+      autoplay
+      loop
+      src={drizzleAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  56: (
+    <Player
+      autoplay
+      loop
+      src={drizzleAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  57: (
+    <Player
+      autoplay
+      loop
+      src={drizzleAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  61: (
+    <Player
+      autoplay
+      loop
+      src={rainAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  63: (
+    <Player
+      autoplay
+      loop
+      src={rainAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  65: (
+    <Player
+      autoplay
+      loop
+      src={heavyRainAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  66: (
+    <Player
+      autoplay
+      loop
+      src={rainAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  67: (
+    <Player
+      autoplay
+      loop
+      src={heavyRainAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  71: (
+    <Player
+      autoplay
+      loop
+      src={ligthSnowAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  73: (
+    <Player
+      autoplay
+      loop
+      src={snowAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  75: (
+    <Player
+      autoplay
+      loop
+      src={snowAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  77: (
+    <Player
+      autoplay
+      loop
+      src={snowAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  80: (
+    <Player
+      autoplay
+      loop
+      src={rainAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  81: (
+    <Player
+      autoplay
+      loop
+      src={rainAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  82: (
+    <Player
+      autoplay
+      loop
+      src={heavyRainAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  85: (
+    <Player
+      autoplay
+      loop
+      src={ligthSnowAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  86: (
+    <Player
+      autoplay
+      loop
+      src={snowAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  95: (
+    <Player
+      autoplay
+      loop
+      src={thunderstormAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  96: (
+    <Player
+      autoplay
+      loop
+      src={thunderAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
+  99: (
+    <Player
+      autoplay
+      loop
+      src={thunderAnimation}
+      aria-hidden="true"
+      style={{ height: "100px", width: "100px" }}
+    />
+  ),
 };
 
 function WeatherIcon({ weatherData }) {
