@@ -18,20 +18,35 @@ function getWeatherDescription(code) {
     99: "Thunderstorm with heavy hail",
   };
 
-  return weatherDescriptions[code] || "Unknown conditions";
+  return weatherDescriptions[code] || "unknown condition";
 }
+
 export default function WeatherModal({ onClose, code }) {
+  const alertWeatherCodes = [55, 56, 57, 65, 67, 75, 77, 82, 86, 95, 96, 99];
+  const isAlertCondition = alertWeatherCodes.includes(code);
+
   return (
     <ModalOverlay onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <h2>Weather Alert</h2>
         <p>Weather Condition: {code ? getWeatherDescription(code) : "Upsi"}</p>
 
+        {/* Zeige das Icon nur, wenn die Bedingung erfüllt ist */}
+        {isAlertCondition && <WeatherAlertIcon />}
+
         <CloseButton onClick={onClose}>Close</CloseButton>
       </ModalContent>
     </ModalOverlay>
   );
 }
+
+const WeatherAlertIcon = styled.div`
+  width: 50px;
+  height: 50px;
+  background: url("/icons/weather-alert.png") no-repeat center center;
+  background-size: contain;
+  margin: 10px auto;
+`;
 
 const ModalOverlay = styled.div`
   position: fixed;

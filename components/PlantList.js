@@ -6,6 +6,7 @@ export default function PlantList({
   reminders,
   showWeatherAlert,
   openWeatherAlertModal,
+  code,
 }) {
   if (!plants || plants.length === 0)
     return (
@@ -14,7 +15,6 @@ export default function PlantList({
         collection.
       </p>
     );
-
   return (
     <ul>
       {plants.map((plant) => {
@@ -30,6 +30,7 @@ export default function PlantList({
               hasActiveReminder={plantReminders?.length > 0}
               showWeatherAlert={showWeatherAlert}
               openWeatherAlertModal={openWeatherAlertModal}
+              code={code}
             />
           </li>
         );
