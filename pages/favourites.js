@@ -67,6 +67,7 @@ export default function MyPlantsPage({
   return (
     <>
       <h1>My Owned Plants</h1>
+
       {shouldShowWeatherAlert && (
         <button onClick={openWeatherAlertModal}>Show Weather Alert</button>
       )}
