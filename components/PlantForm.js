@@ -53,7 +53,7 @@ export default function PlantForm({
     plantData.fertiliserSeason = formData.getAll("fertiliserSeason");
 
     onSubmitPlant(plantData);
-    onToggleForm();
+
     event.target.reset();
   }
 
