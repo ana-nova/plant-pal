@@ -11,8 +11,45 @@ export default function PlantForm({
     event.preventDefault();
 
     const formData = new FormData(event.target);
-    const plantData = Object.fromEntries(formData);
 
+    const file = formData.get("image");
+
+    if (file && file.size > 0) {
+      const maxSizeMB = 5;
+      if (file.size > maxSizeMB * 1024 * 1024) {
+        alert(
+          `Your image is larger than ${maxSizeMB}MB. Please select a smaller image.`
+        );
+        return;
+      }
+
+      const uploadFormData = new FormData();
+      uploadFormData.append("image", file);
+
+      try {
+        const response = await fetch("/api/upload", {
+          method: "POST",
+          body: uploadFormData,
+        });
+
+        if (!response.ok) {
+          alert("Image upload failed. Please try again.");
+          return;
+        }
+
+        const data = await response.json();
+        const imageUrl = data.secure_url;
+
+        formData.set("imageUrl", imageUrl);
+      } catch (error) {
+        alert(
+          "An unexpected error occurred during image upload. Please try again."
+        );
+        return;
+      }
+    }
+
+    const plantData = Object.fromEntries(formData);
     plantData.fertiliserSeason = formData.getAll("fertiliserSeason");
 
     onSubmitPlant(plantData);
@@ -23,6 +60,16 @@ export default function PlantForm({
   return (
     <form onSubmit={handleSubmit}>
       <h2>{initialData.name ? "Edit Plant" : "Add a New Plant"}</h2>
+
+      <FormLabel htmlFor="file-upload">
+        Upload image
+        <input
+          type="file"
+          id="file-upload"
+          name="image"
+          accept=".jpg, .jpeg, .png"
+        />
+      </FormLabel>
 
       <FormLabel htmlFor="name">
         Plant Name*
@@ -174,6 +221,7 @@ export default function PlantForm({
           name="careLevel"
           defaultValue={initialData.careLevel || ""}
         >
+          <option value="">Select care level</option>
           <option value="Beginner">Beginner</option>
           <option value="Average">Average</option>
           <option value="Expert">Expert</option>
