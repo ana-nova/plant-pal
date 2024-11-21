@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { caretips } from "@/assets/caretips";
+import LightbulbIcon from "@/public/Icons/lightbulb.svg";
 
 export default function RandomCareTips() {
   const [randomTip, setRandomTip] = useState("");
@@ -17,7 +18,7 @@ export default function RandomCareTips() {
       setRandomTip(getRandomTip());
     }
 
-    const interval = setInterval(updateTip, 20000);
+    const interval = setInterval(updateTip, 10000);
 
     return function cleanup() {
       clearInterval(interval);
@@ -26,16 +27,24 @@ export default function RandomCareTips() {
 
   return (
     <TipContainer>
-      <h2>{randomTip}</h2>
+      <IconContainer>
+        <LightbulbIcon />
+      </IconContainer>
+      {randomTip}
     </TipContainer>
   );
 }
 
 const TipContainer = styled.section`
   display: flex;
-  justify-content: center;
+  position: absolute;
+  text-align: center;
   align-items: center;
-  background-color: pink;
   width: 100%;
   height: 100%;
+`;
+
+const IconContainer = styled.div`
+  position: relative;
+  top: -0px;
 `;
