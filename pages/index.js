@@ -125,7 +125,7 @@ const Weathercard = styled.article`
 const Caretipcard = styled.article`
   margin-top: 35px;
   width: 80%;
-  height: 100px;
+  height: 150px;
   padding: 10px;
   display: flex;
   flex-direction: row;

@@ -27,10 +27,10 @@ export default function RandomCareTips() {
 
   return (
     <TipContainer>
+      {randomTip}
       <IconContainer>
         <LightbulbIcon />
       </IconContainer>
-      {randomTip}
     </TipContainer>
   );
 }
@@ -40,11 +40,11 @@ const TipContainer = styled.section`
   position: absolute;
   text-align: center;
   align-items: center;
-  width: 100%;
-  height: 100%;
+  padding: 10px;
 `;
 
 const IconContainer = styled.div`
   position: relative;
-  top: -0px;
+  top: -45px;
+  left: -5px;
 `;
