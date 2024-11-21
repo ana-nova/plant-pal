@@ -1,6 +1,7 @@
 import GlobalStyle from "../styles";
 import Layout from "@/components/Layout";
 import useSWR, { SWRConfig } from "swr";
+import { useState, useEffect } from "react";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -10,6 +11,42 @@ export default function App({ Component, pageProps }) {
     "/api/reminders",
     fetcher
   );
+  const [weatherData, setWeatherData] = useState(null);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchWeather(latitude, longitude) {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=relative_humidity_2m`
+        );
+        const data = await response.json();
+
+        const currentWeather = data.current_weather;
+        const humidity = data.hourly.relative_humidity_2m[0];
+
+        setWeatherData({ ...currentWeather, humidity });
+      } catch (error) {
+        console.error("Error fetching weather data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    function handleGeoSuccess(position) {
+      const { latitude, longitude } = position.coords;
+      fetchWeather(latitude, longitude);
+    }
+
+    function handleGeoError() {
+      console.error("Unable to retrieve location.");
+      setLoading(false);
+    }
+
+    navigator.geolocation.getCurrentPosition(handleGeoSuccess, handleGeoError);
+  }, []);
 
   async function toggleFavourite(id, isFavourite) {
     const response = await fetch(`/api/plants/${id}`, {
@@ -77,6 +114,7 @@ export default function App({ Component, pageProps }) {
           <GlobalStyle />
           <Component
             {...pageProps}
+            weatherData={weatherData}
             toggleFavourite={toggleFavourite}
             reminders={reminders}
             onAddReminder={handleAddReminder}

@@ -1,15 +1,18 @@
 import styled from "styled-components";
 import Link from "next/link";
 import Image from "next/image";
-
+import WeatherAlertIcon from "@/public/Icons/weather-warning-icon.svg";
 import PlantFavIcon from "@/public/Icons/plant-line.svg";
 import PlantFavIconFill from "@/public/Icons/plant-fill.svg";
 import ReminderIcon from "@/public/Icons/calendar-schedule-line.svg";
+import { getWeatherDescription } from "@/utils/getweatherdeatails";
 
 export default function PlantCard({
   plant,
   toggleFavourite,
   hasActiveReminder,
+  openWeatherAlertModal,
+  code,
 }) {
   return (
     <StyledArticle>
@@ -24,6 +27,9 @@ export default function PlantCard({
       >
         {plant.isFavourite ? <PlantFavIconFill /> : <PlantFavIcon />}
       </ButtonFavourite>
+      {getWeatherDescription(code) ? (
+        <WeatherAlertIcon onClick={openWeatherAlertModal} />
+      ) : null}
       <h2>{plant.name}</h2>
       <p>{plant.botanicalName}</p>
 

@@ -1,19 +1,20 @@
 import PlantCard from "./PlantCard";
 
-export default function PlantList({ plants, toggleFavourite, reminders }) {
-  if (!plants || plants.length === 0) {
+export default function PlantList({
+  plants,
+  toggleFavourite,
+  reminders,
+  showWeatherAlert,
+  openWeatherAlertModal,
+  code,
+}) {
+  if (!plants || plants.length === 0)
     return (
       <p>
         There are no plants here yet! Start adding some to create your own plant
         collection.
       </p>
     );
-  }
-
-  if (!Array.isArray(plants)) {
-    return <p>Failed to load plants.</p>;
-  }
-
   return (
     <ul>
       {plants.map((plant) => {
@@ -27,6 +28,9 @@ export default function PlantList({ plants, toggleFavourite, reminders }) {
               plant={plant}
               toggleFavourite={toggleFavourite}
               hasActiveReminder={plantReminders?.length > 0}
+              showWeatherAlert={showWeatherAlert}
+              openWeatherAlertModal={openWeatherAlertModal}
+              code={code}
             />
           </li>
         );

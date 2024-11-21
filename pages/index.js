@@ -1,12 +1,14 @@
 import { Player } from "@lottiefiles/react-lottie-player";
 import Link from "next/link";
 import styled, { keyframes, css } from "styled-components";
+import WeatherIcon from "@/components/WeatherIcon";
+import { getAllWeatherDescription } from "@/utils/getweatherdeatails";
 
 const weatherAnimation = "/animation/weather.json";
 const careTipAnimation = "/animation/caretip.json";
 const fixedPlantAnimation = "/animation/plantgrowing.json";
 
-export default function LandingPage() {
+export default function LandingPage({ weatherData }) {
   return (
     <>
       <Cardcontainer>
@@ -42,18 +44,29 @@ export default function LandingPage() {
       <Cardcontainer>
         <Weathercard>
           <StyledWeatherLink href={"/"}>
-            Hold onto your leaves! Weather feature sprouting soon ... 🌤️
-            <div>
-              <PlayerWeatherCare
-                autoplay
-                loop
-                src={weatherAnimation}
-                aria-hidden="true"
-              />
-            </div>
+            <h2>Current Weather Of Your Location</h2>
+
+            <WindWeatherContainer>
+              <p> {weatherData?.temperature}°C</p>
+              <WeatherIcon weatherData={weatherData?.weathercode} />
+              <p>{getAllWeatherDescription(weatherData?.weathercode)}</p>
+            </WindWeatherContainer>
+
+            <HumdityWindContainer>
+              <HumidityContainer>
+                <P>{weatherData?.humidity}%</P>
+                <P>Humidity</P>
+              </HumidityContainer>
+
+              <WindContainer>
+                <P>{weatherData?.windspeed} km/h</P>
+                <P>Wind</P>
+              </WindContainer>
+            </HumdityWindContainer>
           </StyledWeatherLink>
         </Weathercard>
       </Cardcontainer>
+
       <Cardcontainer>
         <Caretipcard>
           <div>
@@ -125,8 +138,8 @@ const StyledLink = styled(Link)`
 const Weathercard = styled.article`
   margin-top: 35px;
   width: 80%;
-  height: 150px;
   justify-content: center;
+  text-align: center;
 `;
 
 const Caretipcard = styled.article`
@@ -145,6 +158,8 @@ const StyledWeatherLink = styled(Link)`
   flex-direction: row;
   justify-content: center;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const FixedAnimation = styled.div`
@@ -163,4 +178,39 @@ const PlayerWeatherCare = styled(Player)`
 const PlayerPlant = styled(Player)`
   height: 150px;
   width: 150px;
+`;
+
+const WindWeatherContainer = styled.section`
+  text-decoration: none;
+  color: var(--color-text-primary);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: 20px;
+  display: flex;
+`;
+
+const HumdityWindContainer = styled.section`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+const WindContainer = styled.section`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const HumidityContainer = styled.section`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const P = styled.p`
+  margin: 3px;
 `;
