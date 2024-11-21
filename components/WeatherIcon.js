@@ -12,7 +12,6 @@ const sunnyAnimation = "/animation/sunny.json";
 const thunderAnimation = "/animation/thunderrain.json";
 const thunderstormAnimation = "/animation/thunderstorm.json";
 
-export default WeatherIcon;
 const iconMapping = {
   0: (
     <Player
@@ -259,7 +258,7 @@ const iconMapping = {
   ),
 };
 
-function WeatherIcon({ weatherData }) {
+export default function WeatherIcon({ weatherData }) {
   const icon = iconMapping[weatherData] || null;
 
   return icon ? <div>{icon}</div> : null;

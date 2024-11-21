@@ -6,16 +6,20 @@ export default function WeatherModal({ onClose, code }) {
   const isAlertCondition = alertWeatherCodes.includes(code);
 
   return (
-    <ModalOverlay onClick={onClose}>
+    <ModalContainer onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <h2>Weather Alert</h2>
-        <p>{code ? getWeatherDescription(code) : "Upsi"}</p>
+        <p>
+          {code
+            ? getWeatherDescription(code)
+            : "Something went wrong, hold onto your leaves"}
+        </p>
 
         {isAlertCondition && <WeatherAlertIcon />}
 
         <CloseButton onClick={onClose}>Close</CloseButton>
       </ModalContent>
-    </ModalOverlay>
+    </ModalContainer>
   );
 }
 
@@ -27,7 +31,7 @@ const WeatherAlertIcon = styled.div`
   margin: 10px auto;
 `;
 
-const ModalOverlay = styled.div`
+const ModalContainer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
