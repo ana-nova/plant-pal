@@ -3,24 +3,39 @@ import Link from "next/link";
 import styled, { keyframes, css } from "styled-components";
 import WeatherIcon from "@/components/WeatherIcon";
 import { getAllWeatherDescription } from "@/utils/getweatherdeatails";
+import Login from "@/components/Login";
+import { useSession } from "next-auth/react";
 
 const weatherAnimation = "/animation/weather.json";
 const careTipAnimation = "/animation/caretip.json";
 const fixedPlantAnimation = "/animation/plantgrowing.json";
 
 export default function LandingPage({ weatherData }) {
+  const { data: session } = useSession();
+
   return (
     <>
+      <Login />
       <Cardcontainer>
-        <Card
-          $animation={css`
-            ${gradientMoveTopLeftToBottomRight}
-          `}
-        >
-          <StyledLink href={"/create"}>
-            <p>Create New Plant</p>
-          </StyledLink>
-        </Card>
+        {session ? (
+          <Card
+            $animation={css`
+              ${gradientMoveTopLeftToBottomRight}
+            `}
+          >
+            <StyledLink href={"/create"}>
+              <p>Create New Plant</p>
+            </StyledLink>
+          </Card>
+        ) : (
+          <Card
+            $animation={css`
+              ${gradientMoveTopLeftToBottomRight}
+            `}
+          >
+            <p>Please log in to create a new plant</p>
+          </Card>
+        )}
         <Card
           $animation={css`
             ${gradientMoveTopToBottom}
@@ -30,43 +45,42 @@ export default function LandingPage({ weatherData }) {
             <p>My Plant List</p>
           </StyledLink>
         </Card>
-        <Card
-          $animation={css`
-            ${gradientMoveTopRightToBottomLeft}
-          `}
-        >
-          <StyledLink href={"/favourites"}>
-            <p>My Owned Plants</p>
-          </StyledLink>
-        </Card>
+        {session ? (
+          <Card
+            $animation={css`
+              ${gradientMoveTopRightToBottomLeft}
+            `}
+          >
+            <StyledLink href={"/favourites"}>
+              <p>My Owned Plants</p>
+            </StyledLink>
+          </Card>
+        ) : (
+          <Card
+            $animation={css`
+              ${gradientMoveTopRightToBottomLeft}
+            `}
+          >
+            <p>Please log in to view your owned plants</p>
+          </Card>
+        )}
       </Cardcontainer>
 
       <Cardcontainer>
         <Weathercard>
           <StyledWeatherLink href={"/"}>
-            <h2>Current Weather Of Your Location</h2>
-
-            <WindWeatherContainer>
-              <p> {weatherData?.temperature}°C</p>
-              <WeatherIcon weatherData={weatherData?.weathercode} />
-              <p>{getAllWeatherDescription(weatherData?.weathercode)}</p>
-            </WindWeatherContainer>
-
-            <HumdityWindContainer>
-              <HumidityContainer>
-                <P>{weatherData?.humidity}%</P>
-                <P>Humidity</P>
-              </HumidityContainer>
-
-              <WindContainer>
-                <P>{weatherData?.windspeed} km/h</P>
-                <P>Wind</P>
-              </WindContainer>
-            </HumdityWindContainer>
+            Hold onto your leaves! Weather feature sprouting soon ... 🌤️
+            <div>
+              <PlayerWeatherCare
+                autoplay
+                loop
+                src={weatherAnimation}
+                aria-hidden="true"
+              />
+            </div>
           </StyledWeatherLink>
         </Weathercard>
       </Cardcontainer>
-
       <Cardcontainer>
         <Caretipcard>
           <div>

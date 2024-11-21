@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useSession } from "next-auth/react";
 
 export default function PlantForm({
   onToggleForm,
@@ -7,6 +8,7 @@ export default function PlantForm({
   initialData = {},
   onSubmitPlant,
 }) {
+  const { data: session, status } = useSession();
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -56,7 +58,9 @@ export default function PlantForm({
 
     event.target.reset();
   }
-
+  if (!session) {
+    return <p>Please login to see more</p>;
+  }
   return (
     <form onSubmit={handleSubmit}>
       <h2>{initialData.name ? "Edit Plant" : "Add a New Plant"}</h2>

@@ -23,6 +23,7 @@ import CatIcon from "@/public/Icons/cat.svg";
 import DogIcon from "@/public/Icons/dog.svg";
 import CareIcon from "@/public/Icons/award-line.svg";
 import PlantReminder from "@/components/PlantReminder";
+import { useSession } from "next-auth/react";
 
 const lightNeedIcon = {
   "Full Sun": <FullSunIcon />,
@@ -46,6 +47,7 @@ export default function PlantDetails({
   const [showEdit, setShowEdit] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [uploadOpen, setUploadOpen] = useState(false);
+  const { data: session } = useSession();
 
   const router = useRouter();
   const { id } = router.query;
@@ -160,10 +162,18 @@ export default function PlantDetails({
   if (!plant || error) {
     return <h1>Element not found.</h1>;
   }
-
+  if (!session) {
+    return (
+      <>
+        <h1>Details Page</h1>
+        <p>You have to log in first to view the details.</p>
+      </>
+    );
+  }
   return (
     <>
       <h1>Details Page</h1>
+
       {!showEdit ? (
         <CardDetails>
           <Image
