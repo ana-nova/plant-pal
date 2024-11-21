@@ -1,7 +1,5 @@
 function getWeatherDescription(code) {
   const weatherDescriptions = {
-    61: "Light rain today, no need to water!",
-    3: "Overcast skies, plants might need extra love.",
     55: "Heavy drizzle, nature's gentle watering.",
     56: "Light freezing drizzle, bring plants inside!",
     57: "Heavy freezing drizzle, your plants need shelter!",
