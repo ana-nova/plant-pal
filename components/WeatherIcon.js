@@ -3,7 +3,7 @@ import { Player } from "@lottiefiles/react-lottie-player";
 const drizzleAnimation = "/animation/drizzle.json";
 const fogAnimation = "/animation/fog.json";
 const heavyRainAnimation = "/animation/heavyrain.json";
-const ligthSnowAnimation = "/animation/ligntsnow.json";
+const ligthSnowAnimation = "/animation/ligthsnow.json";
 const mostlyClearAnimation = "/animation/mostlyclear.json";
 const overcastAnimation = "/animation/overcast.json";
 const rainAnimation = "/animation/rain.json";
