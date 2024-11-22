@@ -71,18 +71,29 @@ export default function LandingPage({ weatherData }) {
       <Cardcontainer>
         <Weathercard>
           <StyledWeatherLink href={"/"}>
-            Hold onto your leaves! Weather feature sprouting soon ... 🌤️
-            <div>
-              <PlayerWeatherCare
-                autoplay
-                loop
-                src={weatherAnimation}
-                aria-hidden="true"
-              />
-            </div>
+            <h2>Current Weather Of Your Location</h2>
+
+            <WindWeatherContainer>
+              <p> {weatherData?.temperature}°C</p>
+              <WeatherIcon weatherData={weatherData?.weathercode} />
+              <p>{getAllWeatherDescription(weatherData?.weathercode)}</p>
+            </WindWeatherContainer>
+
+            <HumdityWindContainer>
+              <HumidityContainer>
+                <P>{weatherData?.humidity}%</P>
+                <P>Humidity</P>
+              </HumidityContainer>
+
+              <WindContainer>
+                <P>{weatherData?.windspeed} km/h</P>
+                <P>Wind</P>
+              </WindContainer>
+            </HumdityWindContainer>
           </StyledWeatherLink>
         </Weathercard>
       </Cardcontainer>
+
       <Cardcontainer>
         <Caretipcard>
           <div>
