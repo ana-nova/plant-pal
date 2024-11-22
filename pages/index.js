@@ -15,7 +15,9 @@ export default function LandingPage({ weatherData }) {
 
   return (
     <>
-      <Login />
+      <LoginContainer>
+        <Login />
+      </LoginContainer>
       <Cardcontainer>
         {session ? (
           <Card
@@ -227,4 +229,15 @@ const HumidityContainer = styled.section`
 
 const P = styled.p`
   margin: 3px;
+`;
+
+const LoginContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  padding: 10px;
 `;
