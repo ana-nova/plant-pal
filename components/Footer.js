@@ -30,10 +30,14 @@ export default function Footer({ plants, reminders, onEditReminder }) {
 
   const today = new Date().toISOString().split("T")[0];
 
-  const hasTodayReminder = (reminders || []).some((reminder) => {
-    const reminderDate = new Date(reminder.dueDate).toISOString().split("T")[0];
-    return !reminder.isDone && reminderDate === today;
-  });
+  const hasTodayReminder =
+    Array.isArray(reminders) &&
+    reminders.some((reminder) => {
+      const reminderDate = new Date(reminder.dueDate)
+        .toISOString()
+        .split("T")[0];
+      return !reminder.isDone && reminderDate === today;
+    });
 
   return (
     <footer>
