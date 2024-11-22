@@ -9,17 +9,8 @@ export default async function handler(req, res) {
   const session = await getServerSession(req, res, authOptions);
 
   if (req.method === "GET") {
-    try {
-      if (session) {
-        const plants = await Plant.find().sort({ createdAt: -1 });
-
-        return res.status(200).json(plants);
-      } else {
-        return res.status(401).json({ status: "Not authorized" });
-      }
-    } catch (error) {
-      return res.status(500).json({ error: "Failed to fetch plants" });
-    }
+    const plants = await Plant.find().sort({ createdAt: -1 });
+    res.status(200).json(plants);
   }
 
   if (req.method === "POST") {

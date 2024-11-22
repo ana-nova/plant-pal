@@ -63,9 +63,9 @@ export default function PlantDetails({
 
   if (!plant) return <p>Plant not found</p>;
 
-  const plantReminders = reminders.filter(
-    (reminder) => reminder.plantId === plant._id
-  );
+  const plantReminders = Array.isArray(reminders)
+    ? reminders.filter((reminder) => reminder.plantId === plant._id)
+    : [];
 
   function handleDelete() {
     setShowConfirmation(true);

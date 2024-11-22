@@ -6,6 +6,7 @@ import PlantFavIcon from "@/public/Icons/plant-line.svg";
 import PlantFavIconFill from "@/public/Icons/plant-fill.svg";
 import ReminderIcon from "@/public/Icons/calendar-schedule-line.svg";
 import { getWeatherDescription } from "@/utils/getweatherdeatails";
+import { useSession } from "next-auth/react";
 
 export default function PlantCard({
   plant,
@@ -14,18 +15,28 @@ export default function PlantCard({
   openWeatherAlertModal,
   code,
 }) {
+  const { data: session } = useSession();
+
   return (
     <StyledArticle>
       <ButtonFavourite
         aria-label={
-          plant.isFavourite ? "Remove from favorites" : "Add to favorites"
+          session
+            ? plant.isFavourite
+              ? "Remove from favorites"
+              : "Add to favorites"
+            : "Login to toggle favorites"
         }
         onClick={(event) => {
           event.preventDefault();
-          toggleFavourite(plant._id, plant.isFavourite);
+          if (session) {
+            toggleFavourite(plant._id, plant.isFavourite);
+          }
         }}
+        disabled={!session}
       >
-        {plant.isFavourite ? <PlantFavIconFill /> : <PlantFavIcon />}
+        {session &&
+          (plant.isFavourite ? <PlantFavIconFill /> : <PlantFavIcon />)}
       </ButtonFavourite>
       {getWeatherDescription(code) ? (
         <WeatherAlertIcon onClick={openWeatherAlertModal} />

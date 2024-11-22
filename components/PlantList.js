@@ -17,9 +17,11 @@ export default function PlantList({
   return (
     <ul>
       {plants.map((plant) => {
-        const plantReminders = reminders?.filter(
-          (reminder) => reminder.plantId === plant._id && !reminder.isDone
-        );
+        const plantReminders = Array.isArray(reminders)
+          ? reminders.filter(
+              (reminder) => reminder.plantId === plant._id && !reminder.isDone
+            )
+          : [];
 
         return (
           <li key={plant._id}>
