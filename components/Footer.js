@@ -174,9 +174,9 @@ const CloseButton = styled.button`
 `;
 
 const DisabledIcon = styled.div`
-  color: var(--color-disabled);
+  color: white;
   pointer-events: none;
-  opacity: 0.5;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;

@@ -7,14 +7,14 @@ export default function Login() {
   if (session) {
     return (
       <>
-        Welcome back {session.user.email} <br />
+        Welcome back, {session.user.name || session.user.email}!
+        <br />
         <LoginButton onClick={() => signOut()}>Sign out</LoginButton>
       </>
     );
   }
   return (
     <>
-      Not signed in <br />
       <LoginButton onClick={() => signIn()}>Sign in</LoginButton>
     </>
   );

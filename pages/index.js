@@ -35,7 +35,7 @@ export default function LandingPage({ weatherData }) {
               ${gradientMoveTopLeftToBottomRight}
             `}
           >
-            <p>Please log in to create a new plant</p>
+            <DeactivatedText>Sign in first</DeactivatedText>
           </Card>
         )}
         <Card
@@ -63,7 +63,7 @@ export default function LandingPage({ weatherData }) {
               ${gradientMoveTopRightToBottomLeft}
             `}
           >
-            <p>Please log in to view your owned plants</p>
+            <DeactivatedText>Sign in first</DeactivatedText>
           </Card>
         )}
       </Cardcontainer>
@@ -233,11 +233,15 @@ const P = styled.p`
 
 const LoginContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 10px;
   width: 100%;
   align-items: center;
   text-align: center;
-  justify-content: center;
+  justify-content: space-evenly;
   padding: 10px;
+`;
+
+const DeactivatedText = styled.p`
+  color: white;
 `;
