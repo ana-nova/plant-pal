@@ -13,6 +13,7 @@ const reminderSchema = new Schema({
   interval: { type: String, default: null },
   isDone: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
+  owner: { type: String, required: true },
 });
 
 const Reminder =

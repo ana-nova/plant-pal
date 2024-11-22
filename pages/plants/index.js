@@ -4,18 +4,44 @@ import PlantList from "@/components/PlantList";
 import SearchPlant from "@/components/SearchPlant";
 import styled from "styled-components";
 import useSWR from "swr";
+import { useSession } from "next-auth/react";
 
 export default function Homepage({ toggleFavourite, reminders }) {
   const { data: plants, error, isLoading, mutate } = useSWR("/api/plants");
 
   const [showForm, setShowForm] = useState(false);
   const [filteredPlants, setFilteredPlants] = useState([]);
+  const [allPlants, setAllPlants] = useState([]);
+  const [userPlants, setUserPlants] = useState([]);
+  const { data: session } = useSession();
+
+  // useEffect(() => {
+  //   if (plants) {
+  //     setFilteredPlants(plants);
+  //   }
+  // }, [plants]);
 
   useEffect(() => {
-    if (plants) {
-      setFilteredPlants(plants);
+    async function fetchPlants() {
+      try {
+        const response = await fetch("/api/plants");
+        const data = await response.json();
+
+        setAllPlants(data.allPlants);
+        if (session) {
+          setUserPlants(data.userPlants);
+        }
+      } catch (error) {
+        console.error("Failed to fetch plants:", error);
+      }
     }
-  }, [plants]);
+
+    fetchPlants();
+  }, [session]);
+
+  useEffect(() => {
+    setFilteredPlants(allPlants);
+  }, [allPlants]);
 
   function handleToggleForm() {
     setShowForm(!showForm);

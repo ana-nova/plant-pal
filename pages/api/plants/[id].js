@@ -54,7 +54,6 @@ export default async function handler(req, res) {
     }
   }
 
-  // Methode nicht erlaubt
   res.setHeader("Allow", ["GET", "PUT", "DELETE"]);
   res.status(405).end(`Method ${req.method} Not Allowed`);
 }

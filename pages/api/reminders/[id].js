@@ -9,7 +9,6 @@ export default async function handler(req, res) {
 
   const session = await getServerSession(req, res, authOptions);
 
-  // Prüfen, ob der Nutzer authentifiziert ist
   if (!session) {
     return res.status(401).json({ status: "Not authorized" });
   }
@@ -55,7 +54,6 @@ export default async function handler(req, res) {
     }
   }
 
-  // Methode nicht erlaubt
   res.setHeader("Allow", ["GET", "PUT", "DELETE"]);
   res.status(405).end(`Method ${req.method} Not Allowed`);
 }
