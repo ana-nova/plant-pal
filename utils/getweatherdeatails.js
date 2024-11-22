@@ -1,5 +1,7 @@
 function getWeatherDescription(code) {
   const weatherDescriptions = {
+    80: "Light rain showers, a soft drink for your plants—cheers!",
+    3: "Overcast, the sky's blanket keeps your plants cool and calm.",
     55: "Heavy drizzle, nature's gentle watering.",
     56: "Light freezing drizzle, bring plants inside!",
     57: "Heavy freezing drizzle, your plants need shelter!",
