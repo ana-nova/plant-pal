@@ -13,17 +13,16 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     try {
-      const allPlants = await Plant.find().sort({ createdAt: -1 });
+      const plantsQuery = userId
+        ? {
+            $or: [{ owner: null }, { owner: userId }],
+          }
+        : { owner: null };
 
-      let userPlants = [];
-      if (userId) {
-        userPlants = await Plant.find({ owner: userId }).sort({
-          createdAt: -1,
-        });
-      }
+      const allPlants = await Plant.find(plantsQuery).sort({ createdAt: -1 });
+
       return res.status(200).json({
         allPlants,
-        userPlants,
       });
     } catch (error) {
       return res.status(500).json({ error: "Failed to fetch plants" });
