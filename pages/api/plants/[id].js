@@ -13,8 +13,6 @@ export default async function handler(req, res) {
     return res.status(401).json({ status: "Not authorized" });
   }
 
-  const userId = session.user?.id;
-
   if (req.method === "GET") {
     try {
       const plant = await Plant.findById(id);

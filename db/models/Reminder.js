@@ -10,7 +10,7 @@ const reminderSchema = new Schema({
   },
   taskType: { type: String, required: true },
   dueDate: { type: Date, required: true },
-  interval: { type: String, default: null },
+  interval: { type: String, default: "" },
   isDone: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
   owner: { type: String, required: true },
