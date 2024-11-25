@@ -303,18 +303,24 @@ export default function PlantDetails({
               <EditIcon />
             </ButtonEdit>
 
-            {!showConfirmation ? (
-              <ButtonDeleteIcon onClick={handleDelete}>
-                <TrashIcon />
-              </ButtonDeleteIcon>
+            {plant.owner ? (
+              !showConfirmation ? (
+                <ButtonDeleteIcon onClick={handleDelete}>
+                  <TrashIcon />
+                </ButtonDeleteIcon>
+              ) : (
+                <>
+                  <p>Are you sure?</p>
+                  <ButtonCancel onClick={handleCancelDelete}>
+                    Cancel
+                  </ButtonCancel>
+                  <ButtonDelete onClick={handleConfirmDelete}>
+                    Delete
+                  </ButtonDelete>
+                </>
+              )
             ) : (
-              <>
-                <p>Are you sure?</p>
-                <ButtonCancel onClick={handleCancelDelete}>Cancel</ButtonCancel>
-                <ButtonDelete onClick={handleConfirmDelete}>
-                  Delete
-                </ButtonDelete>
-              </>
+              <p></p>
             )}
           </section>
         </CardDetails>
