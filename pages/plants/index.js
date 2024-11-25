@@ -15,12 +15,6 @@ export default function Homepage({ toggleFavourite, reminders }) {
   const [userPlants, setUserPlants] = useState([]);
   const { data: session } = useSession();
 
-  // useEffect(() => {
-  //   if (plants) {
-  //     setFilteredPlants(plants);
-  //   }
-  // }, [plants]);
-
   useEffect(() => {
     async function fetchPlants() {
       try {
