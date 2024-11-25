@@ -1,3 +1,4 @@
+import RandomCareTips from "@/components/RandomCareTips";
 import { Player } from "@lottiefiles/react-lottie-player";
 import Link from "next/link";
 import styled, { keyframes, css } from "styled-components";
@@ -96,15 +97,7 @@ export default function LandingPage({ weatherData }) {
 
       <Cardcontainer>
         <Caretipcard>
-          <div>
-            <PlayerWeatherCare
-              autoplay
-              loop
-              src={careTipAnimation}
-              aria-hidden="true"
-            />
-          </div>
-          Leaf it to us! Daily tips are budding ... 🪴
+          <RandomCareTips />
         </Caretipcard>
       </Cardcontainer>
 
@@ -173,6 +166,7 @@ const Caretipcard = styled.article`
   margin-top: 35px;
   width: 80%;
   height: 150px;
+  padding: 10px;
   display: flex;
   flex-direction: row;
   justify-content: center;
