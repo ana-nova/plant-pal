@@ -37,7 +37,4 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: "Failed to create plant" });
     }
   }
-
-  res.setHeader("Allow", ["GET", "POST"]);
-  res.status(405).end(`Method ${req.method} Not Allowed`);
 }
