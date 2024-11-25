@@ -38,11 +38,9 @@ export default async function handler(req, res) {
       const reminderData = req.body;
       const newReminder = new Reminder({ ...reminderData, owner: userId });
 
-      console.log(req.body);
       const savedReminder = await newReminder.save();
       return res.status(201).json(savedReminder);
     } catch (error) {
-      console.log(error);
       return res.status(400).json({ error: "Failed to create reminder" });
     }
   }
