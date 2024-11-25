@@ -4,24 +4,41 @@ import Link from "next/link";
 import styled, { keyframes, css } from "styled-components";
 import WeatherIcon from "@/components/WeatherIcon";
 import { getAllWeatherDescription } from "@/utils/getweatherdeatails";
+import Login from "@/components/Login";
+import { useSession } from "next-auth/react";
 
 const weatherAnimation = "/animation/weather.json";
 const careTipAnimation = "/animation/caretip.json";
 const fixedPlantAnimation = "/animation/plantgrowing.json";
 
 export default function LandingPage({ weatherData }) {
+  const { data: session } = useSession();
+
   return (
     <>
+      <LoginContainer>
+        <Login />
+      </LoginContainer>
       <Cardcontainer>
-        <Card
-          $animation={css`
-            ${gradientMoveTopLeftToBottomRight}
-          `}
-        >
-          <StyledLink href={"/create"}>
-            <p>Create New Plant</p>
-          </StyledLink>
-        </Card>
+        {session ? (
+          <Card
+            $animation={css`
+              ${gradientMoveTopLeftToBottomRight}
+            `}
+          >
+            <StyledLink href={"/create"}>
+              <p>Create New Plant</p>
+            </StyledLink>
+          </Card>
+        ) : (
+          <Card
+            $animation={css`
+              ${gradientMoveTopLeftToBottomRight}
+            `}
+          >
+            <DeactivatedText>Sign in first</DeactivatedText>
+          </Card>
+        )}
         <Card
           $animation={css`
             ${gradientMoveTopToBottom}
@@ -31,15 +48,25 @@ export default function LandingPage({ weatherData }) {
             <p>My Plant List</p>
           </StyledLink>
         </Card>
-        <Card
-          $animation={css`
-            ${gradientMoveTopRightToBottomLeft}
-          `}
-        >
-          <StyledLink href={"/favourites"}>
-            <p>My Owned Plants</p>
-          </StyledLink>
-        </Card>
+        {session ? (
+          <Card
+            $animation={css`
+              ${gradientMoveTopRightToBottomLeft}
+            `}
+          >
+            <StyledLink href={"/favourites"}>
+              <p>My Owned Plants</p>
+            </StyledLink>
+          </Card>
+        ) : (
+          <Card
+            $animation={css`
+              ${gradientMoveTopRightToBottomLeft}
+            `}
+          >
+            <DeactivatedText>Sign in first</DeactivatedText>
+          </Card>
+        )}
       </Cardcontainer>
 
       <Cardcontainer>
@@ -207,4 +234,19 @@ const HumidityContainer = styled.section`
 
 const P = styled.p`
   margin: 3px;
+`;
+
+const LoginContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width: 100%;
+  align-items: center;
+  text-align: center;
+  justify-content: space-evenly;
+  padding: 10px;
+`;
+
+const DeactivatedText = styled.p`
+  color: white;
 `;

@@ -2,10 +2,14 @@ import GlobalStyle from "../styles";
 import Layout from "@/components/Layout";
 import useSWR, { SWRConfig } from "swr";
 import { useState, useEffect } from "react";
+import { SessionProvider } from "next-auth/react";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-export default function App({ Component, pageProps }) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}) {
   const { data: plants, mutate: mutatePlants } = useSWR("/api/plants", fetcher);
   const { data: reminders, mutate: mutateReminders } = useSWR(
     "/api/reminders",
@@ -106,22 +110,24 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <SWRConfig value={{ fetcher }}>
-        <Layout
-          plants={plants}
-          reminders={reminders}
-          onEditReminder={handleEditReminder}
-        >
-          <GlobalStyle />
-          <Component
-            {...pageProps}
-            weatherData={weatherData}
-            toggleFavourite={toggleFavourite}
+        <SessionProvider session={session}>
+          <Layout
+            plants={plants}
             reminders={reminders}
-            onAddReminder={handleAddReminder}
             onEditReminder={handleEditReminder}
-            onDeleteReminder={handleDeleteReminder}
-          />
-        </Layout>
+          >
+            <GlobalStyle />
+            <Component
+              {...pageProps}
+              weatherData={weatherData}
+              toggleFavourite={toggleFavourite}
+              reminders={reminders}
+              onAddReminder={handleAddReminder}
+              onEditReminder={handleEditReminder}
+              onDeleteReminder={handleDeleteReminder}
+            />
+          </Layout>
+        </SessionProvider>
       </SWRConfig>
     </>
   );

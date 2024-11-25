@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import styled from "styled-components";
+import { useSession } from "next-auth/react";
 
 import HouseLine from "@/public/Icons/home-4-line.svg";
 import HouseFill from "@/public/Icons/home-4-fill.svg";
@@ -12,6 +13,7 @@ import ReminderIcon from "@/public/Icons/calendar-schedule-line.svg";
 export default function Footer({ plants, reminders, onEditReminder }) {
   const router = useRouter();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const { data: session } = useSession();
 
   function handleTogglePopup() {
     setIsPopupOpen(!isPopupOpen);
@@ -28,10 +30,14 @@ export default function Footer({ plants, reminders, onEditReminder }) {
 
   const today = new Date().toISOString().split("T")[0];
 
-  const hasTodayReminder = (reminders || []).some((reminder) => {
-    const reminderDate = new Date(reminder.dueDate).toISOString().split("T")[0];
-    return !reminder.isDone && reminderDate === today;
-  });
+  const hasTodayReminder =
+    Array.isArray(reminders) &&
+    reminders.some((reminder) => {
+      const reminderDate = new Date(reminder.dueDate)
+        .toISOString()
+        .split("T")[0];
+      return !reminder.isDone && reminderDate === today;
+    });
 
   return (
     <footer>
@@ -40,14 +46,24 @@ export default function Footer({ plants, reminders, onEditReminder }) {
           {router.pathname === "/" ? <HouseFill /> : <HouseLine />}
         </StyledLink>
 
-        <button onClick={handleTogglePopup} aria-label="View reminders">
+        <button
+          onClick={handleTogglePopup}
+          aria-label="View reminders"
+          disabled={!session}
+        >
           <ReminderIcon />
           {hasTodayReminder && <RedDot />}
         </button>
 
-        <StyledLink href={"/favourites"} aria-label="Go to favourite plants">
-          {router.pathname === "/favourites" ? <PlantFill /> : <PlantLine />}
-        </StyledLink>
+        {session ? (
+          <StyledLink href={"/favourites"} aria-label="Go to favourite plants">
+            {router.pathname === "/favourites" ? <PlantFill /> : <PlantLine />}
+          </StyledLink>
+        ) : (
+          <DisabledIcon aria-label="Disabled favourite plants">
+            <PlantLine />
+          </DisabledIcon>
+        )}
       </IconsContainer>
 
       {isPopupOpen && (
@@ -155,4 +171,13 @@ const CloseButton = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
+`;
+
+const DisabledIcon = styled.div`
+  color: white;
+  pointer-events: none;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 `;
