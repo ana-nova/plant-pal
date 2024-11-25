@@ -61,7 +61,7 @@ export default function PlantDetails({
 
   if (!router.isReady) return null;
 
-  if (!plant) return <p>Plant not found</p>;
+  if (!plant) return <p>Loading...</p>;
 
   const plantReminders = Array.isArray(reminders)
     ? reminders.filter((reminder) => reminder.plantId === plant._id)
