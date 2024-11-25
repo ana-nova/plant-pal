@@ -12,7 +12,13 @@ export default async function handler(req, res) {
   const userId = token?.sub;
 
   if (req.method === "GET") {
-    const plants = await Plant.find({ owner: userId }).sort({ createdAt: -1 });
+    const plantsQuery = userId
+      ? {
+          $or: [{ owner: null }, { owner: userId }],
+        }
+      : { owner: null };
+    const plants = await Plant.find(plantsQuery).sort({ createdAt: -1 });
+
     res.status(200).json(plants);
   }
 
