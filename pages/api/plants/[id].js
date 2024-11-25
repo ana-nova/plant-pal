@@ -13,6 +13,8 @@ export default async function handler(req, res) {
     return res.status(401).json({ status: "Not authorized" });
   }
 
+  const userId = session.user?.id; // Extract the user's ID from the session
+
   if (req.method === "GET") {
     try {
       const plant = await Plant.findById(id);
@@ -29,11 +31,15 @@ export default async function handler(req, res) {
 
   if (req.method === "PUT") {
     try {
-      const updatedPlant = await Plant.findByIdAndUpdate(id, req.body, {
-        new: true,
-      });
+      const updatedPlant = await Plant.findOneAndUpdate(
+        { _id: id, owner: userId }, // Ensure user can only update their plants
+        req.body,
+        { new: true }
+      );
       if (!updatedPlant) {
-        return res.status(404).json({ error: "Plant not found" });
+        return res
+          .status(404)
+          .json({ error: "Plant not found or not authorized" });
       }
       return res.status(200).json(updatedPlant);
     } catch (error) {
@@ -43,12 +49,31 @@ export default async function handler(req, res) {
 
   if (req.method === "DELETE") {
     try {
-      const deletedPlant = await Plant.findByIdAndDelete(id);
-      if (!deletedPlant) {
+      // Fetch the plant to validate ownership and check for owner
+      const plant = await Plant.findById(id);
+
+      if (!plant) {
         return res.status(404).json({ error: "Plant not found" });
       }
 
-      return res.status(200).json({ message: "Plant deleted" });
+      // Ensure the plant has an owner
+      if (!plant.owner) {
+        return res
+          .status(403)
+          .json({ error: "Plants without an owner cannot be deleted" });
+      }
+
+      // Ensure the current user is the owner
+      if (plant.owner.toString() !== userId) {
+        return res
+          .status(403)
+          .json({ error: "You are not authorized to delete this plant" });
+      }
+
+      // Delete the plant
+      await Plant.findByIdAndDelete(id);
+
+      return res.status(200).json({ message: "Plant deleted successfully" });
     } catch (error) {
       return res.status(500).json({ error: "Failed to delete plant" });
     }
