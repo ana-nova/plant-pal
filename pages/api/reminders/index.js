@@ -17,7 +17,16 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     try {
-      const reminders = await Reminder.find();
+      const remindersQuery = userId
+        ? {
+            $or: [{ owner: null }, { owner: userId }],
+          }
+        : { owner: null };
+
+      const reminders = await Reminder.find(remindersQuery).sort({
+        createdAt: -1,
+      });
+
       return res.status(200).json(reminders);
     } catch (error) {
       return res.status(500).json({ error: "Failed to fetch reminders" });
