@@ -43,18 +43,27 @@ export default async function handler(req, res) {
 
   if (req.method === "DELETE") {
     try {
-      const deletedPlant = await Plant.findByIdAndDelete(id);
-      if (!deletedPlant) {
+      const plant = await Plant.findById(id);
+
+      if (!plant) {
         return res.status(404).json({ error: "Plant not found" });
       }
 
-      return res.status(200).json({ message: "Plant deleted" });
+      if (!plant.owner) {
+        return res
+          .status(403)
+          .json({ error: "Plants without an owner cannot be deleted" });
+      }
+
+      await Plant.findByIdAndDelete(id);
+
+      return res.status(200).json({ message: "Plant deleted successfully" });
     } catch (error) {
+      console.error("Error deleting plant:", error);
       return res.status(500).json({ error: "Failed to delete plant" });
     }
   }
 
-  // Methode nicht erlaubt
   res.setHeader("Allow", ["GET", "PUT", "DELETE"]);
   res.status(405).end(`Method ${req.method} Not Allowed`);
 }

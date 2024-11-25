@@ -2,20 +2,31 @@ import dbConnect from "@/db/connect";
 import Reminder from "@/db/models/Reminder";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]";
+import { getToken } from "next-auth/jwt";
 
 export default async function handler(req, res) {
   await dbConnect();
 
   const session = await getServerSession(req, res, authOptions);
+  const token = session ? await getToken({ req }) : null;
+  const userId = token?.sub;
 
-  // Prüfen, ob der Nutzer authentifiziert ist
   if (!session) {
     return res.status(401).json({ status: "Not authorized" });
   }
 
   if (req.method === "GET") {
     try {
-      const reminders = await Reminder.find();
+      const remindersQuery = userId
+        ? {
+            $or: [{ owner: null }, { owner: userId }],
+          }
+        : { owner: null };
+
+      const reminders = await Reminder.find(remindersQuery).sort({
+        createdAt: -1,
+      });
+
       return res.status(200).json(reminders);
     } catch (error) {
       return res.status(500).json({ error: "Failed to fetch reminders" });
@@ -25,7 +36,7 @@ export default async function handler(req, res) {
   if (req.method === "POST") {
     try {
       const reminderData = req.body;
-      const newReminder = new Reminder(reminderData);
+      const newReminder = new Reminder({ ...reminderData, owner: userId });
 
       const savedReminder = await newReminder.save();
       return res.status(201).json(savedReminder);
@@ -34,7 +45,6 @@ export default async function handler(req, res) {
     }
   }
 
-  // Methode nicht erlaubt
   res.setHeader("Allow", ["GET", "POST"]);
   res.status(405).end(`Method ${req.method} Not Allowed`);
 }
