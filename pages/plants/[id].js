@@ -38,6 +38,7 @@ const waterNeedIcon = {
 };
 
 export default function PlantDetails({
+  plants,
   reminders,
   onAddReminder,
   onEditReminder,
@@ -52,12 +53,7 @@ export default function PlantDetails({
   const router = useRouter();
   const { id } = router.query;
 
-  const {
-    data: plant,
-    error,
-    isLoading,
-    mutate,
-  } = useSWR(id ? `/api/plants/${id}` : null);
+  const plant = plants ? plants.find((plant) => plant._id === id) : null;
 
   if (!router.isReady) return null;
 
@@ -155,13 +151,6 @@ export default function PlantDetails({
     }
   }
 
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
-  if (!plant || error) {
-    return <h1>Element not found.</h1>;
-  }
   if (!session) {
     return (
       <>

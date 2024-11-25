@@ -53,6 +53,14 @@ export default function App({
   }, []);
 
   async function toggleFavourite(id, isFavourite) {
+    mutatePlants((currentData) =>
+      currentData.map((item) => {
+        return item._id === id
+          ? { ...item, isFavourite: !item.isFavourite }
+          : item;
+      })
+    );
+
     const response = await fetch(`/api/plants/${id}`, {
       method: "PUT",
       headers: {
@@ -65,7 +73,6 @@ export default function App({
       mutatePlants("/api/plants");
       return;
     }
-    mutatePlants();
   }
 
   async function handleAddReminder(newReminder) {
@@ -119,6 +126,7 @@ export default function App({
             <GlobalStyle />
             <Component
               {...pageProps}
+              plants={plants}
               weatherData={weatherData}
               toggleFavourite={toggleFavourite}
               reminders={reminders}
