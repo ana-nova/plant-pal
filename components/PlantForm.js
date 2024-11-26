@@ -178,11 +178,11 @@ export default function PlantForm({
       </fieldset>
 
       <fieldset>
-        <legend>Poisonus for cats</legend>
+        <legend>Poisonus for Cats</legend>
         <OptionsContainer>
           {[
-            { label: "Safe for cats", value: "Safe for cats" },
-            { label: "Poisonous for cats", value: "Poisonous for cats" },
+            { label: "Safe for Cats", value: "Safe for Cats" },
+            { label: "Poisonous for Cats", value: "Poisonous for Cats" },
           ].map((option) => (
             <label key={option.value}>
               <input
@@ -197,11 +197,11 @@ export default function PlantForm({
         </OptionsContainer>
       </fieldset>
       <fieldset>
-        <legend>Poisonus for dogs</legend>
+        <legend>Poisonus for Dogs</legend>
         <OptionsContainer>
           {[
-            { label: "Safe for dogs", value: "Safe for dogs" },
-            { label: "Poisonous for dogs", value: "Poisonous for dogs" },
+            { label: "Safe for Dogs", value: "Safe for Dogs" },
+            { label: "Poisonous for Dogs", value: "Poisonous for Dogs" },
           ].map((option) => (
             <label key={option.value}>
               <input

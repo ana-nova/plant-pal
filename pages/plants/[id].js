@@ -249,9 +249,12 @@ export default function PlantDetails({
             )}
           </AllIconsContainer>
 
-          <h3>Additional Infos</h3>
-
-          <AllIconsContainer>
+          {(plant.careLevel ||
+            plant.location ||
+            plant.humidity ||
+            plant.temperature ||
+            plant.airDraftIntolerance) && <h3>Additional Infos</h3>}
+          <AdditionalContainer>
             {plant.careLevel && (
               <IconContainer>
                 <CareIcon />
@@ -284,31 +287,33 @@ export default function PlantDetails({
                 <span>Airdraft Sensitivity: {plant.airDraftIntolerance}</span>
               </IconContainer>
             )}
-          </AllIconsContainer>
+          </AdditionalContainer>
 
           <section>
-            <ButtonEdit onClick={handleEditClick}>
-              <EditIcon />
-            </ButtonEdit>
-
             {plant.owner ? (
-              !showConfirmation ? (
-                <ButtonDeleteIcon onClick={handleDelete}>
-                  <TrashIcon />
-                </ButtonDeleteIcon>
-              ) : (
-                <>
-                  <p>Are you sure?</p>
-                  <ButtonCancel onClick={handleCancelDelete}>
-                    Cancel
-                  </ButtonCancel>
-                  <ButtonDelete onClick={handleConfirmDelete}>
-                    Delete
-                  </ButtonDelete>
-                </>
-              )
+              <>
+                <ButtonEdit onClick={handleEditClick}>
+                  <EditIcon />
+                </ButtonEdit>
+
+                {!showConfirmation ? (
+                  <ButtonDeleteIcon onClick={handleDelete}>
+                    <TrashIcon />
+                  </ButtonDeleteIcon>
+                ) : (
+                  <>
+                    <p>Are you sure?</p>
+                    <ButtonCancel onClick={handleCancelDelete}>
+                      Cancel
+                    </ButtonCancel>
+                    <ButtonDelete onClick={handleConfirmDelete}>
+                      Delete
+                    </ButtonDelete>
+                  </>
+                )}
+              </>
             ) : (
-              <p></p>
+              <></>
             )}
           </section>
         </CardDetails>
@@ -391,6 +396,19 @@ const AllIconsContainer = styled.div`
   gap: 50px;
   justify-content: center;
   margin: 0 30px 0 30px;
+`;
+
+const AdditionalContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  justify-items: center;
+  align-items: center;
+
+  & > :last-child:nth-child(odd) {
+    grid-column: span 2;
+    justify-self: center;
+  }
 `;
 
 const DescriptionContainer = styled.section`
