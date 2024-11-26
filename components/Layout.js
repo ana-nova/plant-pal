@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import Footer from "./Footer";
 import Header from "./Header";
 
@@ -10,7 +11,7 @@ export default function Layout({
   return (
     <>
       <Header />
-      <hr />
+      <StyledHr />
       <main>{children}</main>
       <Footer
         plants={plants}
@@ -20,3 +21,7 @@ export default function Layout({
     </>
   );
 }
+
+const StyledHr = styled.hr`
+  margin-top: -50px;
+`;
