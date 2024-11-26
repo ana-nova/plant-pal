@@ -38,12 +38,12 @@ export default function MyPlantsPage({
             reminders={reminders}
             openWeatherAlertModal={openWeatherAlertModal}
             showWeatherAlert={shouldShowWeatherAlert}
-            code={weatherData.weathercode}
+            code={weatherData?.weathercode}
           />
           {isModalOpen && (
             <WeatherModal
               onClose={closeWeatherAlertModal}
-              code={weatherData.weathercode}
+              code={weatherData?.weathercode}
             />
           )}
         </>
@@ -60,4 +60,5 @@ export default function MyPlantsPage({
 const StyledCard = styled.article`
   padding: 10px 10px 30px;
   margin: 20px 38px 23px 35px;
+  text-align: center;
 `;

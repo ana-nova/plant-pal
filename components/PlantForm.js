@@ -181,8 +181,8 @@ export default function PlantForm({
         <legend>Poisonus for cats</legend>
         <OptionsContainer>
           {[
-            { label: "Safe for cats", value: "Safe" },
-            { label: "Poisonous for cats", value: "Poisonous" },
+            { label: "Safe for cats", value: "Safe for cats" },
+            { label: "Poisonous for cats", value: "Poisonous for cats" },
           ].map((option) => (
             <label key={option.value}>
               <input
@@ -200,8 +200,8 @@ export default function PlantForm({
         <legend>Poisonus for dogs</legend>
         <OptionsContainer>
           {[
-            { label: "Safe for dogs", value: "Safe" },
-            { label: "Poisonous for dogs", value: "Poisonous" },
+            { label: "Safe for dogs", value: "Safe for dogs" },
+            { label: "Poisonous for dogs", value: "Poisonous for dogs" },
           ].map((option) => (
             <label key={option.value}>
               <input
@@ -282,8 +282,8 @@ export default function PlantForm({
           defaultValue={initialData.airDraftIntolerance || ""}
         >
           <option value="">Select draft sensitivity</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
+          <option value="Yes">Sensitive to Airdraft</option>
+          <option value="No">Not sensitive to Airdraft</option>
         </SelectInput>
       </FormLabel>
 

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import Image from "next/image";
 import styled from "styled-components";
 import { useState } from "react";
@@ -53,7 +53,8 @@ export default function PlantDetails({
   const router = useRouter();
   const { id } = router.query;
 
-  const plant = plants ? plants.find((plant) => plant._id === id) : null;
+  const { data: plant, mutate } = useSWR(id ? `/api/plants/${id}` : null);
+  // const plant = plants ? plants.find((plant) => plant._id === id) : null;
 
   if (!router.isReady) return null;
 
@@ -155,7 +156,9 @@ export default function PlantDetails({
     return (
       <>
         <h1>Details Page</h1>
-        <p>You have to log in first to view the details.</p>
+        <StyledCard>
+          <p>You have to log in first to view the details.</p>
+        </StyledCard>
       </>
     );
   }
@@ -230,7 +233,7 @@ export default function PlantDetails({
             )}
           </AllIconsContainer>
 
-          <PetContainer>
+          <AllIconsContainer>
             {plant.catPoisonous && (
               <IconContainer>
                 <CatIcon />
@@ -244,7 +247,7 @@ export default function PlantDetails({
                 {plant.dogPoisonous}
               </IconContainer>
             )}
-          </PetContainer>
+          </AllIconsContainer>
 
           <h3>Additional Infos</h3>
 
@@ -255,9 +258,7 @@ export default function PlantDetails({
                 <span>{plant.careLevel}</span>
               </IconContainer>
             )}
-          </AllIconsContainer>
 
-          <AllIconsContainer>
             {plant.location && (
               <IconContainer>
                 <LocationIcon />
@@ -270,9 +271,7 @@ export default function PlantDetails({
                 <span>{plant.humidity} Humidity</span>
               </IconContainer>
             )}
-          </AllIconsContainer>
 
-          <AllIconsContainer>
             {plant.temperature && (
               <IconContainer>
                 <TemperatureIcon />
@@ -282,7 +281,7 @@ export default function PlantDetails({
             {plant.airDraftIntolerance && (
               <IconContainer>
                 <AirDraftIcon />
-                <span>{plant.airDraftIntolerance} Airdraft Sensitivity</span>
+                <span>Airdraft Sensitivity: {plant.airDraftIntolerance}</span>
               </IconContainer>
             )}
           </AllIconsContainer>
@@ -335,21 +334,6 @@ export default function PlantDetails({
   );
 }
 
-const PetContainer = styled.div`
-  display: flex;
-  gap: 50px;
-  justify-content: center;
-  align-items: center;
-  margin: 0 30px 0 30px;
-`;
-
-const Pet = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-`;
 const CardDetails = styled.article`
   padding: 10px 10px 30px;
   margin: 20px 38px 23px 35px;
@@ -393,6 +377,7 @@ const IconContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 5px;
+  text-align: center;
 
   span {
     font-size: 0.9rem;
@@ -469,4 +454,9 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   gap: 5px;
+`;
+const StyledCard = styled.article`
+  padding: 10px 10px 30px;
+  margin: 20px 38px 23px 35px;
+  text-align: center;
 `;
