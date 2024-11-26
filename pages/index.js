@@ -106,6 +106,7 @@ export default function LandingPage({ weatherData }) {
           autoplay
           loop
           src={fixedPlantAnimation}
+          speed={0.3}
           aria-hidden="true"
         />
       </FixedAnimation>

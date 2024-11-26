@@ -23,7 +23,7 @@ export default function RandomCareTips() {
 
   return (
     <TipContainer>
-      <h3>Your Plant Tip of the Day</h3>
+      <h2>Your Plant Tip of the Day</h2>
 
       {randomTip && (
         <Typewriter
