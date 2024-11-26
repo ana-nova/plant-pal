@@ -53,12 +53,14 @@ export default function App({
   }, []);
 
   async function toggleFavourite(id, isFavourite) {
-    mutatePlants((currentData) =>
-      currentData.map((item) => {
-        return item._id === id
-          ? { ...item, isFavourite: !item.isFavourite }
-          : item;
-      })
+    mutatePlants(
+      (currentData) =>
+        currentData.map((item) => {
+          return item._id === id
+            ? { ...item, isFavourite: !item.isFavourite }
+            : item;
+        }),
+      false
     );
 
     const response = await fetch(`/api/plants/${id}`, {
