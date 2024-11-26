@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { caretips } from "@/assets/caretips";
-import LightbulbIcon from "@/public/Icons/lightbulb.svg";
 import Typewriter from "typewriter-effect";
 
 export default function RandomCareTips() {
@@ -13,32 +12,27 @@ export default function RandomCareTips() {
   }
 
   useEffect(() => {
-    setRandomTip(getRandomTip()); // Set the first tip
+    setRandomTip(getRandomTip());
 
     const interval = setInterval(() => {
-      setRandomTip(getRandomTip()); // Update to a new random tip every 10 seconds
-    }, 23000); // 10 seconds for displaying the tip + 3 seconds delay
+      setRandomTip(getRandomTip());
+    }, 15000);
 
-    return () => clearInterval(interval); // Cleanup interval on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <TipContainer>
-      <IconContainer>
-        <StyledIcon />
-        <h3>Title</h3>
-        {randomTip && (
-          <Typewriter
-            key={randomTip}
-            onInit={(typewriter) => {
-              typewriter
-                .changeDelay(65)
-                .typeString(randomTip) // Show the current random tip
-                .start();
-            }}
-          />
-        )}
-      </IconContainer>
+      <h3>Your Plant Tip of the Day</h3>
+
+      {randomTip && (
+        <Typewriter
+          key={randomTip}
+          onInit={(typewriter) => {
+            typewriter.changeDelay(65).typeString(randomTip).start();
+          }}
+        />
+      )}
     </TipContainer>
   );
 }
@@ -49,13 +43,4 @@ const TipContainer = styled.section`
   align-items: center;
   padding: 10px;
   flex-direction: column;
-`;
-
-const IconContainer = styled.div`
-  position: relative;
-`;
-
-const StyledIcon = styled(LightbulbIcon)`
-  position: relative;
-  float: right;
 `;
