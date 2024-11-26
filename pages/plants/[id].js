@@ -24,6 +24,8 @@ import DogIcon from "@/public/Icons/dog.svg";
 import CareIcon from "@/public/Icons/award-line.svg";
 import PlantReminder from "@/components/PlantReminder";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
+import BackIcon from "@/public/Icons/arrow-left-s-line.svg";
 
 const lightNeedIcon = {
   "Full Sun": <FullSunIcon />,
@@ -38,7 +40,6 @@ const waterNeedIcon = {
 };
 
 export default function PlantDetails({
-  plants,
   reminders,
   onAddReminder,
   onEditReminder,
@@ -77,7 +78,7 @@ export default function PlantDetails({
     });
 
     if (response.ok) {
-      router.push("/");
+      router.push("/plants");
     }
   }
 
@@ -164,6 +165,9 @@ export default function PlantDetails({
   }
   return (
     <>
+      <StyledLink href={"/plants"} aria-label="go to plantlist">
+        <BackIcon />
+      </StyledLink>
       <h1>Details Page</h1>
 
       {!showEdit ? (
@@ -339,6 +343,12 @@ export default function PlantDetails({
   );
 }
 
+const StyledLink = styled(Link)`
+  position: absolute;
+  left: 30px;
+  top: 147px;
+  color: var(--color-text-primary);
+`;
 const CardDetails = styled.article`
   padding: 10px 10px 30px;
   margin: 20px 38px 23px 35px;
