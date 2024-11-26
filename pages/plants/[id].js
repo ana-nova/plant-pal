@@ -26,6 +26,8 @@ import PlantReminder from "@/components/PlantReminder";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import BackIcon from "@/public/Icons/arrow-left-s-line.svg";
+import { Player } from "@lottiefiles/react-lottie-player";
+const weatherAnimation = "/animation/weather.json";
 
 const lightNeedIcon = {
   "Full Sun": <FullSunIcon />,
@@ -158,7 +160,15 @@ export default function PlantDetails({
       <>
         <h1>Details Page</h1>
         <StyledCard>
-          <p>You have to log in first to view the details.</p>
+          <p>This plant is snoozing! Log in to wake it up.</p>
+          <div>
+            <PlayerWeatherCare
+              autoplay
+              loop
+              src={weatherAnimation}
+              aria-hidden="true"
+            />
+          </div>
         </StyledCard>
       </>
     );
@@ -487,4 +497,9 @@ const StyledCard = styled.article`
   padding: 10px 10px 30px;
   margin: 20px 38px 23px 35px;
   text-align: center;
+`;
+
+const PlayerWeatherCare = styled(Player)`
+  height: 100px;
+  width: 100px;
 `;
