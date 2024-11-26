@@ -22,25 +22,45 @@ export default function RandomCareTips() {
   }, []);
 
   return (
-    <TipContainer>
-      <h2>Your Plant Tip of the Day</h2>
-
-      {randomTip && (
-        <Typewriter
-          key={randomTip}
-          onInit={(typewriter) => {
-            typewriter.changeDelay(65).typeString(randomTip).start();
-          }}
-        />
-      )}
-    </TipContainer>
+    <Caretipcard>
+      <TipContainer>
+        <Title>Your Plant Tip of the Day</Title>
+        {randomTip && (
+          <Typewriter
+            key={randomTip}
+            onInit={(typewriter) => {
+              typewriter.changeDelay(65).typeString(randomTip).start();
+            }}
+          />
+        )}
+      </TipContainer>
+    </Caretipcard>
   );
 }
 
+const Caretipcard = styled.article`
+  margin-top: 35px;
+  width: 80%;
+  height: 200px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column; /* Stack content vertically */
+  justify-content: flex-start; /* Ensure items are aligned at the top */
+  align-items: center; /* Center items horizontally */
+`;
+
 const TipContainer = styled.section`
   display: flex;
+  flex-direction: column; /* Stack content vertically */
   text-align: center;
-  align-items: center;
-  padding: 10px;
-  flex-direction: column;
+  justify-content: flex-start; /* Align content at the top */
+  align-items: center; /* Center horizontally */
+  width: 100%;
+`;
+
+const Title = styled.h2`
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+  position: relative; /* Keeps it in normal flow, but can be adjusted independently */
 `;

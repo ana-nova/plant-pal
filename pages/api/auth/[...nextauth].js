@@ -16,7 +16,11 @@ export const authOptions = {
           type: "text",
           placeholder: "username",
         },
-        password: { label: "Password", type: "password" },
+        password: {
+          label: "Password",
+          type: "password",
+          placeholder: "password",
+        },
       },
       async authorize(credentials) {
         if (

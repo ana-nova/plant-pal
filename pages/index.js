@@ -7,8 +7,6 @@ import { getAllWeatherDescription } from "@/utils/getweatherdeatails";
 import Login from "@/components/Login";
 import { useSession } from "next-auth/react";
 
-const weatherAnimation = "/animation/weather.json";
-const careTipAnimation = "/animation/caretip.json";
 const fixedPlantAnimation = "/animation/plantgrowing.json";
 
 export default function LandingPage({ weatherData }) {
@@ -96,9 +94,7 @@ export default function LandingPage({ weatherData }) {
       </Cardcontainer>
 
       <Cardcontainer>
-        <Caretipcard>
-          <RandomCareTips />
-        </Caretipcard>
+        <RandomCareTips />
       </Cardcontainer>
 
       <FixedAnimation>
@@ -163,16 +159,6 @@ const Weathercard = styled.article`
   text-align: center;
 `;
 
-const Caretipcard = styled.article`
-  margin-top: 35px;
-  width: 80%;
-  height: 150px;
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-`;
-
 const StyledWeatherLink = styled(Link)`
   text-decoration: none;
   color: var(--color-text-primary);
@@ -190,11 +176,6 @@ const FixedAnimation = styled.div`
   right: -35px;
   z-index: 100;
   pointer-events: none;
-`;
-
-const PlayerWeatherCare = styled(Player)`
-  height: 100px;
-  width: 100px;
 `;
 
 const PlayerPlant = styled(Player)`

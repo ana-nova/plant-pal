@@ -66,7 +66,7 @@ export default createGlobalStyle`
 
 
   main {
-    padding-bottom: 60px;
+    padding-bottom: 90px;
     font-family: "Nunito", sans-serif;
   }
 
