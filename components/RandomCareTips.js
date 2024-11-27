@@ -44,17 +44,17 @@ const Caretipcard = styled.article`
   height: 200px;
   padding: 10px;
   display: flex;
-  flex-direction: column; /* Stack content vertically */
-  justify-content: flex-start; /* Ensure items are aligned at the top */
-  align-items: center; /* Center items horizontally */
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 `;
 
 const TipContainer = styled.section`
   display: flex;
-  flex-direction: column; /* Stack content vertically */
+  flex-direction: column;
   text-align: center;
-  justify-content: flex-start; /* Align content at the top */
-  align-items: center; /* Center horizontally */
+  justify-content: flex-start;
+  align-items: center;
   width: 100%;
 `;
 
@@ -62,5 +62,5 @@ const Title = styled.h2`
   margin: 0;
   padding: 20px;
   text-align: center;
-  position: relative; /* Keeps it in normal flow, but can be adjusted independently */
+  position: relative;
 `;

@@ -304,7 +304,7 @@ export default function PlantDetails({
           </AdditionalContainer>
 
           <section>
-            {plant.owner ? (
+            {plant.owner && (
               <>
                 <ButtonEdit onClick={handleEditClick}>
                   <EditIcon />
@@ -326,8 +326,6 @@ export default function PlantDetails({
                   </>
                 )}
               </>
-            ) : (
-              <></>
             )}
           </section>
         </CardDetails>
