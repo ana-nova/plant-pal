@@ -22,7 +22,7 @@ const plantSchema = new Schema(
     catPoisonous: { type: String, required: false },
     dogPoisonous: { type: String, required: false },
     careLevel: { type: String, required: false },
-    isFavourite: { type: Boolean, default: false },
+    isFavourite: { type: Boolean, default: true },
     owner: { type: String, required: true },
   },
   { timestamps: true }

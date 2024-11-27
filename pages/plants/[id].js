@@ -24,6 +24,11 @@ import DogIcon from "@/public/Icons/dog.svg";
 import CareIcon from "@/public/Icons/award-line.svg";
 import PlantReminder from "@/components/PlantReminder";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
+import BackIcon from "@/public/Icons/arrow-left-s-line.svg";
+import { Player } from "@lottiefiles/react-lottie-player";
+
+const weatherAnimation = "/animation/weather.json";
 
 const lightNeedIcon = {
   "Full Sun": <FullSunIcon />,
@@ -38,7 +43,6 @@ const waterNeedIcon = {
 };
 
 export default function PlantDetails({
-  plants,
   reminders,
   onAddReminder,
   onEditReminder,
@@ -53,7 +57,7 @@ export default function PlantDetails({
   const router = useRouter();
   const { id } = router.query;
 
-  const plant = plants ? plants.find((plant) => plant._id === id) : null;
+  const { data: plant, mutate } = useSWR(id ? `/api/plants/${id}` : null);
 
   if (!router.isReady) return null;
 
@@ -76,7 +80,7 @@ export default function PlantDetails({
     });
 
     if (response.ok) {
-      router.push("/");
+      router.push("/plants");
     }
   }
 
@@ -155,12 +159,25 @@ export default function PlantDetails({
     return (
       <>
         <h1>Details Page</h1>
-        <p>You have to log in first to view the details.</p>
+        <StyledCard>
+          <p>This plant is snoozing! Log in to wake it up.</p>
+          <div>
+            <PlayerWeatherCare
+              autoplay
+              loop
+              src={weatherAnimation}
+              aria-hidden="true"
+            />
+          </div>
+        </StyledCard>
       </>
     );
   }
   return (
     <>
+      <StyledLink href={"/plants"} aria-label="go to plantlist">
+        <BackIcon />
+      </StyledLink>
       <h1>Details Page</h1>
 
       {!showEdit ? (
@@ -230,7 +247,7 @@ export default function PlantDetails({
             )}
           </AllIconsContainer>
 
-          <PetContainer>
+          <AllIconsContainer>
             {plant.catPoisonous && (
               <IconContainer>
                 <CatIcon />
@@ -244,20 +261,21 @@ export default function PlantDetails({
                 {plant.dogPoisonous}
               </IconContainer>
             )}
-          </PetContainer>
+          </AllIconsContainer>
 
-          <h3>Additional Infos</h3>
-
-          <AllIconsContainer>
+          {(plant.careLevel ||
+            plant.location ||
+            plant.humidity ||
+            plant.temperature ||
+            plant.airDraftIntolerance) && <h3>Additional Infos</h3>}
+          <AdditionalContainer>
             {plant.careLevel && (
               <IconContainer>
                 <CareIcon />
                 <span>{plant.careLevel}</span>
               </IconContainer>
             )}
-          </AllIconsContainer>
 
-          <AllIconsContainer>
             {plant.location && (
               <IconContainer>
                 <LocationIcon />
@@ -270,9 +288,7 @@ export default function PlantDetails({
                 <span>{plant.humidity} Humidity</span>
               </IconContainer>
             )}
-          </AllIconsContainer>
 
-          <AllIconsContainer>
             {plant.temperature && (
               <IconContainer>
                 <TemperatureIcon />
@@ -282,34 +298,34 @@ export default function PlantDetails({
             {plant.airDraftIntolerance && (
               <IconContainer>
                 <AirDraftIcon />
-                <span>{plant.airDraftIntolerance} Airdraft Sensitivity</span>
+                <span>Airdraft Sensitivity: {plant.airDraftIntolerance}</span>
               </IconContainer>
             )}
-          </AllIconsContainer>
+          </AdditionalContainer>
 
           <section>
-            <ButtonEdit onClick={handleEditClick}>
-              <EditIcon />
-            </ButtonEdit>
+            {plant.owner && (
+              <>
+                <ButtonEdit onClick={handleEditClick}>
+                  <EditIcon />
+                </ButtonEdit>
 
-            {plant.owner ? (
-              !showConfirmation ? (
-                <ButtonDeleteIcon onClick={handleDelete}>
-                  <TrashIcon />
-                </ButtonDeleteIcon>
-              ) : (
-                <>
-                  <p>Are you sure?</p>
-                  <ButtonCancel onClick={handleCancelDelete}>
-                    Cancel
-                  </ButtonCancel>
-                  <ButtonDelete onClick={handleConfirmDelete}>
-                    Delete
-                  </ButtonDelete>
-                </>
-              )
-            ) : (
-              <p></p>
+                {!showConfirmation ? (
+                  <ButtonDeleteIcon onClick={handleDelete}>
+                    <TrashIcon />
+                  </ButtonDeleteIcon>
+                ) : (
+                  <>
+                    <p>Are you sure?</p>
+                    <ButtonCancel onClick={handleCancelDelete}>
+                      Cancel
+                    </ButtonCancel>
+                    <ButtonDelete onClick={handleConfirmDelete}>
+                      Delete
+                    </ButtonDelete>
+                  </>
+                )}
+              </>
             )}
           </section>
         </CardDetails>
@@ -335,20 +351,11 @@ export default function PlantDetails({
   );
 }
 
-const PetContainer = styled.div`
-  display: flex;
-  gap: 50px;
-  justify-content: center;
-  align-items: center;
-  margin: 0 30px 0 30px;
-`;
-
-const Pet = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+const StyledLink = styled(Link)`
+  position: absolute;
+  left: 30px;
+  top: 147px;
+  color: var(--color-text-primary);
 `;
 const CardDetails = styled.article`
   padding: 10px 10px 30px;
@@ -393,6 +400,7 @@ const IconContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 5px;
+  text-align: center;
 
   span {
     font-size: 0.9rem;
@@ -406,6 +414,19 @@ const AllIconsContainer = styled.div`
   gap: 50px;
   justify-content: center;
   margin: 0 30px 0 30px;
+`;
+
+const AdditionalContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  justify-items: center;
+  align-items: center;
+
+  & > :last-child:nth-child(odd) {
+    grid-column: span 2;
+    justify-self: center;
+  }
 `;
 
 const DescriptionContainer = styled.section`
@@ -469,4 +490,14 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   gap: 5px;
+`;
+const StyledCard = styled.article`
+  padding: 10px 10px 30px;
+  margin: 20px 38px 23px 35px;
+  text-align: center;
+`;
+
+const PlayerWeatherCare = styled(Player)`
+  height: 100px;
+  width: 100px;
 `;

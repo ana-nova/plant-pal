@@ -8,7 +8,7 @@ export default function PlantForm({
   initialData = {},
   onSubmitPlant,
 }) {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -178,11 +178,11 @@ export default function PlantForm({
       </fieldset>
 
       <fieldset>
-        <legend>Poisonus for cats</legend>
+        <legend>Poisonus for Cats</legend>
         <OptionsContainer>
           {[
-            { label: "Safe for cats", value: "Safe" },
-            { label: "Poisonous for cats", value: "Poisonous" },
+            { label: "Safe for Cats", value: "Safe for Cats" },
+            { label: "Poisonous for Cats", value: "Poisonous for Cats" },
           ].map((option) => (
             <label key={option.value}>
               <input
@@ -197,11 +197,11 @@ export default function PlantForm({
         </OptionsContainer>
       </fieldset>
       <fieldset>
-        <legend>Poisonus for dogs</legend>
+        <legend>Poisonus for Dogs</legend>
         <OptionsContainer>
           {[
-            { label: "Safe for dogs", value: "Safe" },
-            { label: "Poisonous for dogs", value: "Poisonous" },
+            { label: "Safe for Dogs", value: "Safe for Dogs" },
+            { label: "Poisonous for Dogs", value: "Poisonous for Dogs" },
           ].map((option) => (
             <label key={option.value}>
               <input
@@ -282,8 +282,8 @@ export default function PlantForm({
           defaultValue={initialData.airDraftIntolerance || ""}
         >
           <option value="">Select draft sensitivity</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
+          <option value="Yes">Sensitive to Airdraft</option>
+          <option value="No">Not sensitive to Airdraft</option>
         </SelectInput>
       </FormLabel>
 

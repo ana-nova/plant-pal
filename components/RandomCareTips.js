@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { caretips } from "@/assets/caretips";
-import LightbulbIcon from "@/public/Icons/lightbulb.svg";
+import Typewriter from "typewriter-effect";
 
 export default function RandomCareTips() {
   const [randomTip, setRandomTip] = useState("");
@@ -11,40 +11,56 @@ export default function RandomCareTips() {
     return caretips[randomIndex].tip;
   }
 
-  useEffect(function () {
+  useEffect(() => {
     setRandomTip(getRandomTip());
 
-    function updateTip() {
+    const interval = setInterval(() => {
       setRandomTip(getRandomTip());
-    }
+    }, 15000);
 
-    const interval = setInterval(updateTip, 10000);
-
-    return function cleanup() {
-      clearInterval(interval);
-    };
+    return () => clearInterval(interval);
   }, []);
 
   return (
-    <TipContainer>
-      {randomTip}
-      <IconContainer>
-        <LightbulbIcon />
-      </IconContainer>
-    </TipContainer>
+    <Caretipcard>
+      <TipContainer>
+        <Title>Your Plant Tip of the Day</Title>
+        {randomTip && (
+          <Typewriter
+            key={randomTip}
+            onInit={(typewriter) => {
+              typewriter.changeDelay(65).typeString(randomTip).start();
+            }}
+          />
+        )}
+      </TipContainer>
+    </Caretipcard>
   );
 }
 
-const TipContainer = styled.section`
-  display: flex;
-  position: absolute;
-  text-align: center;
-  align-items: center;
+const Caretipcard = styled.article`
+  margin-top: 35px;
+  width: 80%;
+  height: 200px;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 `;
 
-const IconContainer = styled.div`
+const TipContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+`;
+
+const Title = styled.h2`
+  margin: 0;
+  padding: 20px;
+  text-align: center;
   position: relative;
-  top: -45px;
-  left: -5px;
 `;
