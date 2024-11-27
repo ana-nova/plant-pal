@@ -2,35 +2,41 @@
 
 Guardians of the Garden is your ultimate companion for managing plants effortlessly, offering personalized care tips, weather-based alerts, and advanced tracking tools — all while keeping your greenery thriving, rain or shine!
 
+---
+
 ### Description
 
 Guardians of the Garden is the ultimate green thumb sidekick, making plant care less of a chore and more of a delight. Whether you're a casual plant parent or the office plant whisperer, Guardians of the Garden keeps your leafy friends thriving with tools to organize your collection, tackle care tasks like a pro, and stay one step ahead of Mother Nature's curveballs. Think of it as your plants' personal project manager — without the unnecessary Zoom calls.
 
+---
+
 ### Features
 
-**Plant Management Made Simple**
+**1. Plant Management Made Simple**
 Add, edit, or delete your leafy coworkers with ease. From basic details like name and description to next-level specifics like humidity, location, and their feelings about cats and dogs — your plants have never felt more seen.
 
-**MongoDB-Powered Plant Sanctuary**
+**2. MongoDB-Powered Plant Sanctuary**
 Your plant data is safe and sound in our trusty MongoDB database, because even plants deserve a good home.
 
-**Weather Alerts for Weatherproof Plants**
+**3. Weather Alerts for Weatherproof Plants**
 Rain or shine, Guardians of the Garden got your back. Get alerts for your outdoor plants when the heavens decide to pour or when the sun goes on vacation.
 
-**Search & Filter Like a Pro**
+**4. Search & Filter Like a Pro**
 Quickly find the plant you’re looking for, whether it’s your sun-loving diva or that succulent you forgot about. Filter and search features ensure your collection stays manageable, even if you go full jungle mode.
 
-**Random Care Tip of the Day**
+**5. Random Care Tip of the Day**
 Start your day with a nugget of plant wisdom. Sure, you can't do anything with it, but it's perfect for your "I learned something today" moment.
 
-**Custom Reminders**
+**6. Custom Reminders**
 Never forget to water, fertilize, or sweet-talk your plants again. Set up personalized care tasks to keep your greenery in peak performance.
 
-**User Authentication**
+**7. User Authentication**
 Secure your plant empire with a login system. No login? No problem—enjoy limited features until you're ready to join the club.
 
-**Weather Integration**
+**8. Weather Integration**
 See the current weather on your homepage and get personalized alerts to avoid plant disasters. Yes, even your plants appreciate a good weather app.
+
+---
 
 ### Technologies & Tools
 
