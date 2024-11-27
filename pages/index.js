@@ -71,6 +71,10 @@ export default function LandingPage({ weatherData }) {
 
       <Cardcontainer>
         <Weathercard>
+          <StyledWeatherLink href={"/WeatherForecast"}>
+            <StyledWeatherbutton>7-Day Forecast</StyledWeatherbutton>
+          </StyledWeatherLink>
+
           <StyledWeatherLink href={"/"}>
             <h2>Current Weather Of Your Location</h2>
 
@@ -178,7 +182,7 @@ const StyledWeatherLink = styled(Link)`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding: 20px;
+
   display: flex;
   flex-direction: column;
 `;
@@ -249,4 +253,8 @@ const LoginContainer = styled.div`
 
 const DeactivatedText = styled.p`
   color: white;
+`;
+
+const StyledWeatherbutton = styled.button`
+  background-color: var(--color-text-primary);
 `;
