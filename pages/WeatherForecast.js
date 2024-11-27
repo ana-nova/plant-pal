@@ -53,14 +53,15 @@ export default function WeatherForecast() {
     <ForecastContainer
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0.5 }}
+      exit={{ opacity: 0 }}
+      transition={{ ease: "easeOut", duration: 1 }}
     >
       <h1>7-Day Weather Forecast</h1>
       <Link href={"/"}>Back to Homepage</Link>
       <ForecastGrid>
         {forecast?.daily?.temperature_2m_max?.map((temp, index) => (
           <ForecastCard key={index}>
-            <h3>Day {index + 1}</h3>
+            <h3>{new Date(forecast.daily.time[index]).toLocaleDateString()}</h3>
             <WeatherIconContainer>
               <WeatherIcon weatherData={forecast.daily.weathercode[index]} />
               <p>
