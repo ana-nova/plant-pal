@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import Image from "next/image";
 import styled from "styled-components";
 import { useState } from "react";
@@ -27,6 +27,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import BackIcon from "@/public/Icons/arrow-left-s-line.svg";
 import { Player } from "@lottiefiles/react-lottie-player";
+
 const weatherAnimation = "/animation/weather.json";
 
 const lightNeedIcon = {
@@ -57,7 +58,6 @@ export default function PlantDetails({
   const { id } = router.query;
 
   const { data: plant, mutate } = useSWR(id ? `/api/plants/${id}` : null);
-  // const plant = plants ? plants.find((plant) => plant._id === id) : null;
 
   if (!router.isReady) return null;
 

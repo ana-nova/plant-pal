@@ -8,7 +8,7 @@ export default function PlantForm({
   initialData = {},
   onSubmitPlant,
 }) {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   async function handleSubmit(event) {
     event.preventDefault();
 

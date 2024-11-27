@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import PlantForm from "@/components/PlantForm";
 import PlantList from "@/components/PlantList";
 import SearchPlant from "@/components/SearchPlant";
-import styled from "styled-components";
 import useSWR from "swr";
 
 export default function Homepage({ toggleFavourite, reminders }) {

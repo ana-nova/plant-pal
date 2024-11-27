@@ -1,7 +1,6 @@
 import PlantList from "@/components/PlantList";
 import styled from "styled-components";
 import useSWR from "swr";
-import WeatherIcon from "@/components/WeatherIcon";
 import WeatherModal from "@/components/WeatherAlertpopup";
 import { useState } from "react";
 import PlantForm from "@/components/PlantForm";

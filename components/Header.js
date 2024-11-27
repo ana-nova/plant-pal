@@ -4,7 +4,7 @@ import styled from "styled-components";
 export default function Header() {
   return (
     <StyledHeader>
-      <StyledLog />
+      <StyledLogo />
     </StyledHeader>
   );
 }
@@ -15,6 +15,6 @@ const StyledHeader = styled.header`
   background-color: none;
 `;
 
-const StyledLog = styled(Logo)`
+const StyledLogo = styled(Logo)`
   margin-top: -30px;
 `;
