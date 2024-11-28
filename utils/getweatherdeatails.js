@@ -12,6 +12,11 @@ function getWeatherDescription(code) {
     95: "Thunderstorm, plants prefer to sit this one out.",
     96: "Thunder with light hail, plants need a safety net!",
     99: "Thunder with heavy hail, plants are screaming 'HELP!'",
+
+    61: "Light rain, a refreshing sip for your plants.",
+    63: "Moderate rain, nature's way of saying 'Don't worry, I got this.'",
+    65: "Heavy rain, free irrigation courtesy of Mother Nature.",
+    3: "Overcast, plants wondering if the sun's on a coffee break.",
   };
 
   return weatherDescriptions[code] || "";
