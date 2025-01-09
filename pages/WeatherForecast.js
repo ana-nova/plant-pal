@@ -46,7 +46,7 @@ export default function WeatherForecast() {
     }
   }, []);
 
-  if (loading) return <p>Loading weather data...</p>;
+  if (loading) return <StyledLoading>Loading weather data...</StyledLoading>;
   if (error) return <p>{error}</p>;
 
   return (
@@ -107,4 +107,10 @@ const WeatherIconContainer = styled.div`
     font-size: 0.9rem;
     color: #555;
   }
+`;
+
+const StyledLoading = styled.p`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
